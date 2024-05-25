@@ -16,12 +16,15 @@ import { useUser } from './UserContext';
 import { Toaster } from 'react-hot-toast'
 import { toastFunction } from './Components/messageShowers/ToastFunction';
 
+const Error = lazy(() => import('./Components/Pages/Error'));
+
 
 const CategoryManagement = lazy(() => import('./Components/Pages/admin/CategoryManagement'));
 const AdminDashboard = lazy(() => import('./Components/Pages/admin/AdminDashboard'));
 const AdminLogin = lazy(() => import('./Components/Pages/admin/AdminLogin'));
 const UserManagement = lazy(() => import('./Components/Pages/admin/UserManagement'));
 const BannerManagement = lazy(() => import('./Components/Pages/admin/BannerManagement'))
+const OfferManagement = lazy(() => import('./Components/Pages/admin/OfferManagement'))
 
 const Profile = lazy(() => import('./Components/Pages/user/profile/Profile'));
 const ForgetPassword = lazy(() => import('./Components/Pages/user/ForgetPassword'));
@@ -51,7 +54,7 @@ function App() {
 
       socket.emit('join', user._id)
 
-      socket.on('showFollowMessage', (data:any) => {
+      socket.on('showFollowMessage', (data: any) => {
         toastFunction(data)
       })
 
@@ -118,6 +121,9 @@ function App() {
           <Route path='/admin/categoryManagement' element={adminAuthenticated ? <CategoryManagement /> : <Navigate to="/admin/adminLogin" />} />
           <Route path='/admin/bannerManagement' element={adminAuthenticated ? <BannerManagement /> : <Navigate to="/admin/adminLogin" />} />
           <Route path='/admin/reportManagement' element={adminAuthenticated ? <ReportManagement /> : <Navigate to="/admin/adminLogin" />} />
+          <Route path='/admin/offerManagement' element={adminAuthenticated ? <OfferManagement /> : <Navigate to="/admin/adminLogin" />} />
+
+          <Route path='*' element={<Error />} />
 
         </Routes>
       </SuspenceComponent>
