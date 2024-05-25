@@ -27,7 +27,7 @@ exports.searchProfileGRPC = exports.uploadVideoGRPC = exports.getProfileLink = e
 const grpc = __importStar(require("@grpc/grpc-js"));
 const protoLoader = __importStar(require("@grpc/proto-loader"));
 const path = __importStar(require("path"));
-const PROTO_PATH = path.resolve(__dirname + "../../../../../protos/user_stream.proto");
+const PROTO_PATH = path.resolve(__dirname + process.env.PATHTOPROTO);
 const packageDefinition = protoLoader.loadSync(PROTO_PATH);
 const grpcObject = grpc.loadPackageDefinition(packageDefinition);
 const { UserStream } = grpcObject;

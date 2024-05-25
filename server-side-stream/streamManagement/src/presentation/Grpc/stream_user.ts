@@ -3,7 +3,7 @@ import * as protoLoader from '@grpc/proto-loader';
 import * as path from 'path';
 import { responseObject } from '../../domain/interfaces/video_post_interface/videoPostInterface';
 
-const PROTO_PATH = path.resolve(__dirname + "../../../../../protos/user_stream.proto");
+const PROTO_PATH = path.resolve(__dirname + process.env.PATHTOPROTO);
 const packageDefinition = protoLoader.loadSync(PROTO_PATH);
 const grpcObject: any = grpc.loadPackageDefinition(packageDefinition);
 const { UserStream } = grpcObject;
@@ -71,7 +71,7 @@ export const uploadVideoGRPC = (Data: any): Promise<responseObject> => {
 }
 
 
-export const searchProfileGRPC = (search: string):Promise<responseObject> => {
+export const searchProfileGRPC = (search: string): Promise<responseObject> => {
     return new Promise((resolve, reject) => {
         client.searchProfileGRPC({ search }, function (err: any, response: any) {
             if (err) {
