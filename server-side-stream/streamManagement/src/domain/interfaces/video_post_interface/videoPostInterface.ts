@@ -1,0 +1,48 @@
+import { Request } from 'express'
+
+
+export interface postFilesnFeilds {
+    fields: { Title: string, Description: string },
+    files: { PostImage: File[] }
+}
+
+export interface payload {
+    id: string,
+    username: string,
+    isAdmin: boolean,
+    email: string,
+    iat: number
+}
+
+export interface postDataInterface {
+    Title: string,
+    Description: string,
+    Time: string,
+    userId: string,
+    channelName: string,
+    postLink: string,
+    likes: string,
+    dislikes: string
+}
+
+export interface responseObject {
+    status: boolean,
+    message: string,
+    data?: any
+}
+
+export interface videoPostInterface {
+    uploadPost(Data: postFilesnFeilds, user: payload): Promise<responseObject>;
+    getAllpostOfUser(req: Request): Promise<responseObject | null>;
+    deletePostUseCase(link: string, postLink: string): Promise<responseObject>;
+    getAllPosts(): Promise<responseObject>;
+    likePost(postId: string, userId: string): Promise<responseObject>;
+    getPostFromUser(userId: string): Promise<responseObject>
+    uploadVideo(req: Request): Promise<responseObject>;
+    getUserVideos(req: Request): Promise<responseObject>;
+    getAllVideos(shorts: boolean): Promise<responseObject>;
+    getVideosWithId(req: Request): Promise<responseObject>;
+    getMostWatchedVideoUser(userId: string): Promise<responseObject>;
+    getPremiumVideos(): Promise<responseObject>;
+    searchVideosAndProfile(search: string): Promise<responseObject>;
+} 

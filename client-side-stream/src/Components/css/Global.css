@@ -1,0 +1,66 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+body {
+    background-color: #141414;
+    color: #fff;
+    font-family: cursive;
+    font-style: oblique;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.profileHeadings {
+    cursor: pointer;
+}
+
+* {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.error {
+    color: red;
+}
+
+.modalClass {
+    animation: modalFadeIn 0.5s ease forwards;
+}
+
+/* Custom CSS for animation */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes modalFadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+
+.success {
+    color: green
+}
+
+.googleButtonLogin {
+    width: 100%;
+    justify-content: center;
+    overflow-x: hidden;
+}
+
+.recomandedBackgroundParentDiv:hover {
+    background-color:"#2e2e2e";
+}
