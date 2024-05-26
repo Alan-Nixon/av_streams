@@ -42,6 +42,8 @@ router.get('/followChannel', userauthenticationforavstreams_1.isAuthenticated, c
 router.get('/getChannelById', userauthenticationforavstreams_1.isAuthenticated, controller.getChannelById);
 router.get('/getChannelByUserId', userauthenticationforavstreams_1.isAuthenticated, controller.getChannelByUserId);
 router.get('/getfollowersByUserId', userauthenticationforavstreams_1.isAuthenticated, controller.getfollowersByUserId);
+router.get('/getPopularChannels', controller.getPopularChannels);
+router.get('/getTrendingChannels', controller.getTrendingChannels);
 //user post
 router.post('/regenerateToken', controller.regenerateToken);
 router.post('/postSignup', controller.postSignup);

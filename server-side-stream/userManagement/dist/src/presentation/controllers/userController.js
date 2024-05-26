@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getfollowersByUserId = exports.getChannelByUserId = exports.getChannelById = exports.followChannel = exports.isFollowing = exports.isPremiumUser = exports.subscribeToPremium = exports.withDrawMoneyToWallet = exports.addMoneyToWallet = exports.changeChannelName = exports.changeProfileData = exports.changePassword = exports.forgetPasswordOtpSend = exports.authenticated = exports.changeProfileImage = exports.getWalletDetails = exports.regenerateToken = exports.userDetails = exports.sendOtp = exports.postLogin = exports.isBlocked = exports.postSignup = void 0;
+exports.getTrendingChannels = exports.getPopularChannels = exports.getfollowersByUserId = exports.getChannelByUserId = exports.getChannelById = exports.followChannel = exports.isFollowing = exports.isPremiumUser = exports.subscribeToPremium = exports.withDrawMoneyToWallet = exports.addMoneyToWallet = exports.changeChannelName = exports.changeProfileData = exports.changePassword = exports.forgetPasswordOtpSend = exports.authenticated = exports.changeProfileImage = exports.getWalletDetails = exports.regenerateToken = exports.userDetails = exports.sendOtp = exports.postLogin = exports.isBlocked = exports.postSignup = void 0;
 //usecase
 const Authentication_1 = require("../../domain/usecases/Authentication");
 const ChangeUserDetails_useCase_1 = require("../../domain/usecases/ChangeUserDetails_useCase");
@@ -299,3 +299,25 @@ const getfollowersByUserId = (req, res) => __awaiter(void 0, void 0, void 0, fun
     }
 });
 exports.getfollowersByUserId = getfollowersByUserId;
+const getPopularChannels = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const limit = JSON.parse(req.query.query).limit;
+        res.status(200).json(yield ChangeUserDetails_useCase_1.change_user_usecase.getPopularChannels(limit));
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" });
+    }
+});
+exports.getPopularChannels = getPopularChannels;
+const getTrendingChannels = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const limit = JSON.parse(req.query.query).limit;
+        res.status(200).json(yield ChangeUserDetails_useCase_1.change_user_usecase.getTrendingChannels(limit));
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" });
+    }
+});
+exports.getTrendingChannels = getTrendingChannels;

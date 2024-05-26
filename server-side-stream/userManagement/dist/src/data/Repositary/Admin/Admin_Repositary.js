@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.adminRepositaryLayer = void 0;
 const banner_1 = require("../../models/banner");
+const channel_1 = require("../../models/channel");
 const user_1 = require("../../models/user");
 class admin_repositary_layer {
     createUserRepo(userData) {
@@ -58,6 +59,31 @@ class admin_repositary_layer {
     getBannerByLocation(location) {
         return __awaiter(this, void 0, void 0, function* () {
             return { status: true, message: "success", data: yield banner_1.BannerModel.find({ location }) };
+        });
+    }
+    updateBanner(imageUrl, bannerId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return {
+                status: true, message: "success", data: yield banner_1.BannerModel.findByIdAndUpdate(bannerId, {
+                    imgUrl: imageUrl
+                })
+            };
+        });
+    }
+    getPremiumUsers() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return { status: true, message: "success", data: yield channel_1.ChannelModel.find({ premiumCustomer: true }) };
+        });
+    }
+    cancelSubscription(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const obj = {
+                amount: 0, email: "",
+                expires: "", paymentId: "",
+                section: "", userId: ""
+            };
+            yield channel_1.ChannelModel.findOneAndUpdate({ userId }, { subscription: obj });
+            return { status: true, message: "success" };
         });
     }
 }

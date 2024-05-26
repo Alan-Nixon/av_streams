@@ -38,11 +38,9 @@ export const userManagement_Post = async (req: Request, res: Response) => {
 export const userManagement_Patch = async (req: Request, res: Response) => {
     try {
         if (req.headers['content-type']?.split(' ')[0] === "multipart/form-data;") {
-
             const body = await multipartFormSubmission(req)
             makePacthRequest(req, res, body)
         } else {
-            console.log("illya");
             makePacthRequest(req, res, req.body)
         }
     } catch (error) {
@@ -122,4 +120,3 @@ async function makePacthRequest(req: Request, res: Response, body: any) {
     })
     sendResponse(res, 200, data)
 }
- 

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getBannerByLocation = exports.addBanner = exports.blockUser = exports.getAllUsers = exports.createUser = exports.isAdminAuth = exports.adminPostLogin = void 0;
+exports.cancelSubscription = exports.getPremiumUsers = exports.updateBanner = exports.getBannerByLocation = exports.addBanner = exports.blockUser = exports.getAllUsers = exports.createUser = exports.isAdminAuth = exports.adminPostLogin = void 0;
 const Admin_UseCase_1 = require("../../domain/usecases/Admin_usecase/Admin_UseCase");
 const adminPostLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -92,3 +92,33 @@ const getBannerByLocation = (req, res) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.getBannerByLocation = getBannerByLocation;
+const updateBanner = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        return res.status(200).json(yield Admin_UseCase_1.admin_useCase.updateBanner(req));
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({ status: false });
+    }
+});
+exports.updateBanner = updateBanner;
+const getPremiumUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        return res.status(200).json(yield Admin_UseCase_1.admin_useCase.getPremiumUsers());
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({ status: false });
+    }
+});
+exports.getPremiumUsers = getPremiumUsers;
+const cancelSubscription = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        return res.status(200).json(yield Admin_UseCase_1.admin_useCase.cancelSubscription(req.body));
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({ status: false });
+    }
+});
+exports.cancelSubscription = cancelSubscription;

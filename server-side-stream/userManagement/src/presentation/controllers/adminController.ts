@@ -89,3 +89,30 @@ export const getBannerByLocation = async (req: Request, res: Response) => {
         return res.status(500).json({ status: false })
     }
 }
+
+export const updateBanner = async (req: Request, res: Response) => {
+    try {
+        return res.status(200).json(await admin_useCase.updateBanner(req))
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({ status: false })
+    }
+}
+
+export const getPremiumUsers = async (req: Request, res: Response) => {
+    try {
+        return res.status(200).json(await admin_useCase.getPremiumUsers())
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({ status: false })
+    }
+}
+
+export const cancelSubscription = async (req: Request, res: Response) => {
+    try {
+        return res.status(200).json(await admin_useCase.cancelSubscription(req.body))
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({ status: false })
+    }
+}

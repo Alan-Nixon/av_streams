@@ -66,7 +66,7 @@ function Layout({ children }: any) {
         url: '/admin/bannerManagement'
     }, {
         Icon: LocalOfferIcon,
-        text: 'Offer',
+        text: 'Offer & Subscription',
         url: '/admin/offerManagement'
     }, {
         Icon: ReportIcon,

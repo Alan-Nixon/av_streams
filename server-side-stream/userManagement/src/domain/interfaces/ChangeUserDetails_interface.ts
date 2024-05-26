@@ -30,4 +30,6 @@ export interface changeUserDetails_usecase_interface {
     getChannelById(channelId: string): Promise<responseInterface>;
     getChannelByUserId(channelId: string): Promise<responseInterface>;
     getfollowersByUserId(userId: string): Promise<responseInterface>;
+    getPopularChannels(limit:number): Promise<responseInterface>;
+    getTrendingChannels(limit:number): Promise<responseInterface>;
 } 

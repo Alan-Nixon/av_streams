@@ -234,5 +234,10 @@ class change_user_repositary_layer {
             }
         });
     }
+    getPopularChannels() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return { status: true, message: "success", data: yield channel_1.ChannelModel.find() };
+        });
+    }
 }
 exports.changeUserRepositaryLayer = new change_user_repositary_layer();

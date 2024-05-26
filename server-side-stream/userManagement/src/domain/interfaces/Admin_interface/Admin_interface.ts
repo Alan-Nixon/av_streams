@@ -1,4 +1,5 @@
 import { IUserArrayOrNull } from "../../../data/interfaces/Admin/admin_repositary_interface";
+import { SubscriptionInterface } from "../../../data/models/channel";
 import { responseInterface } from "../ChangeUserDetails_interface";
 import { Request } from "express";
 
@@ -20,5 +21,8 @@ export interface Admin_Usecase_Interface {
     findAllUsersNiNAdmin(): Promise<IUserArrayOrNull | null>;
     blockUser(userId: string): Promise<boolean>;
     addBanner(req: Request): Promise<responseInterface>;
-    getBannerByLocation(location:string): Promise<responseInterface>;
+    getBannerByLocation(location: string): Promise<responseInterface>;
+    updateBanner(req: Request): Promise<responseInterface>;
+    getPremiumUsers(): Promise<responseInterface>;
+    cancelSubscription(Data: SubscriptionInterface): Promise<responseInterface>;
 }

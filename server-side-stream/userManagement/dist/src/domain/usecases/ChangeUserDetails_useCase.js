@@ -136,5 +136,21 @@ class changeUserDetails_usecase {
             return response;
         });
     }
+    getPopularChannels(limit) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const response = yield ChangeUserDetails_Repositary_1.changeUserRepositaryLayer.getPopularChannels();
+            response.data.sort((a, b) => b.Followers.length - a.Followers.length);
+            response.data.splice(Math.min(response.data.length, limit));
+            return response;
+        });
+    }
+    getTrendingChannels(limit) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const response = yield ChangeUserDetails_Repositary_1.changeUserRepositaryLayer.getPopularChannels();
+            response.data.sort((a, b) => b.Videos.length - a.Videos.length);
+            response.data.splice(Math.min(response.data.length, limit));
+            return response;
+        });
+    }
 }
 exports.change_user_usecase = new changeUserDetails_usecase();

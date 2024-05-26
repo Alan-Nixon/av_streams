@@ -32,18 +32,12 @@ function Home() {
         }
         setBanner(Banners)
 
-        const trendingSection: videoInterface[] = new Array(8).fill({
-            Title: "Noteworthy technology acquisitions 2021",
-            Views: "85k",
-            channelName: "some channel",
-            Description: "Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.",
-            Link: "",
-            shorts: false,
-            Thumbnail: "/images/subThumbNail2.jpeg"
-        })
+        // getBanners
+         
         getAllVideos(false).then(videos => {
             setTrending(videos);
         })
+
     }, [])
 
     useEffect(() => {
@@ -154,7 +148,6 @@ function Home() {
 
                 <div className="posts ml-8 mt-1">
                     {posts.length !== 0 && <ShowPosts Data={posts} />}
-
                 </div>
 
 

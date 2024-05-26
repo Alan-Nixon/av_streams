@@ -34,7 +34,10 @@ router.get('/isAdminAuth', userauthenticationforavstreams_1.isAdminAuthenticated
 router.get('/getAllUsers', userauthenticationforavstreams_1.isAdminAuthenticated, adminController.getAllUsers);
 router.get('/blockUser', userauthenticationforavstreams_1.isAdminAuthenticated, adminController.blockUser);
 router.get('/getBannerByLocation', userauthenticationforavstreams_1.isAdminAuthenticated, adminController.getBannerByLocation);
+router.get('/getPremiumUsers', userauthenticationforavstreams_1.isAdminAuthenticated, adminController.getPremiumUsers);
 router.post('/addbanner', userauthenticationforavstreams_1.isAdminAuthenticated, adminController.addBanner);
 router.post('/adminPostLogin', adminController.adminPostLogin);
 router.post('/createUser', userauthenticationforavstreams_1.isAdminAuthenticated, adminController.createUser);
+router.post('/updateBanner', userauthenticationforavstreams_1.isAdminAuthenticated, adminController.updateBanner);
+router.patch('/cancelSubscription', userauthenticationforavstreams_1.isAdminAuthenticated, adminController.cancelSubscription);
 exports.default = router;

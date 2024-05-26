@@ -3,6 +3,7 @@ import { responseInterface } from "../../../domain/interfaces/ChangeUserDetails_
 import { IUserArrayOrNull, admin_repositary_interface } from "../../interfaces/Admin/admin_repositary_interface";
 import { IUser } from "../../interfaces/user_Model_Interface";
 import { BannerModel } from "../../models/banner";
+import { ChannelModel, SubscriptionInterface } from "../../models/channel";
 import { UserModel } from "../../models/user";
 
 
@@ -47,6 +48,28 @@ class admin_repositary_layer implements admin_repositary_interface {
 
     async getBannerByLocation(location: string): Promise<responseInterface> {
         return { status: true, message: "success", data: await BannerModel.find({ location }) }
+    }
+
+    async updateBanner(imageUrl: string, bannerId: string) {
+        return {
+            status: true, message: "success", data: await BannerModel.findByIdAndUpdate(bannerId, {
+                imgUrl: imageUrl
+            })
+        }
+    }
+
+    async getPremiumUsers() {
+        return { status: true, message: "success", data: await ChannelModel.find({ premiumCustomer: true }) }
+    }
+
+    async cancelSubscription(userId: string) {
+        const obj: SubscriptionInterface = {
+            amount: 0, email: "",
+            expires: "", paymentId: "",
+            section: "", userId: ""
+        }
+        await ChannelModel.findOneAndUpdate({ userId }, { subscription: obj })
+        return { status: true, message: "success" }
     }
 }
 

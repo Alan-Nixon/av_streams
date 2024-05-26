@@ -190,5 +190,9 @@ class change_user_repositary_layer implements changeUser_ReposatryInterface {
             return "error while fetching data"
         }
     }
+
+    async getPopularChannels() {
+        return { status: true, message: "success", data: await ChannelModel.find() }
+    }
 }
 export const changeUserRepositaryLayer: changeUser_ReposatryInterface = new change_user_repositary_layer();

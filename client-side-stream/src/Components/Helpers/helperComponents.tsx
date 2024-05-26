@@ -1,6 +1,6 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { tableInterfaceData } from '../../Functions/interfaces';
-import { toast } from 'react-toastify';
+import { confirmToastInterface, tableInterfaceData } from '../../Functions/interfaces';
+import { ToastOptions, toast } from 'react-toastify';
 
 export function DataTable({ rowsData, columnsData }: tableInterfaceData) {
     rowsData.forEach((item, idx) => item.id = idx + 1)
@@ -29,3 +29,19 @@ export const toastifyHelperData = {
     draggable: true,
     progress: undefined,
 }
+
+ const ConfirmationToast = ({ onConfirm, onCancel }: confirmToastInterface) => (
+    <div>
+        <p>Are you sure you want to proceed?</p>
+        <button onClick={onConfirm}>Yes</button>
+        <button className='ml-3' onClick={onCancel}>No</button>
+    </div>
+);
+
+export const showConfirmationToast = (onConfirm: any) => {
+    const onCancel = () => toast.dismiss();
+    const toastOptions: ToastOptions = {
+        autoClose: false
+    };
+    toast(<ConfirmationToast onConfirm={onConfirm} onCancel={onCancel} />, toastOptions);
+};

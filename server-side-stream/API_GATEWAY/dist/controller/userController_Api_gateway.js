@@ -58,7 +58,6 @@ const userManagement_Patch = (req, res) => __awaiter(void 0, void 0, void 0, fun
             makePacthRequest(req, res, body);
         }
         else {
-            console.log("illya");
             makePacthRequest(req, res, req.body);
         }
     }

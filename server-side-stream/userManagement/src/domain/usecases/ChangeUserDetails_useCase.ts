@@ -95,7 +95,6 @@ class changeUserDetails_usecase implements changeUserDetails_usecase_interface {
 
     async getfollowersByUserId(userId: string) {
         const response = JSON.parse(JSON.stringify(await changeUserRepositaryLayer.getfollowersByUserId(userId)))
-
         const followersDetails = await Promise.all(response.data.Followers.map(async (item: string) => {
             const userDetails = await changeUserRepositaryLayer.getUserData(item)
             const channel = await this.getChannelByUserId(userDetails?._id.toString() ?? "")
@@ -112,6 +111,22 @@ class changeUserDetails_usecase implements changeUserDetails_usecase_interface {
         response.data.Followers = followersDetails
         return response
     }
+
+    async getPopularChannels(limit: number) {
+        const response = await changeUserRepositaryLayer.getPopularChannels()
+        response.data.sort((a: { Followers: string | any[]; }, b: { Followers: string | any[]; }) => b.Followers.length - a.Followers.length)
+        response.data.splice(Math.min(response.data.length, limit))
+        return response
+    }
+
+    async getTrendingChannels(limit: number) {
+        const response = await changeUserRepositaryLayer.getPopularChannels()
+        response.data.sort((a: { Videos: string | any[]; }, b: { Videos: string | any[]; }) => b.Videos.length - a.Videos.length)
+        response.data.splice(Math.min(response.data.length, limit))
+        return response
+    }
+
+    
 }
 
 export const change_user_usecase: changeUserDetails_usecase_interface = new changeUserDetails_usecase()

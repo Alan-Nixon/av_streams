@@ -4,7 +4,7 @@ import { useUser } from '../../../UserContext';
 import Comment from './helpers/Comment';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getVideosWithId } from '../../../Functions/streamFunctions/streamManagement';
-import { followChannel, isFollowing } from '../../../Functions/userFunctions/userManagement';
+import { followChannel, isFollowing, isPremiumUser } from '../../../Functions/userFunctions/userManagement';
 import { commentInterface } from '../../../Functions/interfaces';
 import { getCommentsByLinkId } from '../../../Functions/streamFunctions/commentManagement';
 
@@ -15,6 +15,7 @@ function FullVideo() {
     const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
     const [Comments, setComments] = useState<commentInterface[] | []>([])
     const [loading, setLoading] = useState<boolean>(true)
+    
     const [videoDetails, setVideoDetails] = useState({
         _id: "", Link: "", channelName: "",
         Description: "", dislikes: "0", likes: "0",
@@ -30,6 +31,15 @@ function FullVideo() {
 
         if (videoId) {
             getVideosWithId(videoId).then((Data) => {
+                
+                if (Data.Premium) {
+                    if (user && user?._id) {
+                        isPremiumUser(user?._id).then(({ status }) => { if (!status) { Navigate('/') } })
+                    } else {
+                        Navigate('/')
+                    }
+                }
+
                 isFollowing(user?._id || "", Data.userId).then((res) => {
                     setVideoDetails({
                         ...Data, profileImage: res.profileLink,
@@ -47,7 +57,6 @@ function FullVideo() {
         }
 
     }, [user])
-
 
 
     const relatedVideos = [{

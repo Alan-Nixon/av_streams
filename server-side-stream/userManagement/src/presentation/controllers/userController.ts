@@ -46,7 +46,7 @@ export const isBlocked = async (req: Request, res: Response, next: NextFunction)
 
 
 export const postLogin = async (req: Request, res: Response) => {
-    try { 
+    try {
 
         const userData = await userDetailsInstance.findByEmail(req.body.Email)
         if (userData) {
@@ -291,3 +291,24 @@ export const getfollowersByUserId = async (req: Request, res: Response) => {
         res.status(500).json({ status: false, message: error.message || "internal server error" })
     }
 }
+
+export const getPopularChannels = async (req: Request, res: Response) => {
+    try {
+        const limit = JSON.parse(req.query.query as string).limit
+        res.status(200).json(await change_user_usecase.getPopularChannels(limit))
+    } catch (error: any) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" })
+    }
+}
+
+export const getTrendingChannels = async (req: Request, res: Response) => {
+    try {
+        const limit = JSON.parse(req.query.query as string).limit
+        res.status(200).json(await change_user_usecase.getTrendingChannels(limit))
+    } catch (error: any) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" })
+    }
+}
+

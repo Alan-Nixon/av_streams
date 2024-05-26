@@ -11,6 +11,7 @@ import RazorpayPayment from '../paymentIntegrations/Razorpay';
 import Paypal from '../paymentIntegrations/Paypal'
 import { getDate } from '../../../Functions/commonFunctions'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 function Subscription() {
     const [subscription, setSubscription] = useState<subscriptionInterface>({ section: "", price: -1 })
@@ -87,17 +88,15 @@ function Subscription() {
                 paymentId: response.razorpay_payment_id || 'paypal_transacion_' + Date.now(),
                 section: subscription.section
             })
+            toast.success("Payment successfull")
+            setTimeout(() => Navigate('/profile'), 3000)
         } else {
             Navigate('/login')
         }
     }
 
     const errorPayment = (error: any) => {
-        Swal.fire({
-            title: "Error occured",
-            text: `error occured in payment money will be refunded if deducted`,
-            icon: "error"
-        })
+        toast.error("error occured in payment ")
     }
 
     return (<>

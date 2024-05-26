@@ -4,6 +4,7 @@ import { IUser } from "./user_Model_Interface";
 
 
 export interface changeUser_ReposatryInterface {
+    
     updateNewPassword(password: string, userId: string): Promise<boolean>;
     updateUserDetails(userId: string, userName: string, FullName: string, Phone: number): Promise<boolean>;
     checkChannelName(channelName: string): Promise<IChannel | null>;
@@ -21,4 +22,6 @@ export interface changeUser_ReposatryInterface {
     getfollowersByUserId(userId: string): Promise<responseInterface>;
     getUserData(userId: string): Promise<IUser | null>;
     getProfilesBySearch(search:string):Promise <string>;
+    getPopularChannels(): Promise<responseInterface>;
+
 }

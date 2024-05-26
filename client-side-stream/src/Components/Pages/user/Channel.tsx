@@ -34,11 +34,13 @@ function Channel() {
     useEffect(() => {
 
         const urlParams = new URLSearchParams(window.location.search);
-        console.log(urlParams);        
+        console.log(urlParams);
         const userId = urlParams?.get('userId');
         if (!userId) { return Navigate('/') }
         setChannelId(userId)
         getChannelById(userId).then(async (Data: channelInterface) => {
+            if (!Data) { return Navigate('/') }
+
             if (user && user._id) {
                 if (user._id === Data.userId) { return Navigate('/profile') }
                 Data.isFollowing = Data.Followers.includes(user?._id)

@@ -5,7 +5,10 @@ import { compare, hash } from "bcryptjs";
 import { createChannel, uploadImage } from "../../../../utils/HelperFunction";
 import { adminRepositaryLayer } from "../../../data/Repositary/Admin/Admin_Repositary";
 import { Request } from "express";
-import { responseInterface } from "../../interfaces/ChangeUserDetails_interface";
+import { responseInterface, walletDataInterface } from "../../interfaces/ChangeUserDetails_interface";
+import { SubscriptionInterface } from "../../../data/models/channel";
+import { changeUserRepositaryLayer } from "../../../data/Repositary/ChangeUserDetails_Repositary";
+import { user_authentication_layer } from "../../../data/Repositary/Authentication_Repositary";
 
 class Admin_useCase implements Admin_Usecase_Interface {
 
@@ -68,10 +71,43 @@ class Admin_useCase implements Admin_Usecase_Interface {
         const result = await uploadImage(imageData, "avstreamBannerImages")
         return await adminRepositaryLayer.addBanner({ imgUrl: result.url, location })
     }
-    
+
     async getBannerByLocation(location: string) {
         return await adminRepositaryLayer.getBannerByLocation(location)
     }
+
+    async updateBanner(req: Request) {
+        console.log(req.body);
+        const file = req.body.files.file[0]
+        const bannerId = req.body.fields.bannerId[0]
+        console.log(file, bannerId);
+        const result = await uploadImage(file, "avstreamBannerImages")
+        return await adminRepositaryLayer.updateBanner(result.url, bannerId)
+    }
+
+    async getPremiumUsers() {
+        return await adminRepositaryLayer.getPremiumUsers()
+    }
+
+    async cancelSubscription(Data: SubscriptionInterface) {
+        const time = Math.floor((new Date(Data.expires).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))
+        let refund = 1
+
+        if (Data.section === "Yearly Subscription") { refund = time * 7 }
+        else if (Data.section === "Monthly Subscription") { refund = time * 17 }
+        else if (Data.section === "Weekly Subscription") { refund = time * 28 }
+
+        const wallet = await user_authentication_layer.getWalletDetails(Data.userId)
+        const Transactions: walletDataInterface = {
+            amount: refund, createdTime: new Date().toString(),
+            credited: true, transactionId: "BY ADMIN", userId: Data.userId,
+            walletId: wallet?._id
+        }
+        
+        await changeUserRepositaryLayer.addMoneyToWallet(Transactions)
+        return await adminRepositaryLayer.cancelSubscription(Data.userId)
+    }
+
 }
 
 

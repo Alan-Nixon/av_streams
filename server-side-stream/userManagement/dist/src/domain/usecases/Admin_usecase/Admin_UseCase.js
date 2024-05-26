@@ -15,6 +15,8 @@ const Authentication_1 = require("../Authentication");
 const bcryptjs_1 = require("bcryptjs");
 const HelperFunction_1 = require("../../../../utils/HelperFunction");
 const Admin_Repositary_1 = require("../../../data/Repositary/Admin/Admin_Repositary");
+const ChangeUserDetails_Repositary_1 = require("../../../data/Repositary/ChangeUserDetails_Repositary");
+const Authentication_Repositary_1 = require("../../../data/Repositary/Authentication_Repositary");
 class Admin_useCase {
     post_admin_login(Email, Password) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -90,6 +92,44 @@ class Admin_useCase {
     getBannerByLocation(location) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield Admin_Repositary_1.adminRepositaryLayer.getBannerByLocation(location);
+        });
+    }
+    updateBanner(req) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(req.body);
+            const file = req.body.files.file[0];
+            const bannerId = req.body.fields.bannerId[0];
+            console.log(file, bannerId);
+            const result = yield (0, HelperFunction_1.uploadImage)(file, "avstreamBannerImages");
+            return yield Admin_Repositary_1.adminRepositaryLayer.updateBanner(result.url, bannerId);
+        });
+    }
+    getPremiumUsers() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield Admin_Repositary_1.adminRepositaryLayer.getPremiumUsers();
+        });
+    }
+    cancelSubscription(Data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const time = Math.floor((new Date(Data.expires).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+            let refund = 1;
+            if (Data.section === "Yearly Subscription") {
+                refund = time * 7;
+            }
+            else if (Data.section === "Monthly Subscription") {
+                refund = time * 17;
+            }
+            else if (Data.section === "Weekly Subscription") {
+                refund = time * 28;
+            }
+            const wallet = yield Authentication_Repositary_1.user_authentication_layer.getWalletDetails(Data.userId);
+            const Transactions = {
+                amount: refund, createdTime: new Date().toString(),
+                credited: true, transactionId: "BY ADMIN", userId: Data.userId,
+                walletId: wallet === null || wallet === void 0 ? void 0 : wallet._id
+            };
+            yield ChangeUserDetails_Repositary_1.changeUserRepositaryLayer.addMoneyToWallet(Transactions);
+            return yield Admin_Repositary_1.adminRepositaryLayer.cancelSubscription(Data.userId);
         });
     }
 }

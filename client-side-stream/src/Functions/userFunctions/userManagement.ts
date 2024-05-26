@@ -146,7 +146,17 @@ export const getChannelByUserId = async (channelId: string) => {
     return data.data
 }
 
-export const getfollowersByUserId = async (userId:string) =>  {
+export const getfollowersByUserId = async (userId: string) => {
     const { data } = await axiosApiGateWay.get('/userManagement/getfollowersByUserId?userId=' + userId)
     return data.data
+}
+
+export const getPopularChannels = async (limit: number) => {
+    const { data } = await axiosApiGateWay.get('/userManagement/getPopularChannels?limit=' + limit)
+    return data
+}
+
+export const getTrendingChannels = async (limit: number) => {
+    const { data } = await axiosApiGateWay.get('/userManagement/getTrendingChannels?limit=' + limit)
+    return data
 }

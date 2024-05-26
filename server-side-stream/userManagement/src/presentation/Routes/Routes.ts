@@ -18,6 +18,10 @@ router.get('/getChannelById', isAuthenticated, controller.getChannelById)
 router.get('/getChannelByUserId', isAuthenticated, controller.getChannelByUserId)
 router.get('/getfollowersByUserId', isAuthenticated, controller.getfollowersByUserId)
 
+router.get('/getPopularChannels', controller.getPopularChannels)
+router.get('/getTrendingChannels', controller.getTrendingChannels)
+
+
 //user post
 router.post('/regenerateToken', controller.regenerateToken)
 router.post('/postSignup', controller.postSignup)
@@ -31,7 +35,6 @@ router.patch('/changePassword', controller.changePassword)
 router.patch('/changeProfileData', isAuthenticated, controller.changeProfileData)
 router.patch('/changeProfileImage', isAuthenticated, controller.changeProfileImage)
 router.patch('/subscribeToPremium', isAuthenticated, controller.subscribeToPremium)
-
 
 
 export default router 

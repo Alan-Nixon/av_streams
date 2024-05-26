@@ -67,3 +67,25 @@ export const addBannerImageAdmin = async (file: Object) => {
     })
     return data
 }
+
+export const updateBannerImage = async (file: File, bannerId: string) => {
+    const { data } = await adminAxiosApiGateWay.post('/userManagement/updateBanner', { file, bannerId }, {
+        headers: {
+            Authorization: adminGetToken(),
+            'Content-Type': 'multipart/form-data;',
+        },
+    })
+    return data
+}
+
+
+export const getPremiumUsers = async () => {
+    const { data } = await adminAxiosApiGateWay.get('/userManagement/getPremiumUsers')
+    return data
+}
+
+
+export const cancelSubscription = async (subscription: Object) => {
+    const { data } = await adminAxiosApiGateWay.patch('/userManagement/cancelSubscription', subscription)
+    return data
+}

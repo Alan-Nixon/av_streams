@@ -6,6 +6,8 @@ import { uploadToS3Bucket } from '../../../../Functions/AWS_s3_bucket'
 import { getUserVideos, uploadVideo } from '../../../../Functions/streamFunctions/streamManagement'
 import Swal from 'sweetalert2'
 import { isPremiumUser } from '../../../../Functions/userFunctions/userManagement'
+import { toast } from 'react-toastify'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 function MyVideos() {
     const [progress, setProgress] = useState<number>(-1)
@@ -15,7 +17,7 @@ function MyVideos() {
     const [Thumbnail, setVideoThumnail] = useState<File>()
     const [pagination, setPagination] = useState<number>(6)
     const [error, setError] = useState("")
-    const { user } = useUser()
+    const { user } = useUser();
     const [selectedVideo, setSeletected] = useState("")
 
     const [videoDetails, setVideoDetails] = useState<videoInterface>({
@@ -24,6 +26,8 @@ function MyVideos() {
         Views: "0", userId: user?._id || "",
         channelName: user?.channelName || "", Premium: false
     })
+
+    const Navigate = useNavigate()
 
     useEffect(() => {
 
@@ -52,13 +56,9 @@ function MyVideos() {
                         Thumbnail: "", Views: "0", Premium: (await isPremiumUser(user._id || "")).status
                     }
                     uploadVideo(Data, Thumbnail).then((res) => {
-                        Swal.fire({
-                            title: res.status ? "succussfully uploaded" : "error occured",
-                            text: res.status ? selectedVideo + "uploaded successfully" : res.message || "error occured on uploading",
-                            icon: res.status ? "success" : "error"
-                        }).then(() => {
-                            isShorts ? setShorts((rest) => ([...rest, Data])) : setVideos((rest) => ([...rest, Data]))
-                        })
+                        toast.success(res.status ? "successfully uploaded the video" : "error uploading the video")
+                        isShorts ? setShorts((rest) => ([...rest, Data])) : setVideos((rest) => ([...rest, Data]))
+                        setProgress(-1)
                     })
                 })
             }
@@ -179,7 +179,7 @@ function MyVideos() {
                         {videos && videos.length !== 0 ? (
                             videos.map((details, index) => (
                                 (index < pagination && index >= pagination - 6) && <>
-                                    <p key={index} style={{ width: "100%" }} className="flex flex-col mt-3 bg-white border border-gray-200 rounded-lg shadow md:flex-row   hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                    <p key={index} onClick={() => Navigate("/FullVideo?videoId=" + details._id)} style={{ width: "100%" }} className="flex flex-col mt-3 bg-white border border-gray-200 rounded-lg shadow md:flex-row   hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
                                         <img style={{ width: "150px" }} className="object-cover w-full rounded-t-lg md:rounded-none md:rounded-s-lg" src={details.Thumbnail} alt={details.Title} />
                                         <div className="flex flex-col m-4 leading-normal">
                                             <h5 className=" text-lg font-bold tracking-tight text-gray-900 dark:text-white">{details.Title}</h5>

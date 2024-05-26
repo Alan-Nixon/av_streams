@@ -1,5 +1,4 @@
 import React, { Dispatch, ReactNode, SetStateAction } from "react";
-import { Socket } from "socket.io-client";
 declare global {
     interface Window {
         Swal: any
@@ -290,13 +289,24 @@ export interface tableInterfaceData {
 }
 
 export interface bannerInterface {
+    _id: string
     imgUrl: string;
     location: string;
 }
 
 export interface chatsInterface {
-    profileImage:string,
-    lastMessage:string,
-    Time:string,
-    userName:string
+    profileImage: string,
+    lastMessage: string,
+    Time: string,
+    userName: string
+}
+
+
+export interface confirmToastInterface {
+    onConfirm: () => void,
+    onCancel: () => void
+}
+
+export interface showConfirmationToastInterface {
+    onConfirm: () => {}
 }
