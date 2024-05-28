@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { postSignup, sendOtp } from "../../../Functions/userFunctions/userManagement";
-import { Data, changeEvent } from "../../../Functions/interfaces";
+import { postSignup, sendOtp } from "../../../../Functions/userFunctions/userManagement";
+import { Data, changeEvent } from "../../../../Functions/interfaces";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
-import Google from "../../socialMediaLogins/Google";
-import Linkedin from "../../socialMediaLogins/Linkedin";
-import Recaptcha from "../../socialMediaLogins/Recaptcha";
+import Google from "../../../socialMediaLogins/Google";
+import Linkedin from "../../../socialMediaLogins/Linkedin";
+import Recaptcha from "../../../socialMediaLogins/Recaptcha";
 
 
 

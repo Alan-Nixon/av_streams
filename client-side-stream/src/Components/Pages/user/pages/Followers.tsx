@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
-import { FollowFollowersTypeData, FollowersDetailsArray, changeEvent } from "../../../Functions/interfaces"
-import { useUser } from "../../../UserContext"
-import { getfollowersByUserId } from "../../../Functions/userFunctions/userManagement"
+import { FollowFollowersTypeData, FollowersDetailsArray, changeEvent } from "../../../../Functions/interfaces"
+import { useUser } from "../../../../UserContext"
+import { getfollowersByUserId } from "../../../../Functions/userFunctions/userManagement"
 import { useNavigate } from "react-router-dom"
 
 export default function Followers() {

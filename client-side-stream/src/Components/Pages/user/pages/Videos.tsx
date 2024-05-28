@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import NavBar from './NavBar'
-import SideBar from './SideBar'
-import Content from './helpers/Content'
-import { ModalInterfaceStateSetState, carouselInterface, videoInterface } from '../../../Functions/interfaces'
+import NavBar from '../layout/NavBar'
+import SideBar from '../layout/SideBar'
+import Content from '../helpers/Content'
+import { ModalInterfaceStateSetState, carouselInterface, videoInterface } from '../../../../Functions/interfaces'
 import { useNavigate } from 'react-router-dom'
-import { isPremiumUser } from '../../../Functions/userFunctions/userManagement'
-import { useUser } from '../../../UserContext'
-import { getBannerByLocation } from '../../../Functions/userFunctions/adminManagement'
-import { getPremiumVideos } from '../../../Functions/streamFunctions/streamManagement'
+import { isPremiumUser } from '../../../../Functions/userFunctions/userManagement'
+import { useUser } from '../../../../UserContext'
+import { getBannerByLocation } from '../../../../Functions/userFunctions/adminManagement'
+import { getPremiumVideos } from '../../../../Functions/streamFunctions/streamManagement'
 
 
 
-export default function Videos() {
+function Videos() {
     const [premiumVideos, setPremiumVideos] = useState<videoInterface[] | []>([])
     const [visible, setVisible] = useState<boolean>(false)
     const [currentCarousel, setCurrentCarousel] = useState<number>(0)
@@ -129,7 +129,7 @@ function Modal({ visible, setVisible }: ModalInterfaceStateSetState) {
     const Navigate = useNavigate()
     return (
         <div className="centered-container">
-            <div id="default-modal" tabIndex={-1} aria-hidden="true" style={{ marginLeft: "25%", marginTop: "7%", position: "fixed" }} className={`${!visible && "hidden"} fixed overflow-y-auto overflow-x-hidden  absolute z-50  w-full md:inset-0 h-[calc(100%-1rem)] max-h-full`}>
+            <div id="default-modal" tabIndex={-1} aria-hidden="true" style={{ marginLeft: "25%", marginTop: "7%", position: "fixed" }} className={`${!visible && "hidden"} fixed overflow-y-auto overflow-x-hidden  z-50  w-full md:inset-0 h-[calc(100%-1rem)] max-h-full`}>
                 <div className=" p-4 w-full max-w-2xl max-h-full">
 
                     <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -168,3 +168,5 @@ function Modal({ visible, setVisible }: ModalInterfaceStateSetState) {
         </div>
     )
 }
+
+export default React.memo(Videos)

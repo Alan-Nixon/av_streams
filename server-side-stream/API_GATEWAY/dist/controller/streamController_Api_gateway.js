@@ -36,11 +36,9 @@ const streamGetController = (req, res) => __awaiter(void 0, void 0, void 0, func
 });
 exports.streamGetController = streamGetController;
 const streamPostController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b, _c;
+    var _b;
     try {
-        console.log((_b = req.headers['content-type']) === null || _b === void 0 ? void 0 : _b.split(' '));
-        if (((_c = req.headers['content-type']) === null || _c === void 0 ? void 0 : _c.split(' ')[0]) === "multipart/form-data;") {
-            console.log("this id the working");
+        if (((_b = req.headers['content-type']) === null || _b === void 0 ? void 0 : _b.split(' ')[0]) === "multipart/form-data;") {
             const form = new formidable_1.IncomingForm();
             form.parse(req, (err, fields, files) => __awaiter(void 0, void 0, void 0, function* () {
                 if (err) {
@@ -65,7 +63,9 @@ const streamPostController = (req, res) => __awaiter(void 0, void 0, void 0, fun
             }));
         }
         else {
-            const { data } = yield axios_1.default.post(streamUrl + req.params.Route, req.body);
+            const { data } = yield axios_1.default.post(streamUrl + req.params.Route, req.body, {
+                headers: { 'Authorization': req.headers.authorization }
+            });
             res.status(200).json(data);
         }
     }
@@ -75,9 +75,9 @@ const streamPostController = (req, res) => __awaiter(void 0, void 0, void 0, fun
 });
 exports.streamPostController = streamPostController;
 const streamDeleteController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _d;
+    var _c;
     try {
-        if (((_d = req.headers.authorization) === null || _d === void 0 ? void 0 : _d.split(' ')[1]) !== 'undefined') {
+        if (((_c = req.headers.authorization) === null || _c === void 0 ? void 0 : _c.split(' ')[1]) !== 'undefined') {
             const query = JSON.stringify(req.query);
             const { data } = yield axios_1.default.delete(streamUrl + req.params.Route + `?query=${query}`, {
                 headers: { 'Authorization': req.headers.authorization },

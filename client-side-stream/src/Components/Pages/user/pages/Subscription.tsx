@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import NavBar from './NavBar'
-import SideBar from './SideBar'
-import Content from './helpers/Content'
-import { WalletDetails, subscriptionInterface } from '../../../Functions/interfaces'
-import { getWalletDetails, isPremiumUser, subscribeToPremium } from '../../../Functions/userFunctions/userManagement'
+import NavBar from '../layout/NavBar'
+import SideBar from '../layout/SideBar'
+import Content from '../helpers/Content'
+import { WalletDetails, subscriptionInterface } from '../../../../Functions/interfaces'
+import { getWalletDetails, isPremiumUser, subscribeToPremium } from '../../../../Functions/userFunctions/userManagement'
 import Alert from '@mui/material/Alert';
-import { useUser } from '../../../UserContext'
+import { useUser } from '../../../../UserContext'
 import Swal from 'sweetalert2'
-import RazorpayPayment from '../paymentIntegrations/Razorpay';
-import Paypal from '../paymentIntegrations/Paypal'
-import { getDate } from '../../../Functions/commonFunctions'
+import RazorpayPayment from '../../paymentIntegrations/Razorpay';
+import Paypal from '../../paymentIntegrations/Paypal'
+import { getDate } from '../../../../Functions/commonFunctions'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 

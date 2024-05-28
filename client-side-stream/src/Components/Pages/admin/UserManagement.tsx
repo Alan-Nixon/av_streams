@@ -169,8 +169,8 @@ function UserManagement() {
                                 variant="standard"
                             />
                         </div>
-                        <FormControlLabel onChange={(e) => checkIsAdmin(e)} className='ml-1' label="Is Admin" control={<Checkbox {...label} />} /> <br />
-                        <Button onClick={() => submitCreateUser()} style={{ width: '100%' }} variant="contained">Contained</Button>
+                        <FormControlLabel onChange={(e) => checkIsAdmin(e)} className='m-1' label="Is Admin" control={<Checkbox {...label} />} /> <br />
+                        <Button onClick={() => submitCreateUser()} style={{ width: '100%', marginTop: "0.5%" }} variant="contained">Submit</Button>
                     </div>
 
                 </div>

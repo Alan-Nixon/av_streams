@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { PostLogin, forgetPasswordOtpSend } from '../../../Functions/userFunctions/userManagement'
+import { PostLogin, forgetPasswordOtpSend } from '../../../../Functions/userFunctions/userManagement'
 import Cookies from 'js-cookie'
-import { useUser } from '../../../UserContext'
+import { useUser } from '../../../../UserContext'
 import Swal from 'sweetalert2'
-import Google from '../../socialMediaLogins/Google'
-import Linkedin from '../../socialMediaLogins/Linkedin'
+import Google from '../../../socialMediaLogins/Google'
+import Linkedin from '../../../socialMediaLogins/Linkedin'
 
 export default function Login() {
     const { setUserData } = useUser()

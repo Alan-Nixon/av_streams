@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { useUser } from '../../../UserContext';
-import { logout } from '../../../Functions/userFunctions/userManagement';
+import { useUser } from '../../../../UserContext';
+import { getChannelById, logout } from '../../../../Functions/userFunctions/userManagement';
 
 
 import { useLocation, useNavigate } from 'react-router-dom';
-import ChatWindow from '../../../Functions/realtime/chatHome';
+import ChatWindow from '../../../../Functions/realtime/chatHome';
 import { Popup } from 'reactjs-popup'
-import ChatComponent from '../../../Functions/realtime/SingleChat';
-import { chatsInterface } from '../../../Functions/interfaces';
+import ChatComponent from '../../../../Functions/realtime/SingleChat';
+import { Data, channelInterface, chatsInterface } from '../../../../Functions/interfaces';
 
 
 
@@ -24,12 +24,11 @@ export default function NavBar() {
 
     function searchNow() {
         if (search !== "") {
-            alert(search)
             Navigate('/search?search=' + search)
         }
     }
     return (
-        <nav style={{ zIndex: "999" }} className="fixed top-0 left-0 right-0 bg-white border-gray-200 dark:bg-gray-900 border-b border-white border-b-[1px] z-10">
+        <nav style={{ zIndex: "999" }} className="fixed top-0 left-0 right-0 bg-white  dark:bg-gray-900   border-white border-b-[1px] z-10">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
                 <div className="flex  space-x-3 ml-10">
                     <button data-collapse-toggle="navbar-default" onClick={() => setShowHideSideBar(!showHideSideBar)} type="button" className="hamburgerButtonDiv ml-auto flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">
@@ -100,9 +99,9 @@ export default function NavBar() {
             </div >
 
 
-            {chatWindow && (
+            {chatWindow && user && (
                 <div className="fixed md:right-[100px] md:top-0 min-w-[360px]">
-                    <ChatPopup setChatWindow={setChatwindow} chatWindow={chatWindow} />
+                    <ChatPopup setChatWindow={setChatwindow} user={user} chatWindow={chatWindow} />
                 </div>
             )}
 
@@ -129,29 +128,28 @@ export default function NavBar() {
 interface chatInterface {
     chatWindow: boolean;
     setChatWindow: React.Dispatch<React.SetStateAction<boolean>>
+    user: Data
 }
 
-export function ChatPopup({ chatWindow, setChatWindow }: chatInterface) {
+export function ChatPopup({ chatWindow, setChatWindow, user }: chatInterface) {
     const [chatHome, setChatHome] = useState(true)
     const [chats, setChats] = useState<chatsInterface[]>([])
 
-
-    const singleChatopen = () => {
-        setChatHome(false)
-    }
+    const singleChatopen = () => { setChatHome(false) }
 
     useEffect(() => {
         const chatsArray = new Array(5).fill({
             profileImage: "https://res.cloudinary.com/dc6deairt/image/upload/v1638102932/user-32-01_pfck4u.jpg",
-            lastMessage:"good bye",
-            Time:"2hrs"
+            lastMessage: "good bye",
+            Time: "2hrs"
         })
         setChats(chatsArray)
     }, [])
 
+
     return (
         <Popup trigger={<button />} position={'right top'} open={chatWindow} onClose={() => setChatWindow(false)}>
-            {chatHome ? <ChatWindow singleChatopen={singleChatopen} chats={chats} /> : <ChatComponent setChatHome={setChatHome} />}
+            {chatHome ? <ChatWindow singleChatopen={singleChatopen} chats={chats} userDetails={user} /> : <ChatComponent setChatHome={setChatHome} />}
         </Popup>
     )
 }

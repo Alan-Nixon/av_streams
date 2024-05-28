@@ -197,5 +197,57 @@ class videoPostUseCase {
             }
         });
     }
+    addReportSubmit(Data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return post_videos_Repositary_1.postVideosRepo.addReportSubmit(Data);
+            }
+            catch (error) {
+                console.error(error);
+                return { status: false, message: "failed" };
+            }
+        });
+    }
+    getReportsBySection(section) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return post_videos_Repositary_1.postVideosRepo.getReportsBySection(section);
+            }
+            catch (error) {
+                console.error(error);
+                return { status: false, message: "failed" };
+            }
+        });
+    }
+    getBlockedVideos() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield post_videos_Repositary_1.postVideosRepo.getBlockedVideos();
+        });
+    }
+    blockContentVisiblity(LinkId, Section, reportId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield post_videos_Repositary_1.postVideosRepo.blockContentVisiblity(LinkId, Section, reportId);
+        });
+    }
+    changeVisiblityContent(LinkId, Section) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield post_videos_Repositary_1.postVideosRepo.changeVisiblityContent(LinkId, Section);
+        });
+    }
+    getCategory() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield post_videos_Repositary_1.postVideosRepo.getCategory();
+        });
+    }
+    blockcategory(cateId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield post_videos_Repositary_1.postVideosRepo.blockcategory(cateId);
+        });
+    }
+    addCategory(Data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield post_videos_Repositary_1.postVideosRepo.addCategory(Object.assign(Object.assign({}, Data), { videosCount: [], postCount: [], Display: true }));
+        });
+    }
 }
 exports.videoPost = new videoPostUseCase();

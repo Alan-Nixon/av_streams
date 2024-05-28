@@ -23,9 +23,7 @@ export const streamGetController = async (req: Request, res: Response) => {
 
 export const streamPostController = async (req: Request, res: Response) => {
     try {
-        console.log(req.headers['content-type']?.split(' '))
         if (req.headers['content-type']?.split(' ')[0] === "multipart/form-data;") {
-            console.log("this id the working")
             const form = new IncomingForm();
             form.parse(req, async (err: Error | null, fields: Fields, files: Files) => {
                 if (err) {
@@ -47,7 +45,9 @@ export const streamPostController = async (req: Request, res: Response) => {
                 }
             });
         } else {
-            const { data } = await axios.post(streamUrl + req.params.Route, req.body)
+            const { data } = await axios.post(streamUrl + req.params.Route, req.body,{
+                headers:{'Authorization':req.headers.authorization}
+            })
             res.status(200).json(data)
         }
     } catch (error) {
@@ -67,15 +67,15 @@ export const streamDeleteController = async (req: Request, res: Response) => {
         } else {
             res.status(304).json({ status: false, message: "no token found sorry" })
         }
-    } catch (error) { 
+    } catch (error) {
         console.error(error)
     }
-} 
- 
+}
+
 export const streamPatchController = async (req: Request, res: Response) => {
     try {
         console.log(req.headers.authorization);
-        
+
         if (req.headers.authorization) {
             const query = JSON.stringify(req.query);
             const { data } = await axios.patch(streamUrl + req.params.Route + `?query=${query}`, req.body, {

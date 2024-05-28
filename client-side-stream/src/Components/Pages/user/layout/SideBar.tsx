@@ -1,6 +1,6 @@
-import { currentLives } from "../../../Functions/LiveNow"
+import { currentLives } from "../../../../Functions/LiveNow"
 import { useLocation } from "react-router-dom"
-import { useUser } from "../../../UserContext"
+import { useUser } from "../../../../UserContext"
 
 
 export default function SideBar() {

@@ -23,18 +23,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PostModel = void 0;
+exports.ReportModel = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
-const postSchema = new mongoose_1.Schema({
-    Title: { type: String },
-    Description: { type: String },
-    postLink: { type: String },
-    userId: { type: String },
-    channelName: { type: String },
-    likes: { type: String },
-    likesArray: { type: [String], default: [] },
-    dislikes: { type: String },
-    Visiblity: { type: Boolean, default: true },
-    Time: { type: String }
+const reportSchema = new mongoose_1.Schema({
+    channelName: { type: String, default: "" },
+    userId: { type: String, default: "" },
+    Link: { type: String, default: "" },
+    LinkId: { type: String, default: "" },
+    Section: { type: String, default: "" },
+    Reason: { type: String, default: "" },
+    Responded: { type: Boolean, default: false },
+    Blocked: { type: Boolean, default: false },
 });
-exports.PostModel = mongoose_1.default.model('posts', postSchema);
+exports.ReportModel = mongoose_1.default.model('reports', reportSchema);

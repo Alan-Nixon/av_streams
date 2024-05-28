@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import NavBar from './NavBar'
+import NavBar from '../layout/NavBar'
 import { useNavigate } from 'react-router-dom'
-import SideBar from './SideBar'
-import Content from './helpers/Content'
+import SideBar from '../layout/SideBar'
+import Content from '../helpers/Content'
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { CardActionArea } from '@mui/material';
-import { numTokandM } from '../../../Functions/commonFunctions'
-import { carouselInterface, channelInterface, videoInterface } from '../../../Functions/interfaces'
-import { getMostWatchedVideoUser } from '../../../Functions/streamFunctions/streamManagement'
-import { followChannel, getChannelById } from '../../../Functions/userFunctions/userManagement'
-import { useUser } from '../../../UserContext'
-import ChakraMessage from '../../messageShowers/ChakraUI'
-import { useSocket } from '../../../Functions/realtime/socketContext'
+import { numTokandM } from '../../../../Functions/commonFunctions'
+import { carouselInterface, channelInterface, videoInterface } from '../../../../Functions/interfaces'
+import { getMostWatchedVideoUser } from '../../../../Functions/streamFunctions/streamManagement'
+import { followChannel, getChannelById } from '../../../../Functions/userFunctions/userManagement'
+import { useUser } from '../../../../UserContext'
+import ChakraMessage from '../../../messageShowers/ChakraUI'
+import { useSocket } from '../../../../Functions/realtime/socketContext'
 
 
 function Channel() {

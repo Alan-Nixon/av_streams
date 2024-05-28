@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom';
-import { forgetPasswordPost } from '../../../Functions/userFunctions/userManagement';
+import { forgetPasswordPost } from '../../../../Functions/userFunctions/userManagement';
 
 function ForgetPassword() {
     const location = useLocation();

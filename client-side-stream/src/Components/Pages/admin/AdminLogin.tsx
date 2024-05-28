@@ -16,7 +16,7 @@ export default function AdminLogin() {
     const handleSubmit = async () => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const passwordRegex = /^[a-zA-Z0-9_@]{8,}$/;
-console.log(adminData);
+        console.log(adminData);
 
         if (emailRegex.test(adminData.Email)) {
             if (passwordRegex.test(adminData.Password)) {

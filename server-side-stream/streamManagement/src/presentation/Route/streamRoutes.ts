@@ -1,5 +1,5 @@
 import express from 'express';
-import { isAuthenticated } from "userauthenticationforavstreams"
+import { isAdminAuthenticated, isAuthenticated } from "userauthenticationforavstreams"
 import * as controller from '../controllers/streamControllers'
 
 const router = express.Router()
@@ -15,15 +15,33 @@ router.get('/getUserVideos', isAuthenticated, controller.getUserVideos)
 router.get('/getAllVideos', isAuthenticated, controller.getAllVideos)
 router.get('/getVideosWithId', isAuthenticated, controller.getVideosWithId)
 router.get('/getMostWatchedVideoUser', isAuthenticated, controller.getMostWatchedVideoUser)
-router.get('/searchVideosAndProfile',isAuthenticated,controller.searchVideosAndProfile)
+router.get('/searchVideosAndProfile', isAuthenticated, controller.searchVideosAndProfile)
 
-router.get('/getPremiumVideos',controller.getPremiumVideos)
+router.get('/getPremiumVideos', controller.getPremiumVideos)
+
 
 router.post('/uploadPost', isAuthenticated, controller.uploadPost)
 router.post('/uploadVideo', isAuthenticated, controller.uploadVideo)
+router.post('/addReportSubmit', isAuthenticated, controller.addReportSubmit)
 
 router.patch('/likePost', isAuthenticated, controller.likePost)
 
 router.delete('/deletePostFromCloudinary', isAuthenticated, controller.deletePostFromCloudinary)
+
+
+
+// admin routes
+
+router.get('/getReportsBySection', isAdminAuthenticated, controller.getReportsBySection)
+router.get('/getBlockedVideos', isAdminAuthenticated, controller.getBlockedVideos)
+router.get('/getCategory',isAdminAuthenticated,controller.getCategory)
+
+
+router.patch('/blockcategory',isAdminAuthenticated,controller.blockcategory)
+router.patch('/blockContentVisiblity', isAdminAuthenticated, controller.blockContentVisiblity)
+router.patch('/ChangeVisiblityContent', isAdminAuthenticated, controller.changeVisiblityContent)
+
+router.post('/addCategory', isAdminAuthenticated, controller.addCategory)
+
 
 export default router  

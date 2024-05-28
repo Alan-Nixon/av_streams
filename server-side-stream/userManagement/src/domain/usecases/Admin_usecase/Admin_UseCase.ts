@@ -10,6 +10,7 @@ import { SubscriptionInterface } from "../../../data/models/channel";
 import { changeUserRepositaryLayer } from "../../../data/Repositary/ChangeUserDetails_Repositary";
 import { user_authentication_layer } from "../../../data/Repositary/Authentication_Repositary";
 
+
 class Admin_useCase implements Admin_Usecase_Interface {
 
     async post_admin_login(Email: string, Password: string) {
@@ -103,7 +104,7 @@ class Admin_useCase implements Admin_Usecase_Interface {
             credited: true, transactionId: "BY ADMIN", userId: Data.userId,
             walletId: wallet?._id
         }
-        
+
         await changeUserRepositaryLayer.addMoneyToWallet(Transactions)
         return await adminRepositaryLayer.cancelSubscription(Data.userId)
     }

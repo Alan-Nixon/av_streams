@@ -6,8 +6,8 @@ import { ContentProps, googleClientId } from './Functions/interfaces';
 import { gapi } from 'gapi-script';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAdminAuthenticated, setUserAuthenticated } from './Redux/authenticationRedux'
-import StartLive from './Components/Pages/user/StartLive';
-import Subscription from './Components/Pages/user/Subscription';
+import StartLive from './Components/Pages/user/pages/StartLive';
+import Subscription from './Components/Pages/user/pages/Subscription';
 import ReportManagement from './Components/Pages/admin/ReportManagement';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,7 +16,7 @@ import { useUser } from './UserContext';
 import { Toaster } from 'react-hot-toast'
 import { toastFunction } from './Components/messageShowers/ToastFunction';
 
-const Error = lazy(() => import('./Components/Pages/Error'));
+const Error = lazy(() => import('./Components/Pages/user/pages/Error'));
 
 
 const CategoryManagement = lazy(() => import('./Components/Pages/admin/CategoryManagement'));
@@ -27,17 +27,17 @@ const BannerManagement = lazy(() => import('./Components/Pages/admin/BannerManag
 const OfferManagement = lazy(() => import('./Components/Pages/admin/OfferManagement'))
 
 const Profile = lazy(() => import('./Components/Pages/user/profile/Profile'));
-const ForgetPassword = lazy(() => import('./Components/Pages/user/ForgetPassword'));
-const LiveNow = lazy(() => import('./Components/Pages/user/LiveNow'));
-const Videos = lazy(() => import('./Components/Pages/user/Videos'));
-const Channels = lazy(() => import('./Components/Pages/user/Channels'));
-const Shorts = lazy(() => import('./Components/Pages/user/Shorts'));
-const Home = lazy(() => import('./Components/Pages/user/Home'));
-const FullVideo = lazy(() => import('./Components/Pages/user/FullVideo'))
-const Login = lazy(() => import('./Components/Pages/user/Login'))
-const Signup = lazy(() => import('./Components/Pages/user/Signup'))
-const Channel = lazy(() => import('./Components/Pages/user/Channel'))
-const Search = lazy(() => import('./Components/Pages/user/Search'))
+const ForgetPassword = lazy(() => import('./Components/Pages/user/pages/ForgetPassword'));
+const LiveNow = lazy(() => import('./Components/Pages/user/pages/LiveNow'));
+const Videos = lazy(() => import('./Components/Pages/user/pages/Videos'));
+const Channels = lazy(() => import('./Components/Pages/user/pages/Channels'));
+const Shorts = lazy(() => import('./Components/Pages/user/pages/Shorts'));
+const Home = lazy(() => import('./Components/Pages/user/pages/Home'));
+const FullVideo = lazy(() => import('./Components/Pages/user/pages/FullVideo'))
+const Login = lazy(() => import('./Components/Pages/user/pages/Login'))
+const Signup = lazy(() => import('./Components/Pages/user/pages/Signup'))
+const Channel = lazy(() => import('./Components/Pages/user/pages/Channel'))
+const Search = lazy(() => import('./Components/Pages/user/pages/Search'))
 
 
 function App() {

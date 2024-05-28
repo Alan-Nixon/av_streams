@@ -20,7 +20,6 @@ axiosApiGateWay.interceptors.response.use(
             Cookies.remove('userToken')
             window.location.href = '/login'
         } else {
-
             return response;
         }
     },
@@ -136,3 +135,12 @@ export const getDate = (date: number, fullDay: string) => {
     return `${currentDate.getFullYear()}-${month}-${day}`;
 }
 
+export const scrollDown = () => {
+    setTimeout(() => {
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            left: 0,
+            behavior: 'smooth'
+        });
+    }, 0);
+}

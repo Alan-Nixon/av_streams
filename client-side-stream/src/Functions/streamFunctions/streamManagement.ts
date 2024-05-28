@@ -1,5 +1,5 @@
 import { axiosApiGateWay, calculateProgress, getTokenCookie } from "../commonFunctions";
-import { SetProgressFunction, postInterfaceUpload, propsComment } from "../interfaces";
+import { SetProgressFunction, postInterfaceUpload, propsComment, reportType } from "../interfaces";
 
 
 export const sendStopRequest = async () => {
@@ -107,3 +107,9 @@ export const searchVideosAndProfile = async (search: string) => {
     const { data } = await axiosApiGateWay.get('/streamManagement/searchVideosAndProfile?search=' + search)
     return data
 }
+
+export const addReportSubmit = async (Data: reportType) => {
+    const { data } = await axiosApiGateWay.post('/streamManagement/addReportSubmit', Data)
+    return data
+}
+

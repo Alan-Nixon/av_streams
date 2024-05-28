@@ -43,6 +43,15 @@ router.get('/searchVideosAndProfile', userauthenticationforavstreams_1.isAuthent
 router.get('/getPremiumVideos', controller.getPremiumVideos);
 router.post('/uploadPost', userauthenticationforavstreams_1.isAuthenticated, controller.uploadPost);
 router.post('/uploadVideo', userauthenticationforavstreams_1.isAuthenticated, controller.uploadVideo);
+router.post('/addReportSubmit', userauthenticationforavstreams_1.isAuthenticated, controller.addReportSubmit);
 router.patch('/likePost', userauthenticationforavstreams_1.isAuthenticated, controller.likePost);
 router.delete('/deletePostFromCloudinary', userauthenticationforavstreams_1.isAuthenticated, controller.deletePostFromCloudinary);
+// admin routes
+router.get('/getReportsBySection', userauthenticationforavstreams_1.isAdminAuthenticated, controller.getReportsBySection);
+router.get('/getBlockedVideos', userauthenticationforavstreams_1.isAdminAuthenticated, controller.getBlockedVideos);
+router.get('/getCategory', userauthenticationforavstreams_1.isAdminAuthenticated, controller.getCategory);
+router.patch('/blockcategory', userauthenticationforavstreams_1.isAdminAuthenticated, controller.blockcategory);
+router.patch('/blockContentVisiblity', userauthenticationforavstreams_1.isAdminAuthenticated, controller.blockContentVisiblity);
+router.patch('/ChangeVisiblityContent', userauthenticationforavstreams_1.isAdminAuthenticated, controller.changeVisiblityContent);
+router.post('/addCategory', userauthenticationforavstreams_1.isAdminAuthenticated, controller.addCategory);
 exports.default = router;

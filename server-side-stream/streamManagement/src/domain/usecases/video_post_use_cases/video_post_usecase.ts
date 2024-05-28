@@ -6,6 +6,7 @@ import { payload, postDataInterface, postFilesnFeilds, videoPostInterface } from
 import { Request } from 'express'
 import { getProfileLink, uploadVideoGRPC } from "../../../presentation/Grpc/stream_user";
 import { VideoModel } from "../../../data/Models/videos";
+import { IReport } from "../../../data/interfaces/videoModelInterface";
 
 class videoPostUseCase implements videoPostInterface {
     async uploadPost(Data: postFilesnFeilds, user: payload) {
@@ -163,6 +164,48 @@ class videoPostUseCase implements videoPostInterface {
             console.error(error);
             return { status: false, message: "failed" }
         }
+    }
+
+    async addReportSubmit(Data: IReport) {
+        try {
+            return postVideosRepo.addReportSubmit(Data)
+        } catch (error) {
+            console.error(error);
+            return { status: false, message: "failed" }
+        }
+    }
+
+    async getReportsBySection(section: string) {
+        try {
+            return postVideosRepo.getReportsBySection(section)
+        } catch (error) {
+            console.error(error);
+            return { status: false, message: "failed" }
+        }
+    }
+
+    async getBlockedVideos() {
+        return await postVideosRepo.getBlockedVideos()
+    }
+
+    async blockContentVisiblity(LinkId: string, Section: string, reportId: string) {
+        return await postVideosRepo.blockContentVisiblity(LinkId, Section, reportId)
+    }
+
+    async changeVisiblityContent(LinkId: string, Section: string) {
+        return await postVideosRepo.changeVisiblityContent(LinkId, Section)
+    }
+
+    async getCategory() {
+        return await postVideosRepo.getCategory()
+    }
+
+    async blockcategory(cateId: string) {
+        return await postVideosRepo.blockcategory(cateId)
+    }
+
+    async addCategory(Data: Object) {
+        return await postVideosRepo.addCategory({ ...Data, videosCount: [], postCount: [], Display: true })
     }
 
 }

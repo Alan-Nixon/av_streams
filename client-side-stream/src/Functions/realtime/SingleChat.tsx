@@ -4,11 +4,11 @@ import React, { SetStateAction } from 'react';
 const ChatComponent = ({ setChatHome }: { setChatHome: React.Dispatch<SetStateAction<boolean>> }) => {
 
     return (
-        <div style={{ marginRight: "1%", height: "550px", width: "400px" }} className="flex top-5 fixed flex-col items-center justify-center w-full min-h-[90vh] max-h-[720px] dark:bg-gray-900 text-gray-800 p-4">
+        <div className="min-h-[95vh] max-h-[600px] h-[500px]  p-4 flex top-5 fixed flex-col items-center justify-center w-[450px]  dark:bg-gray-900 text-gray-800 rounded-md mr-4">
 
             <div className="right-0 top-0 flex flex-col flex-grow w-[100%] bg-white shadow-xl rounded-lg overflow-hidden">
-                <div className="flex p-1 ml-2 mt-1">
-                    <i onClick={() => setChatHome(true)} className="w-[26px] mt-4 fa fa-angle-left" />
+                <div className="flex p-1 mt-1">
+                    <i onClick={() => setChatHome(true)} className="w-[26px] p-3 fa fa-angle-left" />
                     <a className="inline-flex items-start mr-3" href="#0">
                         <img className="rounded-full" src="https://res.cloudinary.com/dc6deairt/image/upload/v1638102932/user-48-01_nugblk.jpg" width="48" height="48" alt="Lauren Marsano" />
                     </a>

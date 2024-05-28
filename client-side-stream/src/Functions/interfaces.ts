@@ -173,6 +173,7 @@ export interface videoInterface {
     Title: string,
     Views: string,
     channelName: string,
+    Visiblity: boolean,
     Description: string,
     Link: string,
     shorts: boolean,
@@ -309,4 +310,37 @@ export interface confirmToastInterface {
 
 export interface showConfirmationToastInterface {
     onConfirm: () => {}
+}
+
+
+export interface chatHomeIterface {
+    chats: chatsInterface[],
+    singleChatopen: () => void
+    userDetails: Data
+}
+
+export type reportDialogInterface = {
+    submitReport: (text: string) => void,
+    closeFunc: Dispatch<SetStateAction<boolean>>
+}
+
+export type reportType = {
+    _id: string,
+    channelName: string,
+    userId: string,
+    Link: string,
+    LinkId: string,
+    Section: string,
+    Reason: string,
+    Responded: boolean,
+    Blocked: boolean
+}
+
+export type categoryInterface = {
+    _id:string,
+    categoryName: string,
+    Description: string
+    videosCount: string
+    postCount: string
+    Display: boolean
 }

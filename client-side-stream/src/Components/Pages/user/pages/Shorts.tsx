@@ -1,9 +1,9 @@
-import NavBar from './NavBar'
-import SideBar from './SideBar'
-import Content from './helpers/Content'
+import NavBar from '../layout/NavBar'
+import SideBar from '../layout/SideBar'
+import Content from '../helpers/Content'
 import { useEffect, useState } from 'react'
-import { videoInterfaceComment } from '../../../Functions/interfaces'
-import { getAllVideos } from '../../../Functions/streamFunctions/streamManagement'
+import { videoInterfaceComment } from '../../../../Functions/interfaces'
+import { getAllVideos } from '../../../../Functions/streamFunctions/streamManagement'
 
 function Shorts() {
   const [loading, setLoading] = useState<boolean>(true)

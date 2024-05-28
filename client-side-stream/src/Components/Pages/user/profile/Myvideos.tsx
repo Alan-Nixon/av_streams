@@ -23,7 +23,7 @@ function MyVideos() {
     const [videoDetails, setVideoDetails] = useState<videoInterface>({
         _id: "", Title: "", Description: "",
         Link: "", shorts: false, Thumbnail: "",
-        Views: "0", userId: user?._id || "",
+        Views: "0", userId: user?._id || "", Visiblity: true,
         channelName: user?.channelName || "", Premium: false
     })
 
@@ -51,7 +51,7 @@ function MyVideos() {
                         userId: user._id || "",
                         Title: videoDetails.Title,
                         Description: videoDetails.Description,
-                        shorts: isShorts,
+                        shorts: isShorts, Visiblity: true,
                         channelName: user?.channelName || "",
                         Thumbnail: "", Views: "0", Premium: (await isPremiumUser(user._id || "")).status
                     }

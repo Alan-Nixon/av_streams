@@ -30,7 +30,12 @@ import { logoutAdmin } from '../../../Functions/userFunctions/adminManagement';
 
 
 function Layout({ children }: any) {
-    const pages = ['Products', 'Pricing', 'Blog'];
+
+    const pages = [
+        { text: 'Dashboard', redirect: '/admin' },
+        { text: 'User', redirect: '/admin/userManagement' },
+        { text: 'Logout', redirect: '' }
+    ];
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
     const Navigate = useNavigate()
     const location = useLocation()
@@ -124,13 +129,14 @@ function Layout({ children }: any) {
                             onClose={handleCloseNavMenu}
                             sx={{
                                 display: { xs: 'block', md: 'none' },
-                            }}
-                        >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
+                            }}>
+
+                            {pages.map((page, index) => (
+                                <MenuItem key={index} onClick={handleCloseNavMenu}>
+                                    <Typography onClick={() => page.text === "Logout" ? logoutAdmin() : Navigate(page.redirect)} textAlign="center">{page.text}</Typography>
                                 </MenuItem>
                             ))}
+
                         </Menu>
                     </Box>
                     <img className="h-10 rounded-full flex md:hidden mr-1" src="https://s3.ap-south-1.amazonaws.com/assets.ynos.in/startup-logos/YNOS427860.jpg" alt="Flowbite Logo" />
@@ -153,13 +159,13 @@ function Layout({ children }: any) {
                         AV streams
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                        {pages.map((page) => (
+                        {pages.map((page,idx) => (
                             <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
+                                key={idx}
+                                onClick={() => page.text === "Logout" ? logoutAdmin() : Navigate(page.redirect)}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
-                                {page}
+                                {page.text}
                             </Button>
                         ))}
                     </Box>

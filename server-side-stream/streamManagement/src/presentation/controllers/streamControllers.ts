@@ -145,4 +145,78 @@ export const searchVideosAndProfile = async (req: Request, res: Response) => {
         console.log(error);
         res.status(500).json({ status: false, message: error.message || "internal server error" })
     }
-} 
+}
+
+
+export const addReportSubmit = async (req: Request, res: Response) => {
+    try {
+        res.status(200).json(await videoPost.addReportSubmit(req.body))
+    } catch (error: any) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" })
+    }
+}
+
+export const getReportsBySection = async (req: Request, res: Response) => {
+    try {
+        const section = JSON.parse(req.query.query as string).Section
+        res.status(200).json(await videoPost.getReportsBySection(section))
+    } catch (error: any) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" })
+    }
+}
+
+export const getBlockedVideos = async (req: Request, res: Response) => {
+    try {
+        res.status(200).json(await videoPost.getBlockedVideos())
+    } catch (error: any) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" })
+    }
+}
+
+export const blockContentVisiblity = async (req: Request, res: Response) => {
+    try {
+        res.status(200).json(await videoPost.blockContentVisiblity(req.body.LinkId, req.body.Section, req.body.reportId))
+    } catch (error: any) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" })
+    }
+}
+
+export const changeVisiblityContent = async (req: Request, res: Response) => {
+    try {
+        res.status(200).json(await videoPost.changeVisiblityContent(req.body.LinkId, req.body.Section))
+    } catch (error: any) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" })
+    }
+}
+
+export const getCategory = async (req: Request, res: Response) => {
+    try {
+        res.status(200).json(await videoPost.getCategory())
+    } catch (error: any) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" })
+    }
+}
+
+export const blockcategory = async (req: Request, res: Response) => {
+    try {
+        res.status(200).json(await videoPost.blockcategory(req.body.cateId))
+    } catch (error: any) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" })
+    }
+}
+
+export const addCategory = async (req: Request, res: Response) => {
+    try {
+        res.status(200).json(await videoPost.addCategory(req.body))
+    } catch (error: any) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" })
+    }
+}

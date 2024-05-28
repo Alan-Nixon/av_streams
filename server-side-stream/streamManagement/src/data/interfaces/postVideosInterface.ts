@@ -1,5 +1,6 @@
 import { responseObject } from "../../domain/interfaces/video_post_interface/videoPostInterface";
 import { IPost } from "./postModelInterface";
+import { IReport } from "./videoModelInterface";
 
 export interface postDataRepoInterface {
     Title: string,
@@ -24,5 +25,14 @@ export interface post_video_repo_interface {
     getVideosWithId(videoId: string): Promise<responseObject>;
     getMostWatchedVideoUser(userId: string): Promise<responseObject>;
     getPremiumVideos(): Promise<responseObject>;
-    searchVideosAndProfile(search:string):Promise<responseObject>;
+    searchVideosAndProfile(search: string): Promise<responseObject>;
+    addReportSubmit(Data: IReport): Promise<responseObject>;
+    getReportsBySection(section: string): Promise<responseObject>;
+    getBlockedVideos(): Promise<responseObject>;
+    blockContentVisiblity(LinkId: string, Section: string, reportId: string): Promise<responseObject>;
+    changeVisiblityContent(LinkId: string, Section: string): Promise<responseObject>;
+    getCategory(): Promise<responseObject>;
+    blockcategory(cateId: string): Promise<responseObject>;
+    addCategory(Data: Object): Promise<responseObject>;
+    returnErrorCatch(message: any): responseObject;
 }

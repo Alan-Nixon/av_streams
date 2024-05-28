@@ -8,6 +8,7 @@ export interface IPost extends Document {
     channelName:string,
     userId:string,
     likes:string,
+    Visiblity:boolean,
     likesArray:string[],
     dislikes:string,
     Time:string

@@ -11,6 +11,7 @@ const videoSchema: Schema<IVideo> = new Schema({
     shorts: { type: Boolean, default: false },
     channelName: { type: String },
     Thumbnail: { type: String },
+    Visiblity: { type: Boolean, default: true },
     Views: { type: String, default: "0" },
     Premium: { type: Boolean, default: false },
     likes: { type: String },

@@ -1,14 +1,15 @@
-import NavBar from './NavBar'
-import SideBar from './SideBar'
-import Content from './helpers/Content'
+import NavBar from '../layout/NavBar'
+import SideBar from '../layout/SideBar'
+import Content from '../helpers/Content'
 import React, { useEffect, useState } from 'react'
-import { BannerInterfaceHome, postInterface, videoInterface } from '../../../Functions/interfaces'
-import { getCommentByCate } from '../../../Functions/streamFunctions/commentManagement'
-import { getAllPosts, getAllVideos } from '../../../Functions/streamFunctions/streamManagement'
-import { joinCommentWithpost } from '../../../Functions/commonFunctions'
-import { useUser } from '../../../UserContext'
-import { ShowPosts } from './helpers/HelperComponents'
+import { BannerInterfaceHome, categoryInterface, postInterface, videoInterface } from '../../../../Functions/interfaces'
+import { getCommentByCate } from '../../../../Functions/streamFunctions/commentManagement'
+import { getAllPosts, getAllVideos } from '../../../../Functions/streamFunctions/streamManagement'
+import { joinCommentWithpost } from '../../../../Functions/commonFunctions'
+import { useUser } from '../../../../UserContext'
+import { ShowPosts } from '../helpers/HelperComponents'
 import { useNavigate } from 'react-router-dom'
+import { getCategory } from '../../../../Functions/streamFunctions/adminStreamFunction'
 
 function Home() {
     const [banner, setBanner] = useState<BannerInterfaceHome | null>(null)
@@ -19,7 +20,11 @@ function Home() {
     const Navigate = useNavigate()
 
     useEffect(() => {
-        setCateName(["Gaming", "Educational", "Music", 'Sports'])
+        getCategory().then(({ data }) => {
+            data = data.filter((item: categoryInterface) => item.Display)
+            setCateName(data.map((item: categoryInterface) => item.categoryName));
+
+        })
 
         const Banners: BannerInterfaceHome = {
             bigBanner: '/images/gtaSeaCar.jpeg',
@@ -33,7 +38,7 @@ function Home() {
         setBanner(Banners)
 
         // getBanners
-         
+
         getAllVideos(false).then(videos => {
             setTrending(videos);
         })

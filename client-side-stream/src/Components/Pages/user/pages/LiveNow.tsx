@@ -1,6 +1,6 @@
 import React from 'react'
-import NavBar from './NavBar'
-import SideBar from './SideBar'
+import NavBar from '../layout/NavBar'
+import SideBar from '../layout/SideBar'
 
 function LiveNow() {
     return (

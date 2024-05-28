@@ -1,11 +1,11 @@
 import React from 'react'
-import { chatsInterface } from '../interfaces'
+import { chatHomeIterface, } from '../interfaces'
 
 
-export default function ChatWindow({ chats, singleChatopen }: { chats: chatsInterface[], singleChatopen: () => void }) {
+function ChatWindow({ chats, singleChatopen, userDetails }: chatHomeIterface) {
     return (
         <div>
-            <section className="flex fixed top-5 flex-col w-full rounded-md justify-center antialiased dark:bg-gray-800 text-gray-600 min-h-[95vh] max-h-[720px] p-4">
+            <section className="flex fixed top-5 flex-col rounded-md justify-center antialiased dark:bg-gray-800 text-gray-600 min-h-[95vh] max-h-[720px] p-4">
                 <div className="h-auto">
                     <div className='w-full bg-white rounded-lg'>
                         <header className="pt-6 pb-4 px-5 border-b border-gray-200">
@@ -17,7 +17,7 @@ export default function ChatWindow({ chats, singleChatopen }: { chats: chatsInte
                                     </a>
                                     <div className="pr-1">
                                         <a className="inline-flex text-gray-800 hover:text-gray-900" href="#0">
-                                            <h2 className="text-xl leading-snug font-bold">Lauren Marsano</h2>
+                                            <h2 className="text-xl leading-snug font-bold">{userDetails.channelName}</h2>
                                         </a>
                                         <a className="block text-sm font-medium hover:text-indigo-500" href="#0">@lauren.mars</a>
                                     </div>
@@ -34,7 +34,7 @@ export default function ChatWindow({ chats, singleChatopen }: { chats: chatsInte
 
                         </header>
                     </div>
-                    <div style={{ overflowY: 'scroll', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }} className="relative mx-auto mt-2 bg-white max-h-[70vh] shadow-lg rounded-lg">
+                    <div style={{ overflowY: 'scroll', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }} className="relative mx-auto mt-2 bg-white max-h-[73vh] shadow-lg rounded-lg">
 
                         <div className="py-3 px-5">
                             <h3 className=" overflow-y-auto text-xs font-semibold uppercase text-gray-400 mb-1">Chats</h3>
@@ -68,3 +68,4 @@ export default function ChatWindow({ chats, singleChatopen }: { chats: chatsInte
     )
 }
 
+export default React.memo(ChatWindow)

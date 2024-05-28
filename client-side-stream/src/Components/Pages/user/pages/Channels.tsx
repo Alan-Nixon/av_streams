@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import NavBar from './NavBar'
-import SideBar from './SideBar'
-import Content from './helpers/Content'
-import { channelInterface, postInterface, videoInterface } from '../../../Functions/interfaces'
-import { getPostFromUser } from '../../../Functions/streamFunctions/streamManagement'
+import NavBar from '../layout/NavBar'
+import SideBar from '../layout/SideBar'
+import Content from '../helpers/Content'
+import { channelInterface, postInterface, videoInterface } from '../../../../Functions/interfaces'
+import { getPostFromUser } from '../../../../Functions/streamFunctions/streamManagement'
 import { useNavigate } from 'react-router-dom'
-import { getPopularChannels, getTrendingChannels } from '../../../Functions/userFunctions/userManagement'
-import { ShowPosts } from './helpers/HelperComponents'
+import { getPopularChannels, getTrendingChannels } from '../../../../Functions/userFunctions/userManagement'
+import { ShowPosts } from '../helpers/HelperComponents'
 
 function Channels() {
   const [popular, setPopular] = useState<channelInterface[]>([])

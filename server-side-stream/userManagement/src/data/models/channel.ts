@@ -28,10 +28,10 @@ export interface IChannel extends Document {
     userName: string;
     channelName: string;
     profileImage: string;
-    Followers: string[] 
+    Followers: string[]
     Streams: IVideos[]
-    Videos: IVideos[] 
-    Shorts: IVideos[] 
+    Videos: IVideos[]
+    Shorts: IVideos[]
     premiumCustomer: boolean;
     subscription: SubscriptionInterface;
 }
@@ -61,6 +61,24 @@ const channelSchema: Schema<IChannel> = new Schema<IChannel>({
 });
 
 
+channelSchema.post('findOne', async function (data, next) {
+    try {
+      if (data && data.subscription && data.subscription.expires !== "") {
+        const expiringDate = new Date(data.subscription.expires).getTime();
+        const currentDate = new Date().getTime();
+        const balance = Math.ceil((expiringDate - currentDate) / (1000 * 60 * 60 * 24));
+  
+        if (balance < 0) {
+          data.subscription = subscriptionDefault;
+          await data.save();
+          console.log('Subscription reset to default due to expiration.');
+        }
+      }
+    } catch (error) {
+      console.error('Error in post findOne middleware:', error);
+    }
+    next();
+  });
 
 
 export const ChannelModel = mongoose.model<IChannel>('channel', channelSchema);

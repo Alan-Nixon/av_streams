@@ -1,4 +1,5 @@
 import { Request } from 'express'
+import { IReport } from '../../../data/interfaces/videoModelInterface'
 
 
 export interface postFilesnFeilds {
@@ -45,4 +46,12 @@ export interface videoPostInterface {
     getMostWatchedVideoUser(userId: string): Promise<responseObject>;
     getPremiumVideos(): Promise<responseObject>;
     searchVideosAndProfile(search: string): Promise<responseObject>;
+    addReportSubmit(Data: IReport): Promise<responseObject>;
+    getReportsBySection(section: string): Promise<responseObject>;
+    getBlockedVideos(): Promise<responseObject>;
+    blockContentVisiblity(LinkId: string, Section: string, reportId: string): Promise<responseObject>;
+    changeVisiblityContent(LinkId: string, Section: string): Promise<responseObject>;
+    getCategory(): Promise<responseObject>;
+    blockcategory(cateId: string): Promise<responseObject>;
+    addCategory(Data: Object): Promise<responseObject>;
 } 

@@ -126,6 +126,7 @@ export const isPremiumUser = async (userId: string) => {
 }
 
 export const isFollowing = async (userId: string, channelUserId: string) => {
+    if (!userId) { return { status: false } }
     const { data } = await axiosApiGateWay.get('/userManagement/isFollowing?userId=' + userId + '&channelUserId=' + channelUserId)
     return data.data
 }

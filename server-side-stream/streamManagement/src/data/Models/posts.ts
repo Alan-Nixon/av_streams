@@ -11,6 +11,7 @@ const postSchema: Schema<IPost> = new Schema({
     likes: { type: String },
     likesArray: { type: [String], default: [] },
     dislikes: { type: String },
+    Visiblity: { type: Boolean, default: true },
     Time: { type: String }
 })
 

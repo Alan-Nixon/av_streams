@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import NavBar from './NavBar'
-import SideBar from './SideBar'
-import Content from './helpers/Content'
+import NavBar from '../layout/NavBar'
+import SideBar from '../layout/SideBar'
+import Content from '../helpers/Content'
 import { useNavigate } from 'react-router-dom';
-import { searchVideosAndProfile } from '../../../Functions/streamFunctions/streamManagement';
+import { searchVideosAndProfile } from '../../../../Functions/streamFunctions/streamManagement';
 
 function Search() {
     const [query, setQuery] = useState('');

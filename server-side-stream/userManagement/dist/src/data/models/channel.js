@@ -22,6 +22,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChannelModel = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
@@ -49,5 +58,25 @@ const channelSchema = new mongoose_1.Schema({
     Shorts: { type: [VideoSchema], default: [], required: true },
     premiumCustomer: { type: Boolean, default: false, required: true },
     subscription: { type: Object, default: subscriptionDefault, required: true }
+});
+channelSchema.post('findOne', function (data, next) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            if (data && data.subscription && data.subscription.expires !== "") {
+                const expiringDate = new Date(data.subscription.expires).getTime();
+                const currentDate = new Date().getTime();
+                const balance = Math.ceil((expiringDate - currentDate) / (1000 * 60 * 60 * 24));
+                if (balance < 0) {
+                    data.subscription = subscriptionDefault;
+                    yield data.save();
+                    console.log('Subscription reset to default due to expiration.');
+                }
+            }
+        }
+        catch (error) {
+            console.error('Error in post findOne middleware:', error);
+        }
+        next();
+    });
 });
 exports.ChannelModel = mongoose_1.default.model('channel', channelSchema);

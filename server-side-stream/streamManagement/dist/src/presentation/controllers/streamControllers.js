@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.searchVideosAndProfile = exports.getPremiumVideos = exports.getMostWatchedVideoUser = exports.getVideosWithId = exports.getAllVideos = exports.getUserVideos = exports.getName = exports.getPostFromUser = exports.likePost = exports.getAllPosts = exports.deletePostFromCloudinary = exports.getAllpostOfUser = exports.uploadPost = exports.uploadVideo = exports.stopStream = void 0;
+exports.addCategory = exports.blockcategory = exports.getCategory = exports.changeVisiblityContent = exports.blockContentVisiblity = exports.getBlockedVideos = exports.getReportsBySection = exports.addReportSubmit = exports.searchVideosAndProfile = exports.getPremiumVideos = exports.getMostWatchedVideoUser = exports.getVideosWithId = exports.getAllVideos = exports.getUserVideos = exports.getName = exports.getPostFromUser = exports.likePost = exports.getAllPosts = exports.deletePostFromCloudinary = exports.getAllpostOfUser = exports.uploadPost = exports.uploadVideo = exports.stopStream = void 0;
 const video_post_usecase_1 = require("../../domain/usecases/video_post_use_cases/video_post_usecase");
 const userauthenticationforavstreams_1 = require("userauthenticationforavstreams");
 const user_random_name_generator_1 = require("user_random_name_generator");
@@ -166,3 +166,84 @@ const searchVideosAndProfile = (req, res) => __awaiter(void 0, void 0, void 0, f
     }
 });
 exports.searchVideosAndProfile = searchVideosAndProfile;
+const addReportSubmit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        res.status(200).json(yield video_post_usecase_1.videoPost.addReportSubmit(req.body));
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" });
+    }
+});
+exports.addReportSubmit = addReportSubmit;
+const getReportsBySection = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const section = JSON.parse(req.query.query).Section;
+        res.status(200).json(yield video_post_usecase_1.videoPost.getReportsBySection(section));
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" });
+    }
+});
+exports.getReportsBySection = getReportsBySection;
+const getBlockedVideos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        res.status(200).json(yield video_post_usecase_1.videoPost.getBlockedVideos());
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" });
+    }
+});
+exports.getBlockedVideos = getBlockedVideos;
+const blockContentVisiblity = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        res.status(200).json(yield video_post_usecase_1.videoPost.blockContentVisiblity(req.body.LinkId, req.body.Section, req.body.reportId));
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" });
+    }
+});
+exports.blockContentVisiblity = blockContentVisiblity;
+const changeVisiblityContent = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        res.status(200).json(yield video_post_usecase_1.videoPost.changeVisiblityContent(req.body.LinkId, req.body.Section));
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" });
+    }
+});
+exports.changeVisiblityContent = changeVisiblityContent;
+const getCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        res.status(200).json(yield video_post_usecase_1.videoPost.getCategory());
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" });
+    }
+});
+exports.getCategory = getCategory;
+const blockcategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        res.status(200).json(yield video_post_usecase_1.videoPost.blockcategory(req.body.cateId));
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" });
+    }
+});
+exports.blockcategory = blockcategory;
+const addCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        res.status(200).json(yield video_post_usecase_1.videoPost.addCategory(req.body));
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" });
+    }
+});
+exports.addCategory = addCategory;

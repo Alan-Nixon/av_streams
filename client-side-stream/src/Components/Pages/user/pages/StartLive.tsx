@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import NavBar from './NavBar';
-import { sendStopRequest } from '../../../Functions/streamFunctions/streamManagement';
+import NavBar from '../layout/NavBar';
+import { sendStopRequest } from '../../../../Functions/streamFunctions/streamManagement';
 
 function StartLive() {
     const videoRef = useRef<HTMLVideoElement>(null);

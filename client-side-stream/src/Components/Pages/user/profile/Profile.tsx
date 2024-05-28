@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useUser } from '../../../../UserContext'
-import NavBar from '../NavBar'
+import NavBar from '../layout/NavBar'
 import { changeChannelName, changeProfileData, changeProfileImage, isPremiumUser } from '../../../../Functions/userFunctions/userManagement';
 import Swal from 'sweetalert2';
 import { Data, changeEvent, responseIntefraceImage } from '../../../../Functions/interfaces';
@@ -9,7 +9,7 @@ import Mystreams from './Mystreams';
 import MyVideos from './Myvideos';
 import MyPosts from './MyPosts';
 import WalletSection from './Wallet';
-import Followers from '../Followers';
+import Followers from '../pages/Followers';
 import WatchHistory from './WatchHistory';
 
 
@@ -179,7 +179,7 @@ const ProfileSection = () => {
             </div>
             <div className="afterResponsiveProfileChangeIcon">
                 <input className='hidden' onChange={setImage} ref={fileInputRef} type="file" accept='image/*' />
-                <button onClick={() => { if (fileInputRef.current) { fileInputRef.current.click() } }} style={{ marginLeft: "16%" }} className="mt-5 flex inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
+                <button onClick={() => { if (fileInputRef.current) { fileInputRef.current.click() } }} style={{ marginLeft: "16%" }} className="mt-5 flex  items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
                     <span className="flex px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                         Change profile
                     </span>
@@ -228,7 +228,7 @@ const ProfileSection = () => {
         </div>
         <div className="beforeResponsiveProfileChangeIcon">
             <input className='hidden' onChange={setImage} ref={fileInputRef} type="file" accept='image/*' />
-            <button onClick={() => { if (fileInputRef.current) { fileInputRef.current.click() } }} style={{ marginLeft: "16%" }} className="mt-5 flex inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
+            <button onClick={() => { if (fileInputRef.current) { fileInputRef.current.click() } }} style={{ marginLeft: "16%" }} className="mt-5 flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
                 <span className="flex px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                     Change profile
                 </span>
