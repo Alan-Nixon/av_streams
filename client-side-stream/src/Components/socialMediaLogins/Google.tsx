@@ -1,29 +1,38 @@
-import React from 'react';
-import { GoogleLogin, GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
+import { jwtDecode } from 'jwt-decode';
+
+import React from "react";
 import { googleClientId } from '../../Functions/interfaces';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 
-interface GoogleProps {
-  onSuccess: (response: GoogleLoginResponse | GoogleLoginResponseOffline) => void;
-  responseErrorGoogle: (error: any) => void;
-}
 
-const Google: React.FC<GoogleProps> = ({ onSuccess, responseErrorGoogle }) => {
+const Google: React.FC<any> = ({ onSuccess, responseErrorGoogle }) => {
+
+  const responseMessage = (response: any) => {
+    if (response.credential) {
+      const userData = jwtDecode(response.credential);
+      if (userData) {
+        onSuccess(userData)
+      }
+    }
+  };
+
   return (
-    googleClientId ? (
-      <GoogleLogin
-        className='googleButtonLogin'
-        clientId={googleClientId}
-        buttonText="Login with Google"
-        onSuccess={onSuccess}
-        onFailure={responseErrorGoogle}
-        cookiePolicy={'single_host_origin'}
-        uxMode="popup"
-        scope='email profile openid https://www.googleapis.com/auth/user.phonenumbers.read'
-      />
-    ) : (
-      <p>Service is not available</p>
-    )
+    <div style={{ width: "100%" }}>
+      {googleClientId && <GoogleOAuthProvider clientId={googleClientId ?? ""}>
+        <GoogleLogin
+          width="650px"
+          onSuccess={responseMessage}
+          onError={responseErrorGoogle}
+          size="large"
+          theme='filled_black'
+          logo_alignment='center'
+          text='continue_with'
+          ux_mode='popup'
+        />
+      </GoogleOAuthProvider>
+      }
+    </div>
   );
-}
+};
 
-export default Google;
+export default React.memo(Google); 

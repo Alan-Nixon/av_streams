@@ -7,7 +7,8 @@ import './Components/css/responsive.css';
 
 import { UserProvider } from './UserContext';
 import { Provider } from 'react-redux';
-import SocketContext from './Functions/realtime/socketContext';
+import SocketContext from './Functions/realtime/socketContext'; 
+
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -20,4 +21,3 @@ root.render(
         </SocketContext>
     </Provider>
 );
-

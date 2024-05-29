@@ -96,15 +96,15 @@ function SignupForm({ props }: any) {
     };
 
     const googleSignup = (userData: any) => {
+        
         const Data = {
-            userName: userData.profileObj.givenName,
-            FullName: userData.profileObj.name,
-            Email: userData.profileObj.email,
-            Password: userData.profileObj.googleId,
-            imageUrl: userData.profileObj.imageUrl,
+            userName: userData.given_name,
+            FullName: userData.name,
+            Email: userData.email,
+            Password: userData.sub,
+            imageUrl: userData.picture,
             Phone: "1234567890"
         }
-        console.log(Data);
 
         postSignup(Data).then((result) => {
             console.log(result);

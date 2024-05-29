@@ -49,7 +49,13 @@ export default function Login() {
     };
 
     const googleLogin = (response: any) => {
-        PostLogin({ Email: response.profileObj.email, Password: response.profileObj.googleId }).then((result) => {
+        const obj = {
+            Email: response.email,
+            Password: response.sub
+        }
+        console.log(obj);
+
+        PostLogin(obj).then((result) => {
             if (result.status) {
                 Cookies.set("userToken", result.token)
                 setUserData(result.userData)
@@ -111,10 +117,13 @@ export default function Login() {
 
                         <div id="dropdown" className={`googleButtonLogin ${hideIcons ? "hidden" : ""} z-10 mt-2  bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700`}>
                             <ul className=" text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-                                <li>
+                                <li className='flex mt-1'>
+                                    <div className="mx-auto">
                                     <Google onSuccess={googleLogin} responseErrorGoogle={responseErrorGoogle} />
+
+                                    </div>
                                 </li>
-                                <li>
+                                <li className='mt-2'>
                                     <Linkedin onSuccess={onSuccess} onError={onError} />
                                 </li>
                             </ul>

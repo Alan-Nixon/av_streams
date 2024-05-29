@@ -15,6 +15,7 @@ import { useSocket } from './Functions/realtime/socketContext';
 import { useUser } from './UserContext';
 import { Toaster } from 'react-hot-toast'
 import { toastFunction } from './Components/messageShowers/ToastFunction';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const Error = lazy(() => import('./Components/Pages/user/pages/Error'));
 
@@ -96,48 +97,51 @@ function App() {
 
   return (
     <Router>
-      <SuspenceComponent>
-        <Routes>
 
-          <Route path="/" element={<Home />} />
-          <Route path='/forgetPassword' element={<ForgetPassword />} />
-          <Route path='/LiveNow' element={<LiveNow />} />
-          <Route path='/Videos' element={<Videos />} />
-          <Route path='/Shorts' element={<Shorts />} />
-          <Route path='/Channels' element={<Channels />} />
-          <Route path='/FullVideo' element={<FullVideo />} />
-          <Route path='/channel' element={<Channel />} />
-          <Route path='/search' element={<Search />} />
 
-          <Route path='/subscription' element={userAuthenticated ? <Subscription /> : <Navigate to="/login" />} />
-          <Route path='/profile' element={userAuthenticated ? <Profile /> : <Navigate to="/login" />} />
-          <Route path='/Login' element={userAuthenticated ? <Navigate to='/' /> : <Login />} />
-          <Route path='/Signup' element={userAuthenticated ? <Navigate to='/' /> : <Signup />} />
-          <Route path='/startLive' element={userAuthenticated ? <StartLive /> : <Navigate to='/' />} />
+        <SuspenceComponent>
+          <Routes>
 
-          <Route path='/admin/adminLogin' element={adminAuthenticated ? <Navigate to="/admin" /> : <AdminLogin />} />
-          <Route path='/admin' element={adminAuthenticated ? <AdminDashboard /> : <Navigate to="/admin/adminLogin" />} />
-          <Route path='/admin/userManagement' element={adminAuthenticated ? <UserManagement /> : <Navigate to="/admin/adminLogin" />} />
-          <Route path='/admin/categoryManagement' element={adminAuthenticated ? <CategoryManagement /> : <Navigate to="/admin/adminLogin" />} />
-          <Route path='/admin/bannerManagement' element={adminAuthenticated ? <BannerManagement /> : <Navigate to="/admin/adminLogin" />} />
-          <Route path='/admin/reportManagement' element={adminAuthenticated ? <ReportManagement /> : <Navigate to="/admin/adminLogin" />} />
-          <Route path='/admin/offerManagement' element={adminAuthenticated ? <OfferManagement /> : <Navigate to="/admin/adminLogin" />} />
+            <Route path="/" element={<Home />} />
+            <Route path='/forgetPassword' element={<ForgetPassword />} />
+            <Route path='/LiveNow' element={<LiveNow />} />
+            <Route path='/Videos' element={<Videos />} />
+            <Route path='/Shorts' element={<Shorts />} />
+            <Route path='/Channels' element={<Channels />} />
+            <Route path='/FullVideo' element={<FullVideo />} />
+            <Route path='/channel' element={<Channel />} />
+            <Route path='/search' element={<Search />} />
 
-          <Route path='*' element={<Error />} />
+            <Route path='/subscription' element={userAuthenticated ? <Subscription /> : <Navigate to="/login" />} />
+            <Route path='/profile' element={userAuthenticated ? <Profile /> : <Navigate to="/login" />} />
+            <Route path='/Login' element={userAuthenticated ? <Navigate to='/' /> : <Login />} />
+            <Route path='/Signup' element={userAuthenticated ? <Navigate to='/' /> : <Signup />} />
+            <Route path='/startLive' element={userAuthenticated ? <StartLive /> : <Navigate to='/' />} />
 
-        </Routes>
-      </SuspenceComponent>
+            <Route path='/admin/adminLogin' element={adminAuthenticated ? <Navigate to="/admin" /> : <AdminLogin />} />
+            <Route path='/admin' element={adminAuthenticated ? <AdminDashboard /> : <Navigate to="/admin/adminLogin" />} />
+            <Route path='/admin/userManagement' element={adminAuthenticated ? <UserManagement /> : <Navigate to="/admin/adminLogin" />} />
+            <Route path='/admin/categoryManagement' element={adminAuthenticated ? <CategoryManagement /> : <Navigate to="/admin/adminLogin" />} />
+            <Route path='/admin/bannerManagement' element={adminAuthenticated ? <BannerManagement /> : <Navigate to="/admin/adminLogin" />} />
+            <Route path='/admin/reportManagement' element={adminAuthenticated ? <ReportManagement /> : <Navigate to="/admin/adminLogin" />} />
+            <Route path='/admin/offerManagement' element={adminAuthenticated ? <OfferManagement /> : <Navigate to="/admin/adminLogin" />} />
+
+            <Route path='*' element={<Error />} />
+
+          </Routes>
+        </SuspenceComponent> 
     </Router>
   );
 
 }
 
-gapi.load("client:auth2", () => {
-  gapi.client.init({
-    clientId: googleClientId,
-    plugin_name: "chat"
-  })
-})
+// gapi.load("client:oauth2", () => {
+//   gapi.client.init({
+//     clientId: googleClientId,
+//     plugin_name: "chat"
+//   })
+// })
+
 
 
 

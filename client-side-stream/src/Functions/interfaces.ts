@@ -3,21 +3,22 @@ declare global {
     interface Window {
         Swal: any
         Razorpay: any
+        // google:any
     }
 }
 
 
-export const googleClientId = process.env.REACT_APP_CLIENT_ID
+export const googleClientId = process.env.REACT_APP_CLIENT_ID 
 export const linkedClientId = process.env.REACT_APP_LINKEDIN_CLIENT_ID
 export const clientSideUrl = process.env.REACT_APP_CLIENT_SIDE_URL
 export const RecaptchaSecret = process.env.REACT_APP_RECAPTCHA_KEY
-
+ 
 
 export type SetProgressFunction = Dispatch<SetStateAction<number>>;
 export type changeEvent = React.ChangeEvent<HTMLInputElement>
 
 
-
+ 
 
 export interface Data {
     _id?: string;

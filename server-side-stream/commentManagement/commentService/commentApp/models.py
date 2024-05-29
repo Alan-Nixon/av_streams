@@ -4,8 +4,7 @@ import pymongo
 import os
 
 client = pymongo.MongoClient(os.getenv("MONGO_URI"))
-db = client["streamManagement"]
-Posts = db["posts"]
+db = client["commentManagement"]
 Comment = db["comments"]
 
 
@@ -55,10 +54,7 @@ def get_all_comments_grouped(cate):
         grouped_objects[obj["Section"]].append(obj)
     return grouped_objects.get(cate, [])
 
-
-def get_all_docs():
-    return list(Posts.find())
-
+ 
 
 def upload_reply_comment(Data):
     Comment.update_one(
