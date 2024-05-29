@@ -23,7 +23,6 @@ function Home() {
         getCategory().then(({ data }) => {
             data = data.filter((item: categoryInterface) => item.Display)
             setCateName(data.map((item: categoryInterface) => item.categoryName));
-
         })
 
         const Banners: BannerInterfaceHome = {
