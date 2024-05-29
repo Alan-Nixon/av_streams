@@ -4,10 +4,9 @@ import { Pagination } from '../helpers/HelperComponents'
 import { useUser } from '../../../../UserContext'
 import { uploadToS3Bucket } from '../../../../Functions/AWS_s3_bucket'
 import { getUserVideos, uploadVideo } from '../../../../Functions/streamFunctions/streamManagement'
-import Swal from 'sweetalert2'
 import { isPremiumUser } from '../../../../Functions/userFunctions/userManagement'
 import { toast } from 'react-toastify'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 function MyVideos() {
     const [progress, setProgress] = useState<number>(-1)
@@ -205,13 +204,13 @@ function MyVideos() {
                             {shorts && shorts.length !== 0 ? (
                                 shorts.map((short) => (
                                     <div style={{ maxWidth: "45%" }} className="max-w-xs hover:bg-gray-900 ml-2 mt-3 rounded-lg shadow " >
-                                        <a href="#">
+                                        <p>
                                             <img className="w-full rounded-t-lg" src={short.Thumbnail} alt="" />
-                                        </a>
+                                        </p>
                                         <div className="p-3">
-                                            <a href="#">
+                                            <p>
                                                 <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{short.Title}</h5>
-                                            </a>
+                                            </p>
                                             <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{short.Description}</p>
                                         </div>
                                     </div >

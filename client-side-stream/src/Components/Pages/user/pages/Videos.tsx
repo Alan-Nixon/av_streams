@@ -21,7 +21,8 @@ function Videos() {
 
 
     useEffect(() => {
-        getBannerByLocation('videos').then(({ data }) => {
+        
+        getBannerByLocation('videos').then(({data}) => {
             setCarousel(data)
         })
 
@@ -34,7 +35,7 @@ function Videos() {
     useEffect(() => {
         const crInterval = setTimeout(() => setCurrentCarousel(currentCarousel === carousel.length - 1 ? 0 : currentCarousel + 1), 4000)
         return () => clearTimeout(crInterval)
-    }, [currentCarousel])
+    }, [currentCarousel,carousel.length])
 
     const showPremiumIfNot = (videoId: string) => {
         isPremiumUser(user?._id || "").then(res => {
@@ -67,9 +68,9 @@ function Videos() {
                 <div className="m-3">
                     <div id="default-carousel" className="relative" data-carousel="slide">
                         <div className="relative overflow-hidden rounded-lg" style={{ height: "500px" }}>
-                            {carousel.map((item, idx) => {
+                            {carousel && carousel?.length > 0 && carousel.map((item, idx) => {
                                 return (<div key={idx} className={`${currentCarousel === idx ? "" : 'hidden'} duration-700 ease-in-out`} data-carousel-item>
-                                    <img src={item.imgUrl} className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="..." />
+                                    <img src={item?.imgUrl} className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="..." />
                                 </div>)
                             })}
                         </div>

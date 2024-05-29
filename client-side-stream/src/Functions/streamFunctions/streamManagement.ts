@@ -1,5 +1,5 @@
 import { axiosApiGateWay, calculateProgress, getTokenCookie } from "../commonFunctions";
-import { SetProgressFunction, postInterfaceUpload, propsComment, reportType } from "../interfaces";
+import { SetProgressFunction, postInterfaceUpload, reportType } from "../interfaces";
 
 
 export const sendStopRequest = async () => {
@@ -22,7 +22,7 @@ export const uploadVideo = async (videoData: Object, Thumbnail: File) => {
     } catch (error) {
         console.error(error);
     }
-};
+}; 
 
 export const uploadPost = async (postData: postInterfaceUpload, setProgress: SetProgressFunction) => {
     const formData = new FormData()

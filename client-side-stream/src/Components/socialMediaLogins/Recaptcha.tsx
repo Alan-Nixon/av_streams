@@ -20,7 +20,7 @@ const Recaptcha = ({ showCaptcha, validate }: captchaPropsInterface) => {
         if (isVerified) {
             validate(true)
         } else {
-            alert("please select")
+            setError("not selected recaptcha")
         }
     }
 
