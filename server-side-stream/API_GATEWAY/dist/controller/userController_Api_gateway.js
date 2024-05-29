@@ -90,6 +90,7 @@ function makeGetRequest(req, res) {
             }
         }
         catch (error) {
+            console.log(error);
             if (error.response && error.response.status === 401) {
                 console.log("Unauthorized error occurre", req.params.Route);
                 sendResponse(res, 204, { message: "Unauthorized", user: "isAdminAuth" ? false : true });

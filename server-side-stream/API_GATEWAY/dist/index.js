@@ -14,6 +14,7 @@ const streamRoutes_1 = __importDefault(require("./Routes/streamRoutes"));
 const commentRoutes_1 = __importDefault(require("./Routes/commentRoutes"));
 const socket_io_1 = require("socket.io");
 const app = (0, express_1.default)();
+console.log(process.env.CLIENT_SIDE_URL);
 app.use(express_1.default.json());
 app.use((0, cors_1.default)({
     origin: process.env.CLIENT_SIDE_URL,

@@ -12,17 +12,18 @@ import { Server, Socket } from 'socket.io';
 
 const app: Application = express();
 
+console.log(process.env.CLIENT_SIDE_URL);
 
 app.use(express.json())
 app.use(cors({
-    origin: process.env.CLIENT_SIDE_URL,
+    origin: process.env.CLIENT_SIDE_URL, 
     optionsSuccessStatus: 200
 }))
 
 app.use(morgan('dev'))
 
 app.use('/userManagement', router)
-app.use('/streamManagement', streamRouter)
+app.use('/streamManagement', streamRouter) 
 app.use('/commentManagement', commentRouter)
 
 const server = http.createServer(app)

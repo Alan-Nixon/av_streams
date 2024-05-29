@@ -75,6 +75,8 @@ async function makeGetRequest(req: Request, res: Response) {
             sendResponse(res, 200, response.data);
         }
     } catch (error: any) {
+        console.log(error);
+        
         if (error.response && error.response.status === 401) {
             console.log("Unauthorized error occurre", req.params.Route);
             sendResponse(res, 204, { message: "Unauthorized", user: "isAdminAuth" ? false : true });

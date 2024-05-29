@@ -33,7 +33,7 @@ class userDetails_useCase implements AutheuserDetailsInterface {
         } catch (error) {
             throw error;
         }
-    }
+    } 
 
     async isBlocked(userId: string) {
         return await user_authentication_layer.isBlocked(userId)
