@@ -37,10 +37,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const grpc = __importStar(require("@grpc/grpc-js"));
 const protoLoader = __importStar(require("@grpc/proto-loader"));
-const path_1 = __importDefault(require("path"));
 const ChangeUserDetails_Repositary_1 = require("../../data/Repositary/ChangeUserDetails_Repositary");
-const PROTO_PATH = path_1.default.resolve(__dirname + process.env.PATHTOPROTOFILE);
+const path_1 = __importDefault(require("path"));
+const PROTO_PATH = path_1.default.resolve(__dirname, "../protos/user_stream.proto");
 const packageDefinition = protoLoader.loadSync(PROTO_PATH);
+console.log(packageDefinition);
 const { UserStream } = grpc.loadPackageDefinition(packageDefinition);
 ;
 const server = new grpc.Server();

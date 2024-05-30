@@ -1,16 +1,22 @@
 import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
-import path from 'path'
+import fs from 'fs';
+
 import { changeUserRepositaryLayer } from '../../data/Repositary/ChangeUserDetails_Repositary';
+import path from 'path';
+
+ 
 
 
-const PROTO_PATH = path.resolve(__dirname + process.env.PATHTOPROTOFILE);
+const PROTO_PATH = path.resolve(__dirname,"../protos/user_stream.proto");
 const packageDefinition = protoLoader.loadSync(PROTO_PATH);
+console.log(packageDefinition);
+
 const { UserStream }: any = grpc.loadPackageDefinition(packageDefinition);;
 const server = new grpc.Server();
 const PORT: string = process.env.GRPC_PORT_NUMBER || "0.0.0.0:50051"
 
- 
+
 server.addService(UserStream.service, {
     GetChannelName: getChannelNameHandler,
     getUserByIdGRPC: getUserById,
@@ -18,6 +24,7 @@ server.addService(UserStream.service, {
     uploadVideoGRPC: uploadVideoGRPC,
     searchProfileGRPC: searchProfileGRPC
 });
+
 server.bindAsync(PORT, grpc.ServerCredentials.createInsecure(), (err, port) => {
     if (err) { console.error('Failed to bind server:', err); return; }
     console.log(`Grpc Server running on port ${port}`);

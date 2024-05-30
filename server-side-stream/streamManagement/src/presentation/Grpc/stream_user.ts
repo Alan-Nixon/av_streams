@@ -3,8 +3,10 @@ import * as protoLoader from '@grpc/proto-loader';
 import * as path from 'path';
 import { responseObject } from '../../domain/interfaces/video_post_interface/videoPostInterface';
 
-const PROTO_PATH = path.resolve(__dirname + process.env.PATHTOPROTO);
+const PROTO_PATH = path.resolve(__dirname,"../protos/user_stream.proto");
 const packageDefinition = protoLoader.loadSync(PROTO_PATH);
+console.log(packageDefinition);
+
 const grpcObject: any = grpc.loadPackageDefinition(packageDefinition);
 const { UserStream } = grpcObject;
 const PORT = process.env.GRPC_PORT || "undefined"
@@ -24,6 +26,7 @@ export const GetChannelNameFunction = (userId: string): Promise<string> => {
         });
     });
 };
+
 
 
 export const getUserByIdGRPC = (userId: string): Promise<string> => {
