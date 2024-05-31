@@ -41,7 +41,6 @@ const ChangeUserDetails_Repositary_1 = require("../../data/Repositary/ChangeUser
 const path_1 = __importDefault(require("path"));
 const PROTO_PATH = path_1.default.resolve(__dirname, "../protos/user_stream.proto");
 const packageDefinition = protoLoader.loadSync(PROTO_PATH);
-console.log(packageDefinition);
 const { UserStream } = grpc.loadPackageDefinition(packageDefinition);
 ;
 const server = new grpc.Server();

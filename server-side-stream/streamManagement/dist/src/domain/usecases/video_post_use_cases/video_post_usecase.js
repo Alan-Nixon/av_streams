@@ -21,6 +21,7 @@ class videoPostUseCase {
             try {
                 const data = yield (0, cloudinary_1.uploadImage)(Data.files.PostImage[0], "avstreamPosts");
                 const channelName = yield post_videos_Repositary_1.postVideosRepo.findChannelNameUsingId(user.id);
+                console.log(channelName, "we got channelName");
                 const sendData = {
                     Title: Data.fields.Title[0],
                     Description: Data.fields.Description[0],

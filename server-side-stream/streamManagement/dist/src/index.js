@@ -37,6 +37,7 @@ const morgan_1 = __importDefault(require("morgan"));
 const streamRoutes_1 = __importDefault(require("./presentation/Route/streamRoutes"));
 require("../config/Database");
 require("./presentation/Grpc/stream_user");
+require("./presentation/Rabbitmq/consumer");
 const app = express.default();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });

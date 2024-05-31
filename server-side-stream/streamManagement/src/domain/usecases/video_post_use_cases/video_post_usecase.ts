@@ -13,6 +13,8 @@ class videoPostUseCase implements videoPostInterface {
         try {
             const data = await uploadImage(Data.files.PostImage[0] as unknown as ImageData, "avstreamPosts")
             const channelName: string = await postVideosRepo.findChannelNameUsingId(user.id)
+            console.log(channelName, "we got channelName");
+
             const sendData: postDataInterface = {
                 Title: Data.fields.Title[0],
                 Description: Data.fields.Description[0],
@@ -32,7 +34,7 @@ class videoPostUseCase implements videoPostInterface {
 
     async getAllpostOfUser(req: Request) {
         try {
-            const data = getDataFromToken(getTokenFromRequest(req) || "") as payload
+            const data = getDataFromToken(getTokenFromRequest(req) || "") as payload;
             const posts = await postVideosRepo.postVideosRepo(data.id)
             return { status: true, message: "success", data: posts }
         } catch (error) {

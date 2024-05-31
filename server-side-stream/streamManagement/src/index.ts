@@ -8,7 +8,7 @@ import morgan from 'morgan';
 import router from './presentation/Route/streamRoutes';
 import '../config/Database'
 import './presentation/Grpc/stream_user'
- 
+import './presentation/Rabbitmq/consumer'
 
 const app = express.default();
 const server = http.createServer(app);

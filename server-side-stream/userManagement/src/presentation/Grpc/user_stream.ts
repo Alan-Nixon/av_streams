@@ -10,7 +10,6 @@ import path from 'path';
 
 const PROTO_PATH = path.resolve(__dirname,"../protos/user_stream.proto");
 const packageDefinition = protoLoader.loadSync(PROTO_PATH);
-console.log(packageDefinition);
 
 const { UserStream }: any = grpc.loadPackageDefinition(packageDefinition);;
 const server = new grpc.Server();

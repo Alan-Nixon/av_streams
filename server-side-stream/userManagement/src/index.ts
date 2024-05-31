@@ -6,7 +6,7 @@ import AdminRouter from './presentation/Routes/AdminRoutes'
 import morgan from 'morgan'
 import cors from 'cors'
 import '../src/presentation/Grpc/user_stream'
-
+import './presentation/RabbitMq/producer'
 
 const app: Application = express();
 const port = process.env.PORT || 8000; 

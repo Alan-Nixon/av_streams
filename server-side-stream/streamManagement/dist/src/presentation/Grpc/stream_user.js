@@ -23,13 +23,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.searchProfileGRPC = exports.uploadVideoGRPC = exports.getProfileLink = exports.getUserByIdGRPC = exports.GetChannelNameFunction = void 0;
+exports.searchProfileGRPC = exports.uploadVideoGRPC = exports.getProfileLink = exports.getUserByIdGRPC = void 0;
 const grpc = __importStar(require("@grpc/grpc-js"));
 const protoLoader = __importStar(require("@grpc/proto-loader"));
 const path = __importStar(require("path"));
 const PROTO_PATH = path.resolve(__dirname, "../protos/user_stream.proto");
 const packageDefinition = protoLoader.loadSync(PROTO_PATH);
-console.log(packageDefinition);
 const grpcObject = grpc.loadPackageDefinition(packageDefinition);
 const { UserStream } = grpcObject;
 const PORT = process.env.GRPC_PORT || "undefined";
@@ -48,7 +47,6 @@ const GetChannelNameFunction = (userId) => {
         });
     });
 };
-exports.GetChannelNameFunction = GetChannelNameFunction;
 const getUserByIdGRPC = (userId) => {
     return new Promise((resolve, reject) => {
         const argument = userId;

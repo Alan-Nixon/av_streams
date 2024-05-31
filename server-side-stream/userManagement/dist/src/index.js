@@ -12,6 +12,7 @@ const AdminRoutes_1 = __importDefault(require("./presentation/Routes/AdminRoutes
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 require("../src/presentation/Grpc/user_stream");
+require("./presentation/RabbitMq/producer");
 const app = (0, express_1.default)();
 const port = process.env.PORT || 8000;
 app.use((0, cors_1.default)({

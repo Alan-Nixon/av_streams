@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postVideosRepo = void 0;
 const stream_user_1 = require("../../presentation/Grpc/stream_user");
+const consumer_1 = require("../../presentation/Rabbitmq/consumer");
 const category_1 = require("../Models/category");
 const posts_1 = require("../Models/posts");
 const report_1 = require("../Models/report");
@@ -26,7 +27,7 @@ class postVideosRepositary {
     }
     findChannelNameUsingId(userId) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, stream_user_1.GetChannelNameFunction)(userId);
+            return (yield (0, consumer_1.getUserByIdRabbit)(userId)) + "";
         });
     }
     postVideosRepo(userId) {

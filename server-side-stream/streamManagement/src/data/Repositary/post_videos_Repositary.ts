@@ -1,4 +1,5 @@
-import { GetChannelNameFunction, searchProfileGRPC } from "../../presentation/Grpc/stream_user";
+import { searchProfileGRPC } from "../../presentation/Grpc/stream_user";
+import { getUserByIdRabbit } from "../../presentation/Rabbitmq/consumer";
 import { CategoryModel } from "../Models/category";
 import { PostModel } from "../Models/posts";
 import { ReportModel } from "../Models/report";
@@ -17,7 +18,7 @@ class postVideosRepositary implements post_video_repo_interface {
     }
 
     async findChannelNameUsingId(userId: string) {
-        return await GetChannelNameFunction(userId)
+        return (await getUserByIdRabbit(userId))+"" 
     }
 
     async postVideosRepo(userId: string) {

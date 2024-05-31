@@ -5,7 +5,6 @@ import { responseObject } from '../../domain/interfaces/video_post_interface/vid
 
 const PROTO_PATH = path.resolve(__dirname,"../protos/user_stream.proto");
 const packageDefinition = protoLoader.loadSync(PROTO_PATH);
-console.log(packageDefinition);
 
 const grpcObject: any = grpc.loadPackageDefinition(packageDefinition);
 const { UserStream } = grpcObject;
@@ -13,7 +12,7 @@ const PORT = process.env.GRPC_PORT || "undefined"
 
 const client = new UserStream(PORT, grpc.credentials.createInsecure());
 
-export const GetChannelNameFunction = (userId: string): Promise<string> => {
+ const GetChannelNameFunction = (userId: string): Promise<string> => {
     return new Promise((resolve, reject) => {
         const argument = userId;
         client.GetChannelName({ argument }, function (err: any, response: any) {
