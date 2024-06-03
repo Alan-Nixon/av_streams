@@ -5,8 +5,11 @@ import { useUser } from '../../../../UserContext'
 import Swal from 'sweetalert2'
 import Google from '../../../socialMediaLogins/Google'
 import Linkedin from '../../../socialMediaLogins/Linkedin'
+import { useNavigate } from 'react-router-dom'
 
 export default function Login() {
+
+    const Navigate=useNavigate()
     const { setUserData } = useUser()
     const [showModal, setShowModal] = useState("login")
     const [hideIcons, setHideIcons] = useState(true)
@@ -24,7 +27,7 @@ export default function Login() {
                 } else {
                     Cookies.set("userToken", result.token, { expires: 7 })
                     setUserData(result.userData)
-                    window.location.href = "/Signup"
+                    Navigate("/")
                 }
             } else {
                 setError((rest) => ({ ...rest, passwordErr: "Password should be 8 characters with letters, numbers, @, or _" }))

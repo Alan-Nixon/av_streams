@@ -1,24 +1,39 @@
 version: '3'
 services:
-  user_management:
-    image: user_management_image:latest
-    ports:
-      - "8000:8000"
-    networks:
-      - server-side-stream
-  stream_management:
-    image: stream_management_image:latest
-    ports:
-      - "3001:3001"
-    networks:
-      - server-side-stream
   api_gateway:
-    image: api_gateway_image:latest
+    build: ./API_GATEWAY
+    image: api_gateway_image
     ports:
       - "8006:8006"
     networks:
-      - server-side-stream
+      - microservices-network
+
+  stream_management:
+    build: ./streamManagement
+    image: stream_management_image
+    ports:
+      - "3001:3001"
+    networks:
+      - microservices-network
+
+  user_management:
+    build: ./userManagement
+    image: user_management_image
+    ports:
+      - "8000:8000"
+    networks:
+      - microservices-network
+    depends_on:
+      - rabbitmq
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    ports:
+      - "5672:5672"      
+      - "15673:15672"    
+    networks:
+      - microservices-network
 
 networks:
-  server-side-stream:
+  microservices-network:
     driver: bridge

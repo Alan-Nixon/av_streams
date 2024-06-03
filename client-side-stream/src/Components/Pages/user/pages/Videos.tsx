@@ -33,9 +33,9 @@ function Videos() {
     }, [])
 
     useEffect(() => {
-        const crInterval = setTimeout(() => setCurrentCarousel(currentCarousel === carousel.length - 1 ? 0 : currentCarousel + 1), 4000)
+        const crInterval = setTimeout(() => setCurrentCarousel(currentCarousel === carousel?.length - 1 ? 0 : currentCarousel + 1), 4000)
         return () => clearTimeout(crInterval)
-    }, [currentCarousel,carousel.length])
+    }, [currentCarousel,carousel?.length])
 
     const showPremiumIfNot = (videoId: string) => {
         isPremiumUser(user?._id || "").then(res => {
@@ -50,9 +50,9 @@ function Videos() {
 
     const switchCarousel = (next: boolean) => {
         if (next) {
-            setCurrentCarousel(currentCarousel + 1 === carousel.length ? 0 : currentCarousel + 1)
+            setCurrentCarousel(currentCarousel + 1 === carousel?.length ? 0 : currentCarousel + 1)
         } else {
-            setCurrentCarousel(currentCarousel === 0 ? carousel.length - 1 : currentCarousel - 1)
+            setCurrentCarousel(currentCarousel === 0 ? carousel?.length - 1 : currentCarousel - 1)
         }
     }
 
@@ -105,7 +105,7 @@ function Videos() {
                     <h1 className="text-xl font-bold">Premium Version</h1>
                 </div>
                 <div className="m-3 flex flex-wrap">
-                    {premiumVideos.length !== 0 && premiumVideos.map((item, index) => {
+                    {premiumVideos && premiumVideos?.length !== 0 && premiumVideos.map((item, index) => {
                         return (
                             <div key={index} onClick={() => showPremiumIfNot(item._id)} style={{ width: "23%", minWidth: "250px", maxWidth: "300px" }} className="ml-3 mt-3 hover:bg-gray-900 cursor-pointer rounded-lg shadow">
                                 <p>

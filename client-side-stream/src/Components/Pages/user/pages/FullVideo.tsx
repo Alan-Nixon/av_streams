@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import NavBar from '../layout/NavBar'
 import { useUser } from '../../../../UserContext';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import Comment from '../helpers/Comment';
 import { addReportSubmit, getVideosWithId } from '../../../../Functions/streamFunctions/streamManagement';
 import { followChannel, isFollowing, isPremiumUser } from '../../../../Functions/userFunctions/userManagement';
@@ -13,6 +14,7 @@ import ReportDialog from '../../../messageShowers/ReportDialog';
 import { toast } from 'react-toastify';
 
 function FullVideo() {
+
     const { user } = useUser()
     const Navigate = useNavigate()
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -31,6 +33,9 @@ function FullVideo() {
     })
     const [searchParams] = useSearchParams();
     const videoId = searchParams.get('videoId');
+
+    const commentSectionRef = useRef<any>(null);
+    const [isActive, setIsActive] = useState(false);
 
     useEffect(() => {
 
@@ -58,6 +63,7 @@ function FullVideo() {
             getCommentsByLinkId(videoId, 'video').then(({ data }) => {
                 setComments(data)
             })
+
         } else {
             Navigate('/')
         }
@@ -65,23 +71,6 @@ function FullVideo() {
     }, [user])
 
 
-    const relatedVideos = [{
-        Title: "The Kid LAROI, Justin Bieber - STAY (Official Video)",
-        videolink: "/videos/The Kid LAROI, Justin Bieber - STAY (Official Video).mp4",
-        Thumbnail: "/videos/stayThumbnail.jpeg",
-    }, {
-        Title: "The Kid LAROI, Justin Bieber - STAY (Official Video)",
-        videolink: "/videos/The Kid LAROI, Justin Bieber - STAY (Official Video).mp4",
-        Thumbnail: "/videos/stayThumbnail.jpeg",
-    }, {
-        Title: "The Kid LAROI, Justin Bieber - STAY (Official Video)",
-        videolink: "/videos/The Kid LAROI, Justin Bieber - STAY (Official Video).mp4",
-        Thumbnail: "/videos/stayThumbnail.jpeg",
-    }, {
-        Title: "The Kid LAROI, Justin Bieber - STAY (Official Video)",
-        videolink: "/videos/The Kid LAROI, Justin Bieber - STAY (Official Video).mp4",
-        Thumbnail: "/videos/stayThumbnail.jpeg",
-    },]
 
     const superChat = [{
         channelName: "Hey gamer",
@@ -95,10 +84,12 @@ function FullVideo() {
 
 
     useEffect(() => {
+
         const handleKeyPress = (event: KeyboardEvent) => {
-            const { key } = event
-            const { current } = videoRef
+            const { key } = event; const { current } = videoRef
+
             if (key.toLowerCase() === 'f' && current) {
+
                 if (isFullScreen) {
                     document.exitFullscreen();
                     setIsFullScreen(false);
@@ -106,24 +97,48 @@ function FullVideo() {
                     setIsFullScreen(true);
                     current.requestFullscreen()
                 }
+
             } else if (key.toLocaleLowerCase() === 'm' && current) {
+
                 current.muted = !current.muted;
+
             } else if (key === ' ' && current) {
+
                 event.preventDefault()
                 current.paused ? current.play() : current.pause();
+
             }
         };
-        // document.addEventListener('keydown', handleKeyPress);
+
+        const handleFocus = () => setIsActive(true);
+        const handleBlur = () => setIsActive(false);
+
+        const element = commentSectionRef.current;
+        if (element) {
+            element.addEventListener('focusin', handleFocus);
+            element.addEventListener('focusout', handleBlur);
+        }
+
+        if (!isActive) {
+
+            document.addEventListener('keydown', handleKeyPress);
+        }
+
         return () => {
             document.removeEventListener('keydown', handleKeyPress);
+            if (element) {
+                element.removeEventListener('focusin', handleFocus);
+                element.removeEventListener('focusout', handleBlur);
+              }
         };
+
     }, [isFullScreen]);
 
 
     const submitReport = (text: string) => {
         if (user && user?.channelName && user?._id) {
             addReportSubmit({
-                _id:"",
+                _id: "",
                 channelName: user?.channelName,
                 userId: user?._id,
                 LinkId: videoDetails._id,
@@ -154,7 +169,7 @@ function FullVideo() {
     return (
         <>
             <NavBar />
-            <div style={{ marginTop: "65px" }} className="">
+            <div style={{ marginTop: "80px" }} className="">
                 <div className="marginFromLeft ml-5 mt-2">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width={25} style={{ cursor: "pointer", position: "absolute", paddingTop: "1%" }} onClick={() => window.location.href = '/'} >
                         <path fill="#ffffff" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
@@ -165,29 +180,29 @@ function FullVideo() {
                                 <source src={videoDetails.Link} style={{ borderRadius: 0 }} type="video/mp4" />
                             </video>
                         </div>
-                        <div className="superChat ml-7 mr-1 mt-2 " style={{ width: "380px", borderRadius: "7%", backgroundColor: "#2e2e2e" }}>
+                       
+                        <div className="superChat ml-7 mr-1 mt-2 rounded-md " style={{ width: "380px", backgroundColor: "#2e2e2e" }}>
                             <div className="heading mt-3" style={{ borderRadius: "10px" }}>
-                                <h2 className="text-2xl" style={{ textAlign: "center" }}>SUPER CHAT</h2>
-                                <hr className='mt-2' />
+                                <h2 className="text-2xl font-bold font-sans not-italic" style={{ textAlign: "center" }}>SUPER CHAT</h2>
+                                {/* <hr className='mt-2' /> */}
                                 <div className='mt-5' style={{ overflowY: "auto", maxHeight: "380px" }}>
                                     {superChat.map((item, index) => (
-                                        <div key={index} className="commentsChat flex mt-1" style={{ backgroundColor: "#424242" }}>
+                                        <div key={index} className="comment-card text-red not-italic  font-semibold rounded-md mt-2 flex bg-black/10 pt-2 pl-4" >
                                             <img src={item.profileImage} className='ml-4 mt-1' style={{ borderRadius: "100%", width: "40px", height: "40px" }} alt="" />
                                             <div className="block ml-2 mt-1">
-                                                <p className='text-sm'>{item.channelName}</p>
-                                                <p className='text-xs ml-1'>{item.text}</p>
+                                                <p className='text-sm '>{item.channelName}</p>
+                                                <p className='text-xs ml-1 text-white-900/40'>{item.text}</p>
                                             </div>
-                                            <div className="ml-auto me-4">
-                                                <svg xmlns="http://www.w3.org/2000/svg" style={{ marginTop: "50%" }} width={20} viewBox="0 0 512 512">
-                                                    <path fill="#ffffff" d="M323.8 34.8c-38.2-10.9-78.1 11.2-89 49.4l-5.7 20c-3.7 13-10.4 25-19.5 35l-51.3 56.4c-8.9 9.8-8.2 25 1.6 33.9s25 8.2 33.9-1.6l51.3-56.4c14.1-15.5 24.4-34 30.1-54.1l5.7-20c3.6-12.7 16.9-20.1 29.7-16.5s20.1 16.9 16.5 29.7l-5.7 20c-5.7 19.9-14.7 38.7-26.6 55.5c-5.2 7.3-5.8 16.9-1.7 24.9s12.3 13 21.3 13L448 224c8.8 0 16 7.2 16 16c0 6.8-4.3 12.7-10.4 15c-7.4 2.8-13 9-14.9 16.7s.1 15.8 5.3 21.7c2.5 2.8 4 6.5 4 10.6c0 7.8-5.6 14.3-13 15.7c-8.2 1.6-15.1 7.3-18 15.2s-1.6 16.7 3.6 23.3c2.1 2.7 3.4 6.1 3.4 9.9c0 6.7-4.2 12.6-10.2 14.9c-11.5 4.5-17.7 16.9-14.4 28.8c.4 1.3 .6 2.8 .6 4.3c0 8.8-7.2 16-16 16H286.5c-12.6 0-25-3.7-35.5-10.7l-61.7-41.1c-11-7.4-25.9-4.4-33.3 6.7s-4.4 25.9 6.7 33.3l61.7 41.1c18.4 12.3 40 18.8 62.1 18.8H384c34.7 0 62.9-27.6 64-62c14.6-11.7 24-29.7 24-50c0-4.5-.5-8.8-1.3-13c15.4-11.7 25.3-30.2 25.3-51c0-6.5-1-12.8-2.8-18.7C504.8 273.7 512 257.7 512 240c0-35.3-28.6-64-64-64l-92.3 0c4.7-10.4 8.7-21.2 11.8-32.2l5.7-20c10.9-38.2-11.2-78.1-49.4-89zM32 192c-17.7 0-32 14.3-32 32V448c0 17.7 14.3 32 32 32H96c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32H32z" />
-                                                </svg>
-                                            </div>
+                                            {/* <div className="ml-auto me-4">
+                                                <FavoriteIcon width={10} />
+                                            </div> */}
                                         </div>
                                     ))}
                                 </div>
 
                             </div>
                         </div>
+
                     </div>
 
                     <div className="flex ml-5" style={{ backgroundColor: "transparent", width: "65%" }}>
@@ -245,7 +260,7 @@ function FullVideo() {
                     </div>
 
                     <div className="flex">
-                        <div className="commentSection mt-0   mb-8" style={{ width: "67%", height: "auto" }}>
+                        <div ref={commentSectionRef} className="commentSection mt-0   mb-8" style={{ width: "67%", height: "auto" }}>
                             <Comment indexKey='0' Section='video' LinkId={videoDetails._id} CommentsArray={Comments} />
                         </div>
                         <div className="justify-center">

@@ -6,38 +6,44 @@ const queue = 'userId';
 const AMQP = process.env.AMQP ?? "";
 
 amqp.connect(AMQP, (error0, connection) => {
+  try {
+    if (error0) { throw error0; }
 
-  if (error0) { throw error0; }
+    connection.createChannel((error1, channel) => {
 
-  connection.createChannel((error1, channel) => {
-    
-    if (error1) { throw error1; }
+      if (error1) { throw error1; }
 
-    channel.assertQueue(queue, { durable: false });
+      channel.assertQueue(queue, { durable: false });
 
-    channel.consume(queue, async (msg) => {
- 
-      if (msg) {
+      channel.consume(queue, async (msg) => {
 
-        const userId = msg.content.toString();
+        if (msg) {
 
-        try {
-          const userDetails = await changeUserRepositaryLayer.getChannelNameByUserId(userId);
+          const userId = msg.content.toString();
 
-          channel.sendToQueue(msg.properties.replyTo, Buffer.from(JSON.stringify(userDetails)), {
-            correlationId: msg.properties.correlationId
-          });
+          try {
+            const userDetails = await changeUserRepositaryLayer.getChannelNameByUserId(userId);
 
-        } catch (error) {
-          console.error("Error fetching user details:", error);
-          channel.sendToQueue(msg.properties.replyTo, Buffer.from(JSON.stringify({ error: 'Error fetching user details' })), {
-            correlationId: msg.properties.correlationId
-          });
+            channel.sendToQueue(msg.properties.replyTo, Buffer.from(JSON.stringify(userDetails)), {
+              correlationId: msg.properties.correlationId
+            });
+
+          } catch (error) {
+            console.error("Error fetching user details:", error);
+            channel.sendToQueue(msg.properties.replyTo, Buffer.from(JSON.stringify({ error: 'Error fetching user details' })), {
+              correlationId: msg.properties.correlationId
+            });
+          }
+
+          channel.ack(msg);
         }
 
-        channel.ack(msg);
-      }
-
+      });
     });
-  });
+
+  } catch (err:any) {
+    console.log(err?.message ?? "rabbit error");
+    
+  }
+  
 });

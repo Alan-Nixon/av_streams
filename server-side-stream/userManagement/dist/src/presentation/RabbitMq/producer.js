@@ -19,31 +19,37 @@ const ChangeUserDetails_Repositary_1 = require("../../data/Repositary/ChangeUser
 const queue = 'userId';
 const AMQP = (_a = process.env.AMQP) !== null && _a !== void 0 ? _a : "";
 callback_api_1.default.connect(AMQP, (error0, connection) => {
-    if (error0) {
-        throw error0;
-    }
-    connection.createChannel((error1, channel) => {
-        if (error1) {
-            throw error1;
+    var _a;
+    try {
+        if (error0) {
+            throw error0;
         }
-        channel.assertQueue(queue, { durable: false });
-        channel.consume(queue, (msg) => __awaiter(void 0, void 0, void 0, function* () {
-            if (msg) {
-                const userId = msg.content.toString();
-                try {
-                    const userDetails = yield ChangeUserDetails_Repositary_1.changeUserRepositaryLayer.getChannelNameByUserId(userId);
-                    channel.sendToQueue(msg.properties.replyTo, Buffer.from(JSON.stringify(userDetails)), {
-                        correlationId: msg.properties.correlationId
-                    });
-                }
-                catch (error) {
-                    console.error("Error fetching user details:", error);
-                    channel.sendToQueue(msg.properties.replyTo, Buffer.from(JSON.stringify({ error: 'Error fetching user details' })), {
-                        correlationId: msg.properties.correlationId
-                    });
-                }
-                channel.ack(msg);
+        connection.createChannel((error1, channel) => {
+            if (error1) {
+                throw error1;
             }
-        }));
-    });
+            channel.assertQueue(queue, { durable: false });
+            channel.consume(queue, (msg) => __awaiter(void 0, void 0, void 0, function* () {
+                if (msg) {
+                    const userId = msg.content.toString();
+                    try {
+                        const userDetails = yield ChangeUserDetails_Repositary_1.changeUserRepositaryLayer.getChannelNameByUserId(userId);
+                        channel.sendToQueue(msg.properties.replyTo, Buffer.from(JSON.stringify(userDetails)), {
+                            correlationId: msg.properties.correlationId
+                        });
+                    }
+                    catch (error) {
+                        console.error("Error fetching user details:", error);
+                        channel.sendToQueue(msg.properties.replyTo, Buffer.from(JSON.stringify({ error: 'Error fetching user details' })), {
+                            correlationId: msg.properties.correlationId
+                        });
+                    }
+                    channel.ack(msg);
+                }
+            }));
+        });
+    }
+    catch (err) {
+        console.log((_a = err === null || err === void 0 ? void 0 : err.message) !== null && _a !== void 0 ? _a : "rabbit error");
+    }
 });

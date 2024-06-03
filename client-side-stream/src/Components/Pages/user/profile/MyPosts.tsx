@@ -6,6 +6,7 @@ import { deletePostFromCloudinary, getAllpostOfUser, uploadPost } from '../../..
 import { useUser } from '../../../../UserContext';
 import { getCommentByCate } from '../../../../Functions/streamFunctions/commentManagement';
 import { joinCommentWithpost, likePostHome, numTokandM } from '../../../../Functions/commonFunctions';
+import { toast } from 'react-toastify';
 
 function MyPosts() {
     const { user } = useUser()
@@ -54,6 +55,7 @@ function MyPosts() {
                 if (postData.Description.length > 3) {
                     if (postData.PostImage) {
                         uploadPost(postData, setProgress).then((result) => {
+                            toast.success("successfully uploaded the post")
                             Swal.fire({
                                 title: result.status ? "successfully uploaded" : "error login!",
                                 text: result.message,
@@ -122,7 +124,7 @@ function MyPosts() {
                 <form className="max-w-full mt-3 mb-4">
                     <div className="mb-5">
                         <label htmlFor="Title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-                        <input name='Title' onChange={saveText} type="Title" id="Title" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter a title for your video" required />
+                        <input name='Title' onChange={saveText} type="Title" id="Title" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter a title for your post" required />
                     </div>
                     <div className="mb-5">
                         <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>

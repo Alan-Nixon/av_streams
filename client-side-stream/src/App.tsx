@@ -42,6 +42,7 @@ const Search = lazy(() => import('./Components/Pages/user/pages/Search'))
 
 
 function App() {
+ 
   const [loading, setLoading] = useState(true)
   const dispatch = useDispatch();
   const userAuthenticated = useSelector((state: any) => state?.counter?.userAuthenticated);
