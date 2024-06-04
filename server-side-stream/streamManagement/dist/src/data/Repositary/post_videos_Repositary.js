@@ -10,7 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.postVideosRepo = void 0;
-const stream_user_1 = require("../../presentation/Grpc/stream_user");
 const consumer_1 = require("../../presentation/Rabbitmq/consumer");
 const category_1 = require("../Models/category");
 const posts_1 = require("../Models/posts");
@@ -116,7 +115,7 @@ class postVideosRepositary {
                     { Description: { $regex: search, $options: 'i' } }
                 ], Visiblity: true
             });
-            const profile = JSON.parse((yield (0, stream_user_1.searchProfileGRPC)(search)).data);
+            const profile = JSON.parse(yield (0, consumer_1.searchProfileByUser)(search));
             return { status: true, message: "success", data: [data, profile] };
         });
     }

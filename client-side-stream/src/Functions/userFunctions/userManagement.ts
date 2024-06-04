@@ -144,7 +144,9 @@ export const getChannelById = async (userId: string) => {
 
 export const getChannelByUserId = async (channelId: string) => {
     const { data } = await axiosApiGateWay.get('/userManagement/getChannelByUserId?channelId=' + channelId)
-    return data.data
+    console.log(data);
+    
+    return data
 }
 
 export const getfollowersByUserId = async (userId: string) => {

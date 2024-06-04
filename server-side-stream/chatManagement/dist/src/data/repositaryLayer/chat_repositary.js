@@ -9,23 +9,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getChatOfUser = void 0;
-const chat_use_case_1 = require("../../domain/useCases/chat_use_case");
-const errorResponse = (error, res) => {
-    var _a;
-    res.status(200).json({ status: false, message: (_a = error === null || error === void 0 ? void 0 : error.message) !== null && _a !== void 0 ? _a : "some error occured" });
-};
-const successResponse = (res, data) => {
-    console.log(data);
-    res.status(200).json(data);
-};
-const getChatOfUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        successResponse(res, yield chat_use_case_1.chatUseCase.getChatOfUser(req.query.userId));
+exports.chatRepoLayer = void 0;
+const chat_1 = require("../models/chat");
+class chat_repositary_layer {
+    getChatOfUser(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield chat_1.ChatModel.find({ userId });
+            }
+            catch (error) {
+                console.log(error);
+                return [];
+            }
+        });
     }
-    catch (error) {
-        console.error(error);
-        errorResponse(error, res);
-    }
-});
-exports.getChatOfUser = getChatOfUser;
+}
+exports.chatRepoLayer = new chat_repositary_layer();

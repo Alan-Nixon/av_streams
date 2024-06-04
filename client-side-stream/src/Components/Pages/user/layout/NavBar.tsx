@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useUser } from '../../../../UserContext';
-import { getChannelById, logout } from '../../../../Functions/userFunctions/userManagement';
+import {  logout } from '../../../../Functions/userFunctions/userManagement';
 
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import ChatWindow from '../../../../Functions/realtime/chatHome';
 import { Popup } from 'reactjs-popup'
 import ChatComponent from '../../../../Functions/realtime/SingleChat';
-import { Data, channelInterface, chatsInterface } from '../../../../Functions/interfaces';
+import { Data, chatsInterface } from '../../../../Functions/interfaces';
 
 
 
@@ -149,7 +149,7 @@ export function ChatPopup({ chatWindow, setChatWindow, user }: chatInterface) {
 
     return (
         <Popup trigger={<button />} position={'right top'} open={chatWindow} onClose={() => setChatWindow(false)}>
-            {chatHome ? <ChatWindow singleChatopen={singleChatopen} chats={chats} userDetails={user} /> : <ChatComponent setChatHome={setChatHome} />}
+            {chatHome ? <ChatWindow singleChatopen={singleChatopen} userDetails={user} /> : <ChatComponent setChatHome={setChatHome} />}
         </Popup>
     )
 }

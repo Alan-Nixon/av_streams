@@ -18,6 +18,7 @@ const app: Application = express();
 app.use(express.json())
 app.use(cors({
     origin: process.env.CLIENT_SIDE_URL,
+    credentials:true,
     optionsSuccessStatus: 200
 }))
 

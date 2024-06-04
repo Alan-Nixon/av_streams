@@ -21,7 +21,7 @@ const client = new UserStream(PORT, grpc.credentials.createInsecure());
                 reject(err);
             } else {
                 resolve(response.userId);
-            }
+            } 
         });
     });
 };

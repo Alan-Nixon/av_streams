@@ -1,12 +1,13 @@
-import { Document } from "mongoose"
+import { Document, Schema } from "mongoose"
 
 export interface IChat extends Document {
-    userId: string[] | [],
-    details: messageArray[] | [],
-    archived:boolean
+    userId: string[];
+    details: messageArray[];
+    archived: boolean;
 }
 
-type messageArray = {
+
+export type messageArray = {
     to: string,
     time: string,
     sender: string,
@@ -17,3 +18,15 @@ type messageArray = {
     },
     seen: boolean
 }
+
+export const messageSchema = new Schema<messageArray>({
+    to: { type: String, required: true },
+    time: { type: String, required: true },
+    sender: { type: String, required: true },
+    message: { type: String, required: true },
+    file: {
+        fileType: { type: String, default: "" },
+        Link: { type: String, default: "" },
+    },
+    seen: { type: Boolean, required: true },
+});

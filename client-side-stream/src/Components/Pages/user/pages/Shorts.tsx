@@ -8,26 +8,14 @@ import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import SendIcon from '@mui/icons-material/Send';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ReportDialog from '../../../messageShowers/ReportDialog';
-// Interface for video data
-interface VideoData {
-  Link: string;
-  Thumbnail: string;
-  clicked: boolean;
-  Title?: string;
-  videolink?: string;
-  channelDetails?: {
-    channelLogo: string;
-    channelName: string;
-    count: string;
-    isFollowing: boolean;
-  };
-}
+import { VideoData } from '../../../../Functions/interfaces';
+
 
 const Shorts = () => {
 
   const [loading, setLoading] = useState<boolean>(true);
   const [shorts, setShorts] = useState<VideoData[]>([
-    { Link: '', Thumbnail: '', clicked: false },
+    { Link: '', Thumbnail: '', clicked: false, likesArray: [] },
   ]);
   const [showReportModal, setShowReportModal] = useState(false)
   const [comment, setComments] = useState([])
@@ -36,6 +24,8 @@ const Shorts = () => {
     const fetchVideos = async () => {
       try {
         const response = await getAllVideos(true);
+        console.log(response, "this is the shorts cobntent");
+
         setShorts(response);
         setLoading(false);
       } catch (error) {
@@ -91,8 +81,7 @@ const Shorts = () => {
                       }} >
                       <video
                         poster={data.Thumbnail}
-                        // controls
-                        muted
+                        controls
                         autoPlay
                         className="absolute"
                         style={{ top: '50%', height: '520px', left: '50%', transform: 'translate(-50%, -50%)' }}
@@ -104,7 +93,7 @@ const Shorts = () => {
                       <div onClick={(e) => e.stopPropagation()} className="bg-gray-800 h-[520px] mt-[38px] w-[350px] ml-2" style={{ borderTopRightRadius: '2%' }}>
                         <p className="text-xl m-3">Comments</p> <br />
                         {comment.length ? <>
-                        
+
                         </> : <>
 
                         </>}
@@ -121,7 +110,7 @@ const Shorts = () => {
                       <div className="ml-2" style={{ marginTop: '45%', color: '#0a0a0a' }}>
                         <div className="flex-col flex">
                           <ThumbUpIcon className="text-white" />
-                          <span className="font-mono font-light not-italic text-white/65">15k</span>
+                          <span className="font-mono font-light not-italic text-white/65" style={{ marginLeft: data.likesArray.length.toString().length < 2 ? "7px" : "0px" }}>{data.likesArray.length ?? 0}</span>
                         </div>
                         <div className="flex mt-3 flex-col" onClick={() => toggleComment(index)} >
                           <InsertCommentIcon className="text-white" />

@@ -19,6 +19,7 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)({
     origin: process.env.CLIENT_SIDE_URL,
+    credentials: true,
     optionsSuccessStatus: 200
 }));
 app.use((0, morgan_1.default)('dev'));

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { chatHomeIterface, } from '../interfaces'
+import { chatHomeIterface, chatHomeUsers, } from '../interfaces'
 import { useUser } from '../../UserContext'
 import { getChatOfUser } from '../chatFunctions/chatManagement'
 import { useNavigate } from 'react-router-dom'
+import { getPersonDetailsChat, getTimeDifference } from '../commonFunctions'
 
 
-function ChatWindow({ chats, singleChatopen, userDetails }: chatHomeIterface) {
+function ChatWindow({ singleChatopen, userDetails }: chatHomeIterface) {
+    const [homeChats, setHomeChats] = useState<chatHomeUsers[]>([])
     const [loading, setLoading] = useState<boolean>(true)
     const { user } = useUser()
     const Navigate = useNavigate()
@@ -13,23 +15,37 @@ function ChatWindow({ chats, singleChatopen, userDetails }: chatHomeIterface) {
     useEffect(() => {
         (async () => {
             if (user && user._id) {
-                const data = await getChatOfUser(user?._id)
-                console.log(data);
-                
+                const { data } = await getChatOfUser(user._id)
+                if (data.length > 0) {
+                    const personDetails = await getPersonDetailsChat(data, user._id)
+                    setHomeChats(personDetails);
+                }
+
             } else {
                 Navigate('/')
             }
-            
+
             setLoading(false)
         })();
-    }, [])
+    }, [user])
 
 
-    if (loading) { return (<><div className="lds-dual-ring"></div></>) }
+    if (loading) {
+        return (<>
+            <div role="status" className="flex min-h-[95vh] max-h-[720px] w-[450px] p-4 items-center justify-center bg-gray-300 rounded-lg  dark:bg-gray-700">
+                chats
+                <svg className="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
+                    <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z" />
+                    <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM9 13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2Zm4 .382a1 1 0 0 1-1.447.894L10 13v-2l1.553-1.276a1 1 0 0 1 1.447.894v2.764Z" />
+                </svg>
+                <span className="sr-only">Loading...</span>
+            </div>
+        </>)
+    }
 
     return (
         <div>
-            <section className="flex fixed top-5 flex-col rounded-md justify-center antialiased dark:bg-gray-800 text-gray-600 min-h-[95vh] max-h-[720px] p-4">
+            <section className="flex w-[450px] fixed top-5 flex-col rounded-md justify-center antialiased dark:bg-gray-800 text-gray-600 min-h-[95vh] max-h-[720px] p-4">
                 <div className="h-auto">
                     <div className='w-full bg-white rounded-lg'>
                         <header className="pt-6 pb-4 px-5 border-b border-gray-200">
@@ -37,7 +53,7 @@ function ChatWindow({ chats, singleChatopen, userDetails }: chatHomeIterface) {
 
                                 <div className="flex items-center">
                                     <a className="inline-flex items-start mr-3" href="#0">
-                                        <img className="rounded-full" src="https://res.cloudinary.com/dc6deairt/image/upload/v1638102932/user-48-01_nugblk.jpg" width="48" height="48" alt="Lauren Marsano" />
+                                        <img className="rounded-full" src={user?.profileImage} width="48" height="48" alt="profile image" />
                                     </a>
                                     <div className="pr-1">
                                         <a className="inline-flex text-gray-800 hover:text-gray-900" href="#0">
@@ -64,13 +80,13 @@ function ChatWindow({ chats, singleChatopen, userDetails }: chatHomeIterface) {
                             <h3 className=" overflow-y-auto text-xs font-semibold uppercase text-gray-400 mb-1">Chats</h3>
                             <div className="divide-y overflow-y-auto h-[450px] divide-gray-200">
 
-                                {chats.map((item) => (
+                                {homeChats.map((item) => (
                                     <button onClick={singleChatopen} className="w-full text-left py-2 focus:outline-none focus-visible:bg-indigo-50" >
                                         <div className="flex items-center">
-                                            <img className="rounded-full items-start flex-shrink-0 mr-3" src={item?.profileImage} width="32" height="32" alt="Marie Zulfikar" />
+                                            <img className="rounded-full items-start flex-shrink-0 mr-3" src={item?.personDetails?.profileImage} width="32" height="32" alt="Marie Zulfikar" />
                                             <div>
-                                                <h4 className="text-sm font-semibold text-gray-900">Marie Zulfikar</h4>
-                                                <div className="text-[13px]">The video chat ended · 2hrs</div>
+                                                <h4 className="text-sm font-semibold text-gray-900">{item?.personDetails?.channelName}</h4>
+                                                <div className="text-[13px]">The chat ended · {getTimeDifference(item.details[item.details.length - 1]?.time) ?? ""}</div>
                                             </div>
                                         </div>
                                     </button>

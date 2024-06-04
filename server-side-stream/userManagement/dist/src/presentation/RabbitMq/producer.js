@@ -17,6 +17,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const callback_api_1 = __importDefault(require("amqplib/callback_api"));
 const ChangeUserDetails_Repositary_1 = require("../../data/Repositary/ChangeUserDetails_Repositary");
 const queue = 'userId';
+const searchChannel = "searchChannel";
 const AMQP = (_a = process.env.AMQP) !== null && _a !== void 0 ? _a : "";
 callback_api_1.default.connect(AMQP, (error0, connection) => {
     var _a;
@@ -24,16 +25,37 @@ callback_api_1.default.connect(AMQP, (error0, connection) => {
         if (error0) {
             throw error0;
         }
+        console.log("Rabbit started successfully");
         connection.createChannel((error1, channel) => {
             if (error1) {
                 throw error1;
             }
             channel.assertQueue(queue, { durable: false });
+            // channel.assertQueue(channelDetails, { durable: false });
             channel.consume(queue, (msg) => __awaiter(void 0, void 0, void 0, function* () {
                 if (msg) {
                     const userId = msg.content.toString();
                     try {
                         const userDetails = yield ChangeUserDetails_Repositary_1.changeUserRepositaryLayer.getChannelNameByUserId(userId);
+                        channel.sendToQueue(msg.properties.replyTo, Buffer.from(JSON.stringify(userDetails)), {
+                            correlationId: msg.properties.correlationId
+                        });
+                    }
+                    catch (error) {
+                        console.error("Error fetching user details:", error);
+                        channel.sendToQueue(msg.properties.replyTo, Buffer.from(JSON.stringify({ error: 'Error fetching user details' })), {
+                            correlationId: msg.properties.correlationId
+                        });
+                    }
+                    channel.ack(msg);
+                }
+            }));
+            channel.consume(searchChannel, (msg) => __awaiter(void 0, void 0, void 0, function* () {
+                if (msg) {
+                    const search = msg.content.toString();
+                    console.log(search);
+                    try {
+                        const userDetails = yield ChangeUserDetails_Repositary_1.changeUserRepositaryLayer.getProfilesBySearch(search);
                         channel.sendToQueue(msg.properties.replyTo, Buffer.from(JSON.stringify(userDetails)), {
                             correlationId: msg.properties.correlationId
                         });

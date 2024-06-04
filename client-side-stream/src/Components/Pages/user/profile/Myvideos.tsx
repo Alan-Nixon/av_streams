@@ -22,7 +22,7 @@ function MyVideos() {
     const [videoDetails, setVideoDetails] = useState<videoInterface>({
         _id: "", Title: "", Description: "",
         Link: "", shorts: false, Thumbnail: "",
-        Views: "0", userId: user?._id || "", Visiblity: true,
+        userId: user?._id || "", Visiblity: true,
         channelName: user?.channelName || "", Premium: false
     })
 
@@ -52,7 +52,7 @@ function MyVideos() {
                         Description: videoDetails.Description,
                         shorts: isShorts, Visiblity: true,
                         channelName: user?.channelName || "",
-                        Thumbnail: "", Views: "0", Premium: (await isPremiumUser(user._id || "")).status
+                        Thumbnail: "", Premium: (await isPremiumUser(user._id || "")).status
                     }
                     uploadVideo(Data, Thumbnail).then((res) => {
                         toast.success(res.status ? "successfully uploaded the video" : "error uploading the video")
@@ -183,7 +183,7 @@ function MyVideos() {
                                         <div className="flex flex-col m-4 leading-normal">
                                             <h5 className=" text-lg font-bold tracking-tight text-gray-900 dark:text-white">{details.Title}</h5>
                                             <p className="font-normal text-gray-700 dark:text-gray-400">{details.Description}</p>
-                                            <p>{details.channelName} <span className='ml-auto'>{details.Views} views</span></p>
+                                            <p>{details.channelName} <span className='ml-auto'>{"details.Views"} views</span></p>
                                         </div>
                                     </p>
                                 </>

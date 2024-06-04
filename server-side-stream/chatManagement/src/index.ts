@@ -5,15 +5,16 @@ import morgan from 'morgan';
 import '../config/database';
 import cors from 'cors';
 
-const app = express(); 
+const app = express();
 const port = process.env.PORT || "";
 
- 
-app.use(morgan('dev')) 
+
+app.use(morgan('dev'))
 app.use(express.json())
 
 app.use(cors({
-    origin: process.env.APIGATEWAY_URL,
+    origin: process.env.CLIENT_SIDE_URL,
+    credentials: true,
     allowedHeaders: ['Authorization']
 }))
 

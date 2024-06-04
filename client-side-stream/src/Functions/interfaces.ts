@@ -3,22 +3,21 @@ declare global {
     interface Window {
         Swal: any
         Razorpay: any
-        // google:any
     }
 }
 
 
-export const googleClientId = process.env.REACT_APP_CLIENT_ID 
+export const googleClientId = process.env.REACT_APP_CLIENT_ID
 export const linkedClientId = process.env.REACT_APP_LINKEDIN_CLIENT_ID
 export const clientSideUrl = process.env.REACT_APP_CLIENT_SIDE_URL
 export const RecaptchaSecret = process.env.REACT_APP_RECAPTCHA_KEY
- 
+
 
 export type SetProgressFunction = Dispatch<SetStateAction<number>>;
 export type changeEvent = React.ChangeEvent<HTMLInputElement>
 
 
- 
+
 
 export interface Data {
     _id?: string;
@@ -172,9 +171,9 @@ export interface videoInterface {
     _id: string,
     userId: string,
     Title: string,
-    Views: string,
     channelName: string,
     Visiblity: boolean,
+    likesArray?: string[],
     Description: string,
     Link: string,
     shorts: boolean,
@@ -315,7 +314,6 @@ export interface showConfirmationToastInterface {
 
 
 export interface chatHomeIterface {
-    chats: chatsInterface[],
     singleChatopen: () => void
     userDetails: Data
 }
@@ -338,10 +336,43 @@ export type reportType = {
 }
 
 export type categoryInterface = {
-    _id:string,
+    _id: string,
     categoryName: string,
     Description: string
     videosCount: string
     postCount: string
     Display: boolean
 }
+
+export type VideoData = {
+    Link: string;
+    Thumbnail: string;
+    clicked: boolean;
+    Title?: string;
+    videolink?: string;
+    likesArray: string[],
+    channelDetails?: {
+        channelLogo: string;
+        channelName: string;
+        count: string;
+        isFollowing: boolean;
+    };
+}
+
+export type messageDetails = {
+    _id: string
+    seen: boolean
+    sender: string,
+    time: string,
+    to: string
+}
+
+export type chatHomeUsers = {
+    _id: string,
+    file: { fileType: string, Link: string }
+    archived: boolean,
+    details: messageDetails[],
+    personDetails: channelInterface,
+    personId: string
+}
+

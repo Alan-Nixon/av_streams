@@ -13,17 +13,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserByIdRabbit = void 0;
+exports.searchProfileByUser = exports.getUserByIdRabbit = void 0;
 // src/consumer.ts
 const callback_api_1 = __importDefault(require("amqplib/callback_api"));
 const queue = 'userId';
 const dataQueue = 'data';
+const channelDetails = "channelDetails";
+const searchChannel = "searchChannel";
 const AMQP = (_a = process.env.AMQP) !== null && _a !== void 0 ? _a : "";
 function getUserByIdRabbit(userId) {
     return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
         const { connection, channel } = yield connectRabbitMQ();
         const correlationId = implementQueue(channel, dataQueue);
-        sendToQueue(channel, queue, userId, correlationId);
+        sendToQueue(channel, queue, userId, correlationId, dataQueue);
         channel.consume(dataQueue, (msg) => {
             if ((msg === null || msg === void 0 ? void 0 : msg.properties.correlationId) === correlationId) {
                 const userDetails = JSON.parse(msg.content.toString());
@@ -32,9 +34,27 @@ function getUserByIdRabbit(userId) {
                 resolve(userDetails);
             }
         }, { noAck: false });
+        channel.consume(dataQueue);
     }));
 }
 exports.getUserByIdRabbit = getUserByIdRabbit;
+function searchProfileByUser(search) {
+    return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+        const { connection, channel } = yield connectRabbitMQ();
+        const correlationId = implementQueue(channel, channelDetails);
+        sendToQueue(channel, searchChannel, search, correlationId, channelDetails);
+        channel.consume(channelDetails, (msg) => {
+            if ((msg === null || msg === void 0 ? void 0 : msg.properties.correlationId) === correlationId) {
+                const userDetails = JSON.parse(msg.content.toString());
+                channel.ack(msg);
+                connection.close();
+                resolve(userDetails);
+            }
+        }, { noAck: false });
+        channel.consume(channelDetails);
+    }));
+}
+exports.searchProfileByUser = searchProfileByUser;
 function connectRabbitMQ() {
     return new Promise((resolve, reject) => {
         callback_api_1.default.connect(AMQP, (error0, connection) => {
@@ -54,9 +74,9 @@ function implementQueue(channel, dataQueue) {
     channel.assertQueue(dataQueue, { durable: false });
     return Math.random().toString() + Math.random().toString() + Math.random().toString();
 }
-function sendToQueue(channel, queue, data, correlationId) {
+function sendToQueue(channel, queue, data, correlationId, replyTo) {
     channel.sendToQueue(queue, Buffer.from(data), {
         correlationId: correlationId,
-        replyTo: dataQueue
+        replyTo
     });
 }
