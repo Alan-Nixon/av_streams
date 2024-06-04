@@ -7,7 +7,10 @@ module.exports = {
     extend: {
       colors:{
         'medium-light-gray':'#363535'
-      }
+      },      height: {
+        'screen': '100vh',
+      },
+
     },
   },
   plugins: [

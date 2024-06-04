@@ -1,8 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { chatHomeIterface, } from '../interfaces'
+import { useUser } from '../../UserContext'
+import { getChatOfUser } from '../chatFunctions/chatManagement'
+import { useNavigate } from 'react-router-dom'
 
 
 function ChatWindow({ chats, singleChatopen, userDetails }: chatHomeIterface) {
+    const [loading, setLoading] = useState<boolean>(true)
+    const { user } = useUser()
+    const Navigate = useNavigate()
+
+    useEffect(() => {
+        (async () => {
+            if (user && user._id) {
+                const data = await getChatOfUser(user?._id)
+                console.log(data);
+                
+            } else {
+                Navigate('/')
+            }
+            
+            setLoading(false)
+        })();
+    }, [])
+
+
+    if (loading) { return (<><div className="lds-dual-ring"></div></>) }
+
     return (
         <div>
             <section className="flex fixed top-5 flex-col rounded-md justify-center antialiased dark:bg-gray-800 text-gray-600 min-h-[95vh] max-h-[720px] p-4">
