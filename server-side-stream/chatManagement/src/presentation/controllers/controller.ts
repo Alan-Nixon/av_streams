@@ -7,7 +7,6 @@ const errorResponse = (error: any, res: Response) => {
 }
 
 const successResponse = (res: Response, data?: any) => {
-    console.log(data);
     res.status(200).json(data)
 }
 

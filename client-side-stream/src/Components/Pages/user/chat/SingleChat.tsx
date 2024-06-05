@@ -1,16 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { singleChatInterfce } from '../interfaces';
-import { getTimeDifference } from '../commonFunctions';
-import { useUser } from '../../UserContext';
+import { messageArray, singleChatInterfce } from '../../../../Functions/interfaces';
+import { getTimeDifference, scrollDown } from '../../../../Functions/commonFunctions';
+import { useUser } from '../../../../UserContext';
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 
-const ChatComponent = ({ setChatHome, personDetails, messages }: singleChatInterfce) => {
+const ChatComponent = ({ setChatHome, personDetails, messages, messageSocket, setMessages }: singleChatInterfce) => {
     console.log(messages);
     const { user } = useUser();
     const [selectEmoji, setSelectEmoji] = useState<boolean>(false)
     const [message, setMessage] = useState("")
     const emojiPickerRef = useRef<HTMLDivElement>(null);
+
+    messageSocket.on("incoming_message", (Data: any) => {
+        console.log(Data);
+        setMessages([...messages, Data])
+    })
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -32,8 +37,19 @@ const ChatComponent = ({ setChatHome, personDetails, messages }: singleChatInter
     };
 
     const sendMessage = () => {
-        alert(message)
         setMessage("")
+        if (user?._id) {
+            const newMessage: messageArray = {
+                file: { Link: "", fileType: "" },
+                message, seen: false, sender: user._id,
+                time: new Date().toString(),
+                to: personDetails.userId
+            }
+
+            messageSocket.emit('new_message', newMessage)
+
+            setMessages([...messages, newMessage])
+        }
     }
 
     return (
@@ -53,41 +69,45 @@ const ChatComponent = ({ setChatHome, personDetails, messages }: singleChatInter
                     </div>
                 </div><hr className='mt-1' />
 
-                {messages.map((item, index) => {
-                    return (
-                        <div key={index} style={{ overflowY: 'scroll', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none' }} className="flex flex-col flex-grow h-0 p-4">
-                            {item.sender !== personDetails.userId ?
-                                <div className="flex justify-end w-[75%] mt-2 space-x-3 max-w-xs self-end">
-                                    <div>
-                                        <div className="bg-indigo-300 p-3 rounded-l-lg rounded-br-lg">
-                                            <p className="text-sm">{item.message}</p>
+                <div className="max-h-[600px] overflow-y-auto mt-2">
+                    {messages.map((item, index) => {
+                        return (
+                            <div className="flex w-full" key={index}  >
+                                {
+                                    item.sender !== personDetails.userId ?
+                                        <div className="flex ml-auto p-3">
+                                            <div>
+                                                <div className="bg-indigo-300 p-3 rounded-l-lg rounded-br-lg">
+                                                    <p className="text-sm">{item.message}</p>
+                                                </div>
+                                                <span className="text-xs text-gray-500 leading-none">{getTimeDifference(item.time)} ago</span>
+                                            </div>
+                                            <div className="flex-shrink-0 h-8 w-8 m-1 rounded-full bg-gray-300">
+                                                <img src={personDetails.profileImage} className="rounded-full" alt="" />
+                                            </div>
                                         </div>
-                                        <span className="text-xs text-gray-500 leading-none">{getTimeDifference(item.time)} ago</span>
-                                    </div>
-                                    <div className="flex-shrink-0 h-8 w-8 mt-1 rounded-full bg-gray-300">
-                                        <img src={personDetails.profileImage} className='rounded-full' alt="" />
-                                    </div>
-                                </div>
-                                :
-                                <div className="flex justify-start w-[75%] mt-2 space-x-3 max-w-xs">
-                                    <div className="flex-shrink-0 h-8 w-8 mt-1 rounded-full bg-gray-300">
-                                        <img src={user?.profileImage} alt="" className='rounded-full' />
-                                    </div>
-                                    <div>
-                                        <div className="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg">
-                                            <p className="text-sm">{item.message}</p>
+                                        :
+                                        <div className="flex justify-start w-[75%] p-3  max-w-xs">
+                                            <div className="flex-shrink-0 h-8 w-8 m-1 rounded-full bg-gray-300">
+                                                <img src={user?.profileImage} alt="" className='rounded-full' />
+                                            </div>
+                                            <div>
+                                                <div className="bg-gray-300 p-3 ml-1 rounded-r-lg rounded-bl-lg">
+                                                    <p className="text-sm">{item.message}</p>
+                                                </div>
+                                                <span className="text-xs text-gray-500 leading-none">{getTimeDifference(item.time)} ago</span>
+                                            </div>
                                         </div>
-                                        <span className="text-xs text-gray-500 leading-none">{getTimeDifference(item.time)} ago</span>
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    )
-                })}
+
+                                }
+                            </div>
+                        )
+                    })}
+                </div>
                 <div ref={emojiPickerRef} className="absolute ml-5">
                     {selectEmoji && <Picker data={data} onEmojiSelect={handleEmojiSelect} />}
                 </div>
-                <div className="bg-gray-300 p-4">
+                <div className="bg-gray-300 p-4 mt-auto">
                     <div className="flex">
                         <button type="button" onClick={() => setSelectEmoji(!selectEmoji)} className="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
                             <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">

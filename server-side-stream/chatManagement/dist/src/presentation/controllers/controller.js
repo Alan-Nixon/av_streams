@@ -16,7 +16,6 @@ const errorResponse = (error, res) => {
     res.status(200).json({ status: false, message: (_a = error === null || error === void 0 ? void 0 : error.message) !== null && _a !== void 0 ? _a : "some error occured" });
 };
 const successResponse = (res, data) => {
-    console.log(data);
     res.status(200).json(data);
 };
 const getChatOfUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

@@ -4,10 +4,10 @@ import { logout } from '../../../../Functions/userFunctions/userManagement';
 
 
 import { useLocation, useNavigate } from 'react-router-dom';
-import ChatWindow from '../../../../Functions/realtime/chatHome';
+import ChatWindow from '../chat/chatHome';
 import { Popup } from 'reactjs-popup'
-import ChatComponent from '../../../../Functions/realtime/SingleChat';
-import { Data, channelInterface, chatsInterface, messageArray } from '../../../../Functions/interfaces';
+import ChatComponent from '../chat/SingleChat';
+import { Data, channelInterface, chatInterfaceProps, chatsInterface, messageArray } from '../../../../Functions/interfaces';
 
 
 
@@ -126,13 +126,9 @@ function NavBar() {
 export default React.memo(NavBar)
 
 
-interface chatInterface {
-    chatWindow: boolean;
-    setChatWindow: React.Dispatch<React.SetStateAction<boolean>>
-    user: Data
-}
 
-export function ChatPopup({ chatWindow, setChatWindow, user }: chatInterface) {
+export function ChatPopup({ chatWindow, setChatWindow, user }: chatInterfaceProps) {
+
     const dumChannel: channelInterface = {
         _id: "", channelDescription: "", channelName: "",
         Followers: [], isFollowing: true, profileImage: "",
@@ -143,20 +139,22 @@ export function ChatPopup({ chatWindow, setChatWindow, user }: chatInterface) {
     const [chatHome, setChatHome] = useState(true)
     const [chats, setChats] = useState<messageArray[]>([])
     const [person, setPerson] = useState<channelInterface>(dumChannel)
+    const [messageSocket, setMessageSocket] = useState<any>(null)
 
-    const singleChatopen = (personDetails:any) => {
+
+    const singleChatopen = (personDetails: any) => {
         setChatHome(false)
-        setPerson(personDetails.personDetails) 
+        setPerson(personDetails.personDetails)
         setChats(personDetails.details)
     }
 
-    
+
 
     return (
         <Popup trigger={<button />} position={'right top'} open={chatWindow} onClose={() => setChatWindow(false)}>
             {chatHome ?
-                <ChatWindow setChatHome={setChatWindow} singleChatopen={singleChatopen} userDetails={user} /> :
-                <ChatComponent personDetails={person} messages={chats} setChatHome={setChatHome} />}
+                <ChatWindow setChatHome={setChatWindow} singleChatopen={singleChatopen} userDetails={user} messageSocket={messageSocket} setMessageSocket = { setMessageSocket } /> :
+            <ChatComponent personDetails={person} messages={chats} setMessages={setChats} setChatHome={setChatHome} messageSocket={messageSocket} setMessageSocket = { setMessageSocket } />}
         </Popup>
     )
 }

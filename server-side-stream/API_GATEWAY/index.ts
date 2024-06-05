@@ -73,7 +73,7 @@ io.on('connection', (socket: Socket) => {
     socket.on('join', (Data) => { socket.join(Data); });
 
     socket.on('followChannel', ({ data, userId }) => {
-        io.to(userId).emit('showFollowMessage', data)
+        io.to(userId).emit('showFollowMessage', data) 
     })
 
 });

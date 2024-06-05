@@ -330,6 +330,8 @@ export interface chatHomeIterface {
     singleChatopen: (personDetails: any) => void
     setChatHome: Dispatch<SetStateAction<boolean>>
     userDetails: Data
+    messageSocket: any
+    setMessageSocket: any
 }
 
 export type reportDialogInterface = {
@@ -395,4 +397,15 @@ export type singleChatInterfce = {
     setChatHome: Dispatch<SetStateAction<boolean>>
     personDetails: channelInterface
     messages: messageArray[]
-} 
+    setMessages: Dispatch<SetStateAction<messageArray[]>>
+    messageSocket: any
+    setMessageSocket: any
+}
+
+
+
+export interface chatInterfaceProps {
+    chatWindow: boolean;
+    setChatWindow: React.Dispatch<React.SetStateAction<boolean>>
+    user: Data
+}

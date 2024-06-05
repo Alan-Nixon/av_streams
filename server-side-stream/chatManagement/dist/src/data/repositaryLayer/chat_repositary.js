@@ -23,5 +23,27 @@ class chat_repositary_layer {
             }
         });
     }
+    addChat(message) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                console.log(message);
+                const chat = yield chat_1.ChatModel.findOne({ userId: { $in: [message.sender, message.to] } });
+                if (chat) {
+                    chat.details.push(message);
+                    yield chat.save();
+                }
+                else {
+                    yield chat_1.ChatModel.insertMany({
+                        userId: [message.sender, message.to],
+                        archived: false,
+                        details: [message]
+                    });
+                }
+            }
+            catch (error) {
+                console.log(error);
+            }
+        });
+    }
 }
 exports.chatRepoLayer = new chat_repositary_layer();

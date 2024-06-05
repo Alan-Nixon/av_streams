@@ -145,7 +145,7 @@ export const getChannelById = async (userId: string) => {
 export const getChannelByUserId = async (channelId: string) => {
     const { data } = await axiosApiGateWay.get('/userManagement/getChannelByUserId?channelId=' + channelId)
     console.log(data);
-    
+
     return data
 }
 
@@ -161,5 +161,11 @@ export const getPopularChannels = async (limit: number) => {
 
 export const getTrendingChannels = async (limit: number) => {
     const { data } = await axiosApiGateWay.get('/userManagement/getTrendingChannels?limit=' + limit)
+    return data
+}
+
+
+export const getNewChats = async (notIn: any) => {
+    const { data } = await axiosApiGateWay.post('/userManagement/getNewChats',notIn)
     return data
 }

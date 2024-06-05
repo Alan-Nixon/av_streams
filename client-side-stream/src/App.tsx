@@ -1,9 +1,8 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, RouteProps as ReactRouteProps } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { isUserAuthenticated } from './Functions/userFunctions/userManagement';
 import { isAdminAuthenticated } from './Functions/userFunctions/adminManagement';
-import { ContentProps, googleClientId } from './Functions/interfaces';
-import { gapi } from 'gapi-script';
+import { ContentProps } from './Functions/interfaces';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAdminAuthenticated, setUserAuthenticated } from './Redux/authenticationRedux'
 import StartLive from './Components/Pages/user/pages/StartLive';
@@ -15,7 +14,6 @@ import { useSocket } from './Functions/realtime/socketContext';
 import { useUser } from './UserContext';
 import { Toaster } from 'react-hot-toast'
 import { toastFunction } from './Components/messageShowers/ToastFunction';
-import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const Error = lazy(() => import('./Components/Pages/user/pages/Error'));
 
