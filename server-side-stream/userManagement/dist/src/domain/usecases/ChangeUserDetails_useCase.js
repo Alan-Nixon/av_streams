@@ -125,7 +125,7 @@ class changeUserDetails_usecase {
                 const channel = yield this.getChannelByUserId((_a = userDetails === null || userDetails === void 0 ? void 0 : userDetails._id.toString()) !== null && _a !== void 0 ? _a : "");
                 return {
                     _id: userDetails === null || userDetails === void 0 ? void 0 : userDetails._id,
-                    channelId: channel._id.toString(),
+                    channelId: channel === null || channel === void 0 ? void 0 : channel._id.toString(),
                     userName: userDetails === null || userDetails === void 0 ? void 0 : userDetails.userName,
                     Email: userDetails === null || userDetails === void 0 ? void 0 : userDetails.Email,
                     FullName: userDetails === null || userDetails === void 0 ? void 0 : userDetails.FullName,
@@ -150,6 +150,31 @@ class changeUserDetails_usecase {
             response.data.sort((a, b) => b.Videos.length - a.Videos.length);
             response.data.splice(Math.min(response.data.length, limit));
             return response;
+        });
+    }
+    getNewChats(notIn, userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            try {
+                const { data } = yield this.getfollowersByUserId(userId);
+                const channels = yield Promise.all(data.Followers.map((item) => __awaiter(this, void 0, void 0, function* () {
+                    const chan = yield this.getChannelByUserId(item._id);
+                    return {
+                        userId: chan.userId,
+                        archived: false,
+                        personDetails: chan,
+                        file: { fileType: "", Link: "" },
+                        details: [],
+                        personId: ""
+                    };
+                })));
+                const newChats = channels.filter((item) => !notIn.includes(item.userId.toString()));
+                return { status: true, message: "success", data: newChats };
+            }
+            catch (error) {
+                console.error((_a = error.message) !== null && _a !== void 0 ? _a : "");
+                return { status: false, message: "failed", data: [] };
+            }
         });
     }
 }

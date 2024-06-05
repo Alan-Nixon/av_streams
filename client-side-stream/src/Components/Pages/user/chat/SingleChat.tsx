@@ -80,7 +80,7 @@ const ChatComponent = ({ setChatHome, personDetails, messages, messageSocket, se
                                                 <div className="bg-indigo-300 p-3 rounded-l-lg rounded-br-lg">
                                                     <p className="text-sm">{item.message}</p>
                                                 </div>
-                                                <span className="text-xs text-gray-500 leading-none">{getTimeDifference(item.time)} ago</span>
+                                                <span className="text-xs text-gray-500 leading-none">{getTimeDifference(item.time) ||  "0 minute"} ago</span>
                                             </div>
                                             <div className="flex-shrink-0 h-8 w-8 m-1 rounded-full bg-gray-300">
                                                 <img src={personDetails.profileImage} className="rounded-full" alt="" />

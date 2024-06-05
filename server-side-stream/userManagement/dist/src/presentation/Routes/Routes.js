@@ -50,6 +50,7 @@ router.post('/postSignup', controller.postSignup);
 router.post('/postLogin', controller.postLogin);
 router.post('/addMoneyToWallet', userauthenticationforavstreams_1.isAuthenticated, controller.addMoneyToWallet);
 router.post('/withDrawMoneyToWallet', userauthenticationforavstreams_1.isAuthenticated, controller.withDrawMoneyToWallet);
+router.post('/getNewChats', userauthenticationforavstreams_1.isAuthenticated, controller.getNewChats);
 //user patch
 router.patch('/changeChannelName', userauthenticationforavstreams_1.isAuthenticated, controller.isBlocked, controller.changeChannelName);
 router.patch('/changePassword', controller.changePassword);

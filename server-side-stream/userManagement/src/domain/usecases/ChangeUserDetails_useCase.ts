@@ -100,7 +100,7 @@ class changeUserDetails_usecase implements changeUserDetails_usecase_interface {
             const channel = await this.getChannelByUserId(userDetails?._id.toString() ?? "")
             return {
                 _id: userDetails?._id,
-                channelId: channel._id.toString(),
+                channelId: channel?._id.toString(),
                 userName: userDetails?.userName,
                 Email: userDetails?.Email,
                 FullName: userDetails?.FullName,
@@ -126,7 +126,32 @@ class changeUserDetails_usecase implements changeUserDetails_usecase_interface {
         return response
     }
 
-    
+    async getNewChats(notIn: string[], userId: string) {
+        try {
+
+            const { data } = await this.getfollowersByUserId(userId)
+            const channels = await Promise.all(data.Followers.map(async (item: any) => {
+                const chan = await this.getChannelByUserId(item._id)
+                return {
+                    userId: chan.userId,
+                    archived: false,
+                    personDetails: chan,
+                    file: { fileType: "", Link: "" },
+                    details: [],
+                    personId: ""
+                }
+            }))
+            const newChats = channels.filter((item: any) => !notIn.includes(item.userId.toString()))
+            return { status: true, message: "success", data: newChats }
+
+        } catch (error: any) {
+            console.error(error.message ?? "");
+
+            return { status: false, message: "failed", data: [] }
+        }
+    }
+
+
 }
 
 export const change_user_usecase: changeUserDetails_usecase_interface = new changeUserDetails_usecase()

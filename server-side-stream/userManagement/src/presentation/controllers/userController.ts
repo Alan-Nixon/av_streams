@@ -4,7 +4,7 @@ import { NextFunction, Request, Response } from 'express';
 import { userDetailsInstance } from '../../domain/usecases/Authentication';
 import { payloadInterface } from '../../domain/interfaces/AuthenticationInterface';
 import { change_user_usecase } from '../../domain/usecases/ChangeUserDetails_useCase';
- 
+
 
 
 
@@ -312,3 +312,12 @@ export const getTrendingChannels = async (req: Request, res: Response) => {
     }
 }
 
+export const getNewChats = async (req: Request, res: Response) => {
+    try {
+        const { id }: any = { ...req.user }
+        res.status(200).json(await change_user_usecase.getNewChats(req.body, id))
+    } catch (error: any) {
+        console.error(error);
+        res.status(500).json({ status: false, message: error?.message || "internal server error" })
+    }
+}

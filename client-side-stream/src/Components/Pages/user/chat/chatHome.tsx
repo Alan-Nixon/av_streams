@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { chatHomeIterface, chatHomeUsers, } from '../../../../Functions/interfaces'
+import { channelInterface, chatHomeIterface, chatHomeUsers, } from '../../../../Functions/interfaces'
 import { useUser } from '../../../../UserContext'
 import { getChatOfUser } from '../../../../Functions/chatFunctions/chatManagement'
 import { useNavigate } from 'react-router-dom'
@@ -25,7 +25,9 @@ function ChatWindow({ singleChatopen, userDetails, setChatHome, messageSocket, s
 
                     const personDetails = await getPersonDetailsChat(data, user._id)
                     setHomeChats(personDetails);
-                    getNewChats(data.map((item: any) => item.personDetails.userId))
+                    const newChats = await getNewChats(data.map((item: any) => item.personDetails.userId))
+                    console.log(newChats.data);
+                    setNewChat(newChats.data)
                 }
 
             } else {
@@ -103,7 +105,6 @@ function ChatWindow({ singleChatopen, userDetails, setChatHome, messageSocket, s
                                                     <img className="rounded-full items-start flex-shrink-0 mr-3" src={item?.personDetails?.profileImage} width="32" height="32" alt="Marie Zulfikar" />
                                                     <div>
                                                         <h4 className="text-sm font-semibold text-gray-900">{item?.personDetails?.channelName}</h4>
-                                                        <div className="text-[13px]">The chat ended · {getTimeDifference(item.details[item.details.length - 1]?.time) ?? ""}</div>
                                                     </div>
                                                 </div>
                                             </button>

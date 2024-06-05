@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTrendingChannels = exports.getPopularChannels = exports.getfollowersByUserId = exports.getChannelByUserId = exports.getChannelById = exports.followChannel = exports.isFollowing = exports.isPremiumUser = exports.subscribeToPremium = exports.withDrawMoneyToWallet = exports.addMoneyToWallet = exports.changeChannelName = exports.changeProfileData = exports.changePassword = exports.forgetPasswordOtpSend = exports.authenticated = exports.changeProfileImage = exports.getWalletDetails = exports.regenerateToken = exports.userDetails = exports.sendOtp = exports.postLogin = exports.isBlocked = exports.postSignup = void 0;
+exports.getNewChats = exports.getTrendingChannels = exports.getPopularChannels = exports.getfollowersByUserId = exports.getChannelByUserId = exports.getChannelById = exports.followChannel = exports.isFollowing = exports.isPremiumUser = exports.subscribeToPremium = exports.withDrawMoneyToWallet = exports.addMoneyToWallet = exports.changeChannelName = exports.changeProfileData = exports.changePassword = exports.forgetPasswordOtpSend = exports.authenticated = exports.changeProfileImage = exports.getWalletDetails = exports.regenerateToken = exports.userDetails = exports.sendOtp = exports.postLogin = exports.isBlocked = exports.postSignup = void 0;
 //usecase
 const Authentication_1 = require("../../domain/usecases/Authentication");
 const ChangeUserDetails_useCase_1 = require("../../domain/usecases/ChangeUserDetails_useCase");
@@ -321,3 +321,14 @@ const getTrendingChannels = (req, res) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.getTrendingChannels = getTrendingChannels;
+const getNewChats = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = Object.assign({}, req.user);
+        res.status(200).json(yield ChangeUserDetails_useCase_1.change_user_usecase.getNewChats(req.body, id));
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ status: false, message: (error === null || error === void 0 ? void 0 : error.message) || "internal server error" });
+    }
+});
+exports.getNewChats = getNewChats;

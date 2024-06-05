@@ -28,6 +28,7 @@ router.post('/postSignup', controller.postSignup)
 router.post('/postLogin', controller.postLogin)
 router.post('/addMoneyToWallet', isAuthenticated, controller.addMoneyToWallet)
 router.post('/withDrawMoneyToWallet', isAuthenticated, controller.withDrawMoneyToWallet)
+router.post('/getNewChats', isAuthenticated, controller.getNewChats)
 
 //user patch
 router.patch('/changeChannelName', isAuthenticated, controller.isBlocked, controller.changeChannelName)
