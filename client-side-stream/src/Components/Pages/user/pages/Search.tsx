@@ -60,16 +60,18 @@ function Search() {
                             )
                         })}
                     </>}
-                    {cate === "Profile" && profile.map((item, idx) => {
-                        return (
-                            <div key={idx} onClick={() => Navigate('/channel?userId=' + item._id)} className="ml-7 cursor-pointer">
-                                <img className="rounded ml-4" style={{ borderRadius: "100%", width: "150px" }} src={item.profileImage} alt="" />
-                                <div className="p-2" >
-                                    <h5 className="mb-2 text-md ml-4 font-bold tracking-tight text-gray-900 dark:text-white">{item.channelName}</h5>
+                    <div className="flex">
+                        {cate === "Profile" && profile.map((item, idx) => {
+                            return (
+                                <div key={idx} onClick={() => Navigate('/channel?userId=' + item._id)} className="ml-7 cursor-pointer">
+                                    <img className="rounded ml-4" style={{ borderRadius: "100%", width: "150px" }} src={item.profileImage} alt="" />
+                                    <div className="p-2" >
+                                        <h5 className="mb-2 text-md ml-4 font-bold tracking-tight text-gray-900 dark:text-white">{item.channelName}</h5>
+                                    </div>
                                 </div>
-                            </div>
-                        )
-                    })}
+                            )
+                        })}
+                    </div>
                 </div>
 
 

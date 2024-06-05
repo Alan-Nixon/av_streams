@@ -16,7 +16,8 @@ export function getUserByIdRabbit(userId: string) {
         const { connection, channel } = await connectRabbitMQ()
 
         const correlationId = implementQueue(channel, dataQueue);
-        sendToQueue(channel, queue, userId, correlationId,dataQueue)
+        implementQueue(channel, channelDetails)
+        sendToQueue(channel, queue, userId, correlationId, dataQueue)
 
 
         channel.consume(dataQueue, (msg: { properties: { correlationId: string; }; content: { toString: () => string; }; }) => {
@@ -37,39 +38,48 @@ export function getUserByIdRabbit(userId: string) {
 
 export function searchProfileByUser(search: string) {
     return new Promise(async (resolve, reject) => {
+        try {
 
-        const { connection, channel } = await connectRabbitMQ()
+            const { connection, channel } = await connectRabbitMQ()
 
-        const correlationId = implementQueue(channel, channelDetails);
-        sendToQueue(channel, searchChannel, search, correlationId,channelDetails)
+            const correlationId = implementQueue(channel, channelDetails);
+            sendToQueue(channel, searchChannel, search, correlationId, channelDetails)
 
 
-        channel.consume(channelDetails, (msg: { properties: { correlationId: string; }; content: { toString: () => string; }; }) => {
+            channel.consume(channelDetails, (msg: { properties: { correlationId: string; }; content: { toString: () => string; }; }) => {
 
-            if (msg?.properties.correlationId === correlationId) {
-                const userDetails = JSON.parse(msg.content.toString())
-                channel.ack(msg);
-                connection.close();
-                resolve(userDetails);
-            }
+                if (msg?.properties.correlationId === correlationId) {
+                    const userDetails = JSON.parse(msg.content.toString())
+                    channel.ack(msg);
+                    connection.close();
+                    resolve(userDetails);
+                }
 
-        }, { noAck: false });
+            }, { noAck: false });
 
-        channel.consume(channelDetails)
+            channel.consume(channelDetails)
+        } catch (error: any) {
+            console.log(error);
+            reject(error.message ?? "error occurred")
+        }
 
     });
 }
- 
+
 
 function connectRabbitMQ() {
     return new Promise<any>((resolve, reject) => {
-        amqp.connect(AMQP, (error0, connection) => {
-            if (error0) { throw error0 }
-            connection.createChannel((error1, channel) => {
-                if (error1) { throw error1 }
-                resolve({ connection, channel })
+        try {
+            amqp.connect(AMQP, (error0, connection) => {
+                if (error0) { throw error0 }
+                connection.createChannel((error1, channel) => {
+                    if (error1) { throw error1 }
+                    resolve({ connection, channel })
+                })
             })
-        })
+        } catch (error) {
+            reject("some error occured")
+        }
     })
 }
 
@@ -79,9 +89,11 @@ function implementQueue(channel: { assertQueue: (arg0: any, arg1: { durable: boo
     return Math.random().toString() + Math.random().toString() + Math.random().toString()
 }
 
-function sendToQueue(channel: any, queue: string, data: string, correlationId: string,replyTo:string) {
+function sendToQueue(channel: any, queue: string, data: string, correlationId: string, replyTo: string) {
     channel.sendToQueue(queue, Buffer.from(data), {
         correlationId: correlationId,
         replyTo
     });
-} 
+}
+
+

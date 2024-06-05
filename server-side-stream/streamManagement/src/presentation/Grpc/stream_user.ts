@@ -26,7 +26,7 @@ const client = new UserStream(PORT, grpc.credentials.createInsecure());
     });
 };
 
-
+ 
 
 export const getUserByIdGRPC = (userId: string): Promise<string> => {
     return new Promise((resolve, reject) => {

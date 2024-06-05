@@ -4,9 +4,10 @@ import { useUser } from '../../UserContext'
 import { getChatOfUser } from '../chatFunctions/chatManagement'
 import { useNavigate } from 'react-router-dom'
 import { getPersonDetailsChat, getTimeDifference } from '../commonFunctions'
+import { toast } from 'react-toastify'
 
 
-function ChatWindow({ singleChatopen, userDetails }: chatHomeIterface) {
+function ChatWindow({ singleChatopen, userDetails,setChatHome }: chatHomeIterface) {
     const [homeChats, setHomeChats] = useState<chatHomeUsers[]>([])
     const [loading, setLoading] = useState<boolean>(true)
     const { user } = useUser()
@@ -16,9 +17,12 @@ function ChatWindow({ singleChatopen, userDetails }: chatHomeIterface) {
         (async () => {
             if (user && user._id) {
                 const { data } = await getChatOfUser(user._id)
-                if (data.length > 0) {
+                if (data && data?.length > 0) {
                     const personDetails = await getPersonDetailsChat(data, user._id)
                     setHomeChats(personDetails);
+                } else {
+                    setChatHome(false)
+                    setTimeout(() => toast.error("chat service is currently unavailable"),0)
                 }
 
             } else {
@@ -81,7 +85,7 @@ function ChatWindow({ singleChatopen, userDetails }: chatHomeIterface) {
                             <div className="divide-y overflow-y-auto h-[450px] divide-gray-200">
 
                                 {homeChats.map((item) => (
-                                    <button onClick={singleChatopen} className="w-full text-left py-2 focus:outline-none focus-visible:bg-indigo-50" >
+                                    <button onClick={()=>singleChatopen(item)} className="w-full text-left py-2 focus:outline-none focus-visible:bg-indigo-50" >
                                         <div className="flex items-center">
                                             <img className="rounded-full items-start flex-shrink-0 mr-3" src={item?.personDetails?.profileImage} width="32" height="32" alt="Marie Zulfikar" />
                                             <div>

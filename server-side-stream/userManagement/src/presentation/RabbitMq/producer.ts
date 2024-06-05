@@ -4,21 +4,20 @@ import { changeUserRepositaryLayer } from '../../data/Repositary/ChangeUserDetai
 
 const queue = 'userId';
 const searchChannel = "searchChannel"
+const channelDetails = "channelDetails"
 
+const AMQP = process.env.AMQP ?? "";
 
-const AMQP = process.env.AMQP ?? "";  
- 
 amqp.connect(AMQP, (error0, connection) => {
   try {
     if (error0) { throw error0; }
-    console.log("Rabbit started successfully"); 
-    
+    console.log("Rabbit started successfully");
     connection.createChannel((error1, channel) => {
+      channel.assertQueue('searchChannel', { durable: true });
 
       if (error1) { throw error1; }
 
       channel.assertQueue(queue, { durable: false });
-      // channel.assertQueue(channelDetails, { durable: false });
 
 
       channel.consume(queue, async (msg) => {
@@ -40,7 +39,7 @@ amqp.connect(AMQP, (error0, connection) => {
               correlationId: msg.properties.correlationId
             });
           }
-
+ 
           channel.ack(msg);
         }
 
@@ -52,7 +51,7 @@ amqp.connect(AMQP, (error0, connection) => {
 
           const search = msg.content.toString();
           console.log(search);
-          
+
           try {
             const userDetails = await changeUserRepositaryLayer.getProfilesBySearch(search);
 
@@ -75,10 +74,10 @@ amqp.connect(AMQP, (error0, connection) => {
 
     });
 
-  } catch (err:any) {
+  } catch (err: any) {
     console.log(err?.message ?? "rabbit error");
-    
+
   }
-  
-}); 
+ 
+});
  

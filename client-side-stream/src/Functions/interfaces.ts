@@ -296,11 +296,24 @@ export interface bannerInterface {
 }
 
 export interface chatsInterface {
-    profileImage: string,
-    lastMessage: string,
-    Time: string,
-    userName: string
+    _id: string,
+    userId: string[];
+    details: messageArray[];
+    archived: boolean;
 }
+
+export type messageArray = {
+    to: string,
+    time: string,
+    sender: string,
+    message: string,
+    file: {
+        fileType: string,
+        Link: string,
+    },
+    seen: boolean
+}
+
 
 
 export interface confirmToastInterface {
@@ -314,7 +327,8 @@ export interface showConfirmationToastInterface {
 
 
 export interface chatHomeIterface {
-    singleChatopen: () => void
+    singleChatopen: (personDetails: any) => void
+    setChatHome: Dispatch<SetStateAction<boolean>>
     userDetails: Data
 }
 
@@ -345,6 +359,7 @@ export type categoryInterface = {
 }
 
 export type VideoData = {
+    _id: string,
     Link: string;
     Thumbnail: string;
     clicked: boolean;
@@ -376,3 +391,8 @@ export type chatHomeUsers = {
     personId: string
 }
 
+export type singleChatInterfce = {
+    setChatHome: Dispatch<SetStateAction<boolean>>
+    personDetails: channelInterface
+    messages: messageArray[]
+} 

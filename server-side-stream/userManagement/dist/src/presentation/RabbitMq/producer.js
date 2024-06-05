@@ -18,6 +18,7 @@ const callback_api_1 = __importDefault(require("amqplib/callback_api"));
 const ChangeUserDetails_Repositary_1 = require("../../data/Repositary/ChangeUserDetails_Repositary");
 const queue = 'userId';
 const searchChannel = "searchChannel";
+const channelDetails = "channelDetails";
 const AMQP = (_a = process.env.AMQP) !== null && _a !== void 0 ? _a : "";
 callback_api_1.default.connect(AMQP, (error0, connection) => {
     var _a;
@@ -27,11 +28,11 @@ callback_api_1.default.connect(AMQP, (error0, connection) => {
         }
         console.log("Rabbit started successfully");
         connection.createChannel((error1, channel) => {
+            channel.assertQueue('searchChannel', { durable: true });
             if (error1) {
                 throw error1;
             }
             channel.assertQueue(queue, { durable: false });
-            // channel.assertQueue(channelDetails, { durable: false });
             channel.consume(queue, (msg) => __awaiter(void 0, void 0, void 0, function* () {
                 if (msg) {
                     const userId = msg.content.toString();

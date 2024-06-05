@@ -22,7 +22,7 @@ export const uploadVideo = async (videoData: Object, Thumbnail: File) => {
     } catch (error) {
         console.error(error);
     }
-}; 
+};
 
 export const uploadPost = async (postData: postInterfaceUpload, setProgress: SetProgressFunction) => {
     const formData = new FormData()
@@ -109,6 +109,7 @@ export const searchVideosAndProfile = async (search: string) => {
 }
 
 export const addReportSubmit = async (Data: reportType) => {
+    const DataToSend = JSON.parse(JSON.stringify(Data)); delete DataToSend._id
     const { data } = await axiosApiGateWay.post('/streamManagement/addReportSubmit', Data)
     return data
 }

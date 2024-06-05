@@ -1,20 +1,20 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useUser } from '../../../../UserContext';
-import {  logout } from '../../../../Functions/userFunctions/userManagement';
+import { logout } from '../../../../Functions/userFunctions/userManagement';
 
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import ChatWindow from '../../../../Functions/realtime/chatHome';
 import { Popup } from 'reactjs-popup'
 import ChatComponent from '../../../../Functions/realtime/SingleChat';
-import { Data, chatsInterface } from '../../../../Functions/interfaces';
+import { Data, channelInterface, chatsInterface, messageArray } from '../../../../Functions/interfaces';
 
 
 
 
 
 
-export default function NavBar() {
+function NavBar() {
     const { setShowHideSideBar, showHideSideBar } = useUser()
     const [chatWindow, setChatwindow] = useState<boolean>(false)
     const [search, setSearch] = useState<string>('');
@@ -24,7 +24,8 @@ export default function NavBar() {
 
     function searchNow() {
         if (search !== "") {
-            Navigate('/search?search=' + search)
+            Navigate('/')
+            setTimeout(() => Navigate('/search?search=' + search), 0)
         }
     }
     return (
@@ -54,7 +55,7 @@ export default function NavBar() {
 
 
                         </div>
-                        <button onClick={searchNow} type="button" className="top-1 text-white absolute right-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-1.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+                        <button onClick={() => searchNow()} type="button" className="top-1 text-white absolute right-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-1.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
                     </div>
 
                 </div>
@@ -122,7 +123,7 @@ export default function NavBar() {
 
 }
 
-
+export default React.memo(NavBar)
 
 
 interface chatInterface {
@@ -132,24 +133,30 @@ interface chatInterface {
 }
 
 export function ChatPopup({ chatWindow, setChatWindow, user }: chatInterface) {
+    const dumChannel: channelInterface = {
+        _id: "", channelDescription: "", channelName: "",
+        Followers: [], isFollowing: true, profileImage: "",
+        Shorts: [], Streams: [], subscription: {}
+        , userId: "", userName: "", Videos: []
+    }
+
     const [chatHome, setChatHome] = useState(true)
-    const [chats, setChats] = useState<chatsInterface[]>([])
+    const [chats, setChats] = useState<messageArray[]>([])
+    const [person, setPerson] = useState<channelInterface>(dumChannel)
 
-    const singleChatopen = () => { setChatHome(false) }
+    const singleChatopen = (personDetails:any) => {
+        setChatHome(false)
+        setPerson(personDetails.personDetails) 
+        setChats(personDetails.details)
+    }
 
-    useEffect(() => {
-        const chatsArray = new Array(5).fill({
-            profileImage: "https://res.cloudinary.com/dc6deairt/image/upload/v1638102932/user-32-01_pfck4u.jpg",
-            lastMessage: "good bye",
-            Time: "2hrs"
-        })
-        setChats(chatsArray)
-    }, [])
-
+    
 
     return (
         <Popup trigger={<button />} position={'right top'} open={chatWindow} onClose={() => setChatWindow(false)}>
-            {chatHome ? <ChatWindow singleChatopen={singleChatopen} userDetails={user} /> : <ChatComponent setChatHome={setChatHome} />}
+            {chatHome ?
+                <ChatWindow setChatHome={setChatWindow} singleChatopen={singleChatopen} userDetails={user} /> :
+                <ChatComponent personDetails={person} messages={chats} setChatHome={setChatHome} />}
         </Popup>
     )
 }

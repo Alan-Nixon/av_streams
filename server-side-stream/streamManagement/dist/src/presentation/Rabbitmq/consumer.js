@@ -25,6 +25,7 @@ function getUserByIdRabbit(userId) {
     return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
         const { connection, channel } = yield connectRabbitMQ();
         const correlationId = implementQueue(channel, dataQueue);
+        implementQueue(channel, channelDetails);
         sendToQueue(channel, queue, userId, correlationId, dataQueue);
         channel.consume(dataQueue, (msg) => {
             if ((msg === null || msg === void 0 ? void 0 : msg.properties.correlationId) === correlationId) {
@@ -40,34 +41,46 @@ function getUserByIdRabbit(userId) {
 exports.getUserByIdRabbit = getUserByIdRabbit;
 function searchProfileByUser(search) {
     return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
-        const { connection, channel } = yield connectRabbitMQ();
-        const correlationId = implementQueue(channel, channelDetails);
-        sendToQueue(channel, searchChannel, search, correlationId, channelDetails);
-        channel.consume(channelDetails, (msg) => {
-            if ((msg === null || msg === void 0 ? void 0 : msg.properties.correlationId) === correlationId) {
-                const userDetails = JSON.parse(msg.content.toString());
-                channel.ack(msg);
-                connection.close();
-                resolve(userDetails);
-            }
-        }, { noAck: false });
-        channel.consume(channelDetails);
+        var _a;
+        try {
+            const { connection, channel } = yield connectRabbitMQ();
+            const correlationId = implementQueue(channel, channelDetails);
+            sendToQueue(channel, searchChannel, search, correlationId, channelDetails);
+            channel.consume(channelDetails, (msg) => {
+                if ((msg === null || msg === void 0 ? void 0 : msg.properties.correlationId) === correlationId) {
+                    const userDetails = JSON.parse(msg.content.toString());
+                    channel.ack(msg);
+                    connection.close();
+                    resolve(userDetails);
+                }
+            }, { noAck: false });
+            channel.consume(channelDetails);
+        }
+        catch (error) {
+            console.log(error);
+            reject((_a = error.message) !== null && _a !== void 0 ? _a : "error occurred");
+        }
     }));
 }
 exports.searchProfileByUser = searchProfileByUser;
 function connectRabbitMQ() {
     return new Promise((resolve, reject) => {
-        callback_api_1.default.connect(AMQP, (error0, connection) => {
-            if (error0) {
-                throw error0;
-            }
-            connection.createChannel((error1, channel) => {
-                if (error1) {
-                    throw error1;
+        try {
+            callback_api_1.default.connect(AMQP, (error0, connection) => {
+                if (error0) {
+                    throw error0;
                 }
-                resolve({ connection, channel });
+                connection.createChannel((error1, channel) => {
+                    if (error1) {
+                        throw error1;
+                    }
+                    resolve({ connection, channel });
+                });
             });
-        });
+        }
+        catch (error) {
+            reject("some error occured");
+        }
     });
 }
 function implementQueue(channel, dataQueue) {

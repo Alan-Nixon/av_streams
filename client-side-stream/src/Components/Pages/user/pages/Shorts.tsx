@@ -2,32 +2,41 @@ import React, { useEffect, useState } from 'react';
 import NavBar from '../layout/NavBar';
 import SideBar from '../layout/SideBar';
 import Content from '../helpers/Content';
-import { getAllVideos } from '../../../../Functions/streamFunctions/streamManagement';
+import { addReportSubmit, getAllVideos } from '../../../../Functions/streamFunctions/streamManagement';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import SendIcon from '@mui/icons-material/Send';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ReportDialog from '../../../messageShowers/ReportDialog';
-import { VideoData } from '../../../../Functions/interfaces';
+import { VideoData, commentInterface, videoInterface } from '../../../../Functions/interfaces';
+import { getCommentsByLinkId } from '../../../../Functions/streamFunctions/commentManagement';
+import { toast } from 'react-toastify';
+import { useUser } from '../../../../UserContext';
 
 
 const Shorts = () => {
 
   const [loading, setLoading] = useState<boolean>(true);
   const [shorts, setShorts] = useState<VideoData[]>([
-    { Link: '', Thumbnail: '', clicked: false, likesArray: [] },
+    { Link: '', Thumbnail: '', clicked: false, likesArray: [], _id: "" },
   ]);
+  const [linkAndLinkId, setLinkAndLinkId] = useState({ Link: "", LinkId: "" })
   const [showReportModal, setShowReportModal] = useState(false)
-  const [comment, setComments] = useState([])
-
+  const [comment, setComments] = useState<commentInterface[][]>([])
+  const { user } = useUser()
   useEffect(() => {
     const fetchVideos = async () => {
       try {
         const response = await getAllVideos(true);
-        console.log(response, "this is the shorts cobntent");
 
+        const comments = await Promise.all(response.map(async (item: videoInterface) => {
+          return (await getCommentsByLinkId(item._id, "shorts")).data
+        }))
+
+        setComments(comments)
         setShorts(response);
         setLoading(false);
+
       } catch (error) {
         console.error('Error fetching videos:', error);
       }
@@ -53,8 +62,23 @@ const Shorts = () => {
   }
 
   const submitReport = (text: string) => {
-    alert(text)
     setShowReportModal(false)
+    if (user) {
+      const report = {
+        _id: "",
+        channelName: user.channelName ?? "",
+        userId: user._id ?? "",
+        Link: linkAndLinkId.Link,
+        LinkId: linkAndLinkId.LinkId,
+        Section: "shorts",
+        Reason: text,
+        Responded: false,
+        Blocked: false
+      }
+      addReportSubmit(report).then(() => toast.success("successfully reported to the shorts"))
+    } else {
+      toast.error("please login to report the video")
+    }
   }
 
   return (
@@ -83,6 +107,7 @@ const Shorts = () => {
                         poster={data.Thumbnail}
                         controls
                         autoPlay
+                        muted
                         className="absolute"
                         style={{ top: '50%', height: '520px', left: '50%', transform: 'translate(-50%, -50%)' }}
                       >
@@ -92,12 +117,18 @@ const Shorts = () => {
                     {data.clicked ? (
                       <div onClick={(e) => e.stopPropagation()} className="bg-gray-800 h-[520px] mt-[38px] w-[350px] ml-2" style={{ borderTopRightRadius: '2%' }}>
                         <p className="text-xl m-3">Comments</p> <br />
-                        {comment.length ? <>
-
-                        </> : <>
-
-                        </>}
-                        <div className="flex">
+                        <div className="h-[380px]">
+                          {comment[index].length < 1 ? <div className='flex'>
+                            <div className="text-center m-auto">
+                              No comment's yet
+                            </div>
+                          </div> : <>
+                            {comment[index].map((item)=>{
+                              
+                            })}
+                          </>}
+                        </div>
+                        <div className="flex ">
                           <input type="text" placeholder="Your comments here...." name="Email" id="floating_email" className="ml-3 w-[95%] bottom-0 block py-1 px-0 text-sm text-white-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-graye dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
                           <button type="button" className="inline-flex ml-4 justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
                             <svg className="w-5 h-5 rotate-90 rtl:-rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
@@ -110,18 +141,26 @@ const Shorts = () => {
                       <div className="ml-2" style={{ marginTop: '45%', color: '#0a0a0a' }}>
                         <div className="flex-col flex">
                           <ThumbUpIcon className="text-white" />
-                          <span className="font-mono font-light not-italic text-white/65" style={{ marginLeft: data.likesArray.length.toString().length < 2 ? "7px" : "0px" }}>{data.likesArray.length ?? 0}</span>
+                          <span className="font-mono font-light not-italic text-white/65" style={{ marginLeft: data?.likesArray?.length?.toString()?.length < 2 ? "7px" : "0px" }}>{data.likesArray.length ?? 0}</span>
                         </div>
                         <div className="flex mt-3 flex-col" onClick={() => toggleComment(index)} >
                           <InsertCommentIcon className="text-white" />
-                          <span className="font-mono font-light not-italic text-white/65">108</span>
+                          <span className="font-mono font-light not-italic text-white/65" style={{ marginLeft: (data?.likesArray?.length) < 2 ? "7px" : "0px" }} >{comment[index]?.length || 0}</span>
                         </div>
                         <div className="flex mt-3 ">
                           <SendIcon className="text-white transform scale-[1]" />
                         </div>
                         <div className="flex mt-3  ">
                           {showReportModal && <ReportDialog submitReport={submitReport} closeFunc={setShowReportModal} />}
-                          <MoreVertIcon onClick={() => setShowReportModal(true)} className="w-14 text-white transform scale-[1]" />
+                          <MoreVertIcon onClick={() => {
+                            if (user) {
+                              setLinkAndLinkId({
+                                Link: data.Link,
+                                LinkId: data._id
+                              })
+                              setShowReportModal(true)
+                            }
+                          }} className="w-14 text-white transform scale-[1]" />
                         </div>
                       </div>
                     )}
