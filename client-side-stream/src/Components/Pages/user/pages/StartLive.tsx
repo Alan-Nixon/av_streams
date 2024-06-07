@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:5000');
+const socket = io('http://localhost:3001');
 
 const Streaming = () => {
     const videoRef = useRef<any>();

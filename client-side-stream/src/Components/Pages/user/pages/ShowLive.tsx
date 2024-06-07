@@ -2,8 +2,11 @@ import React, { useRef, useEffect } from 'react';
 import io from 'socket.io-client';
 import NavBar from '../layout/NavBar';
 
+const socket = io('http://localhost:3001');
+
 
 const Viewer: React.FC = () => {
+    const canvasRef = useRef<any> ();
     useEffect(() => {
         socket.on('stream', (data) => {
             const img = new Image();
@@ -18,7 +21,7 @@ const Viewer: React.FC = () => {
     return (
         <>
             <NavBar />
-
+            <canvas ref={canvasRef} width="640" height="480"></canvas>
         </>
     );
 };
