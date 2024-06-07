@@ -37,7 +37,7 @@ const Login = lazy(() => import('./Components/Pages/user/pages/Login'))
 const Signup = lazy(() => import('./Components/Pages/user/pages/Signup'))
 const Channel = lazy(() => import('./Components/Pages/user/pages/Channel'))
 const Search = lazy(() => import('./Components/Pages/user/pages/Search'))
-
+const ShowLive = lazy(() => import('./Components/Pages/user/pages/ShowLive'))
 
 function App() {
  
@@ -116,6 +116,7 @@ function App() {
             <Route path='/Login' element={userAuthenticated ? <Navigate to='/' /> : <Login />} />
             <Route path='/Signup' element={userAuthenticated ? <Navigate to='/' /> : <Signup />} />
             <Route path='/startLive' element={userAuthenticated ? <StartLive /> : <Navigate to='/' />} />
+            <Route path='/showLive'  element={userAuthenticated ? <ShowLive /> : <Navigate to='/' />} />
 
             <Route path='/admin/adminLogin' element={adminAuthenticated ? <Navigate to="/admin" /> : <AdminLogin />} />
             <Route path='/admin' element={adminAuthenticated ? <AdminDashboard /> : <Navigate to="/admin/adminLogin" />} />
