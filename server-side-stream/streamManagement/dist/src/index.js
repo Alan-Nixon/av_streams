@@ -38,11 +38,18 @@ const streamRoutes_1 = __importDefault(require("./presentation/Route/streamRoute
 require("../config/Database");
 require("./presentation/Grpc/stream_user");
 require("./presentation/Rabbitmq/consumer");
+const socket_io_1 = require("socket.io");
 const app = express.default();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
+const io = new socket_io_1.Server(server, {
+    cors: {
+        origin: 'http://localhost:3000',
+        methods: ['GET', 'POST']
+    }
+});
 app.use((0, cors_1.default)({
-    origin: process.env.APIGATEWAY_URL,
+    origin: "http://localhost:3000",
     credentials: true,
     allowedHeaders: ["Session", "Cookie"]
 }));
@@ -54,19 +61,30 @@ app.use((0, express_session_1.default)({
 app.use(express.json());
 app.use((0, morgan_1.default)('dev'));
 wss.on('connection', (ws) => {
-    console.log("WebSocket connected");
-    ws.on('message', (data) => {
-        wss.clients.forEach((client) => {
-            if (client.readyState === WebSocket.OPEN) {
-                client.send(data);
-            }
-        });
+    // console.log("WebSocket connected");
+    // ws.on('message', (data) => {
+    //     console.log(data);
+    //     wss.clients.forEach((client) => {
+    //         if (client.readyState === WebSocket.OPEN) {
+    //             client.send(data);
+    //         }
+    //     });
+    // });
+    // ws.on('close', () => {
+    //     console.log('Client disconnected');
+    // });
+    // ws.on('error', (error) => {
+    //     console.error('WebSocket error:', error);
+    // });
+});
+io.on('connection', (socket) => {
+    console.log('New client connected');
+    socket.on('stream', (data) => {
+        console.log(data);
+        socket.emit('stream', data);
     });
-    ws.on('close', () => {
-        console.log('Client disconnected');
-    });
-    ws.on('error', (error) => {
-        console.error('WebSocket error:', error);
+    socket.on('disconnect', () => {
+        // console.log('Client disconnected');
     });
 });
 app.use('/', streamRoutes_1.default);
