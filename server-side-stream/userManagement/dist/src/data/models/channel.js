@@ -67,9 +67,7 @@ channelSchema.post('findOne', function (data, next) {
                 const currentDate = new Date().getTime();
                 const balance = Math.ceil((expiringDate - currentDate) / (1000 * 60 * 60 * 24));
                 if (balance < 0) {
-                    data.subscription = subscriptionDefault;
-                    yield data.save();
-                    console.log('Subscription reset to default due to expiration.');
+                    yield removeSub(data._id + "");
                 }
             }
         }
@@ -80,3 +78,11 @@ channelSchema.post('findOne', function (data, next) {
     });
 });
 exports.ChannelModel = mongoose_1.default.model('channel', channelSchema);
+function removeSub(id) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield exports.ChannelModel.findByIdAndUpdate(id, {
+            subscription: subscriptionDefault,
+            premiumCustomer: false
+        });
+    });
+}

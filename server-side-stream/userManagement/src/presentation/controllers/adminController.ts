@@ -116,3 +116,23 @@ export const cancelSubscription = async (req: Request, res: Response) => {
         return res.status(500).json({ status: false })
     }
 }
+
+export const getDoungnutData = async (req: Request, res: Response) => {
+    try {
+        return res.status(200).json(await admin_useCase.getDoungnutData())
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({ status: false })
+    }
+}
+
+
+export const getLastSubscriptions = async (req: Request, res: Response) => {
+    try {
+        const data = Number(JSON.parse(req.query.query as string).monthCount)
+        return res.status(200).json(await admin_useCase.getLastSubscriptions(data))
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({ status: false })
+    }
+}

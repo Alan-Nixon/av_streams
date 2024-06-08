@@ -52,8 +52,13 @@ class admin_repositary_layer {
     }
     addBanner(Data) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield banner_1.BannerModel.insertMany(Data);
-            return { status: true, message: "success" };
+            try {
+                yield banner_1.BannerModel.insertMany(Data);
+                return { status: true, message: "success" };
+            }
+            catch (error) {
+                return { status: false, message: "failed" };
+            }
         });
     }
     getBannerByLocation(location) {
@@ -73,6 +78,11 @@ class admin_repositary_layer {
     getPremiumUsers() {
         return __awaiter(this, void 0, void 0, function* () {
             return { status: true, message: "success", data: yield channel_1.ChannelModel.find({ premiumCustomer: true }) };
+        });
+    }
+    getChannels() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield channel_1.ChannelModel.find();
         });
     }
     cancelSubscription(userId) {

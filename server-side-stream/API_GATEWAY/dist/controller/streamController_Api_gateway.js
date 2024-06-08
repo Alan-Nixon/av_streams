@@ -21,13 +21,14 @@ const streamGetController = (req, res) => __awaiter(void 0, void 0, void 0, func
     try {
         if (((_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(' ')[1]) !== 'undefined') {
             const query = JSON.stringify(req.query);
+            console.log(streamUrl + req.params.Route);
             const { data } = yield axios_1.default.get(streamUrl + req.params.Route + `?query=${query}`, {
                 headers: { 'Authorization': req.headers.authorization }
             });
             res.status(200).json(data);
         }
         else {
-            res.status(304).json({ status: false, message: "no token found sorry" });
+            res.status(200).json({ status: false, message: "no token found sorry" });
         }
     }
     catch (error) {

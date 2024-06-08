@@ -40,26 +40,27 @@ app.use(morgan('dev'));
 
 
 wss.on('connection', (ws) => {
-  // console.log("WebSocket connected");
+  console.log("WebSocket connected");
 
 
-  // ws.on('message', (data) => {
-  //     console.log(data);
-
-  //     wss.clients.forEach((client) => {
-  //         if (client.readyState === WebSocket.OPEN) {
-  //             client.send(data);
-  //         }
-  //     });
-  // });
+  ws.on('message', (data) => {
+    console.log(data);
+    wss.emit("message", data)
+    // wss.clients.forEach((client) => {
+    //     if (client.readyState === WebSocket.OPEN) {
+    //         client.send(data);
+    //     }
+    // });
+  });
 
   // ws.on('close', () => {
   //     console.log('Client disconnected');
   // });
 
-  // ws.on('error', (error) => {
-  //     console.error('WebSocket error:', error);
-  // });
+  ws.on('error', (error) => {
+    console.error('WebSocket error:', error);
+  });
+
 });
 
 
@@ -69,7 +70,7 @@ io.on('connection', (socket) => {
   socket.on('stream', (data) => {
     console.log(data);
 
-    socket.emit('stream', data);
+    socket.broadcast.emit('stream', data);
   });
 
   socket.on('disconnect', () => {

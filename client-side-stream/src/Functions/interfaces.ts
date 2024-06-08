@@ -409,3 +409,21 @@ export interface chatInterfaceProps {
     setChatWindow: React.Dispatch<React.SetStateAction<boolean>>
     user: Data
 }
+
+export type dongnutTypeData = {
+    completeText: string,
+    remainingText: string,
+    completedPercentage: number,
+    remainingPercentage: number
+}
+
+export type dongnutInterface = {
+    headtext: string,
+    dongnutData: dongnutTypeData
+}
+
+export type chartType = {
+    heading: string,
+    months: string[],
+    data: number[]
+}

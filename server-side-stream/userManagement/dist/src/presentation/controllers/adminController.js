@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cancelSubscription = exports.getPremiumUsers = exports.updateBanner = exports.getBannerByLocation = exports.addBanner = exports.blockUser = exports.getAllUsers = exports.createUser = exports.isAdminAuth = exports.adminPostLogin = void 0;
+exports.getLastSubscriptions = exports.getDoungnutData = exports.cancelSubscription = exports.getPremiumUsers = exports.updateBanner = exports.getBannerByLocation = exports.addBanner = exports.blockUser = exports.getAllUsers = exports.createUser = exports.isAdminAuth = exports.adminPostLogin = void 0;
 const Admin_UseCase_1 = require("../../domain/usecases/Admin_usecase/Admin_UseCase");
 const adminPostLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -122,3 +122,24 @@ const cancelSubscription = (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.cancelSubscription = cancelSubscription;
+const getDoungnutData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        return res.status(200).json(yield Admin_UseCase_1.admin_useCase.getDoungnutData());
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({ status: false });
+    }
+});
+exports.getDoungnutData = getDoungnutData;
+const getLastSubscriptions = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const data = Number(JSON.parse(req.query.query).monthCount);
+        return res.status(200).json(yield Admin_UseCase_1.admin_useCase.getLastSubscriptions(data));
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({ status: false });
+    }
+});
+exports.getLastSubscriptions = getLastSubscriptions;

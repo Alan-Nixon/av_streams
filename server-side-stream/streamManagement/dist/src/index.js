@@ -61,27 +61,28 @@ app.use((0, express_session_1.default)({
 app.use(express.json());
 app.use((0, morgan_1.default)('dev'));
 wss.on('connection', (ws) => {
-    // console.log("WebSocket connected");
-    // ws.on('message', (data) => {
-    //     console.log(data);
-    //     wss.clients.forEach((client) => {
-    //         if (client.readyState === WebSocket.OPEN) {
-    //             client.send(data);
-    //         }
-    //     });
-    // });
+    console.log("WebSocket connected");
+    ws.on('message', (data) => {
+        console.log(data);
+        wss.emit("message", data);
+        // wss.clients.forEach((client) => {
+        //     if (client.readyState === WebSocket.OPEN) {
+        //         client.send(data);
+        //     }
+        // });
+    });
     // ws.on('close', () => {
     //     console.log('Client disconnected');
     // });
-    // ws.on('error', (error) => {
-    //     console.error('WebSocket error:', error);
-    // });
+    ws.on('error', (error) => {
+        console.error('WebSocket error:', error);
+    });
 });
 io.on('connection', (socket) => {
     console.log('New client connected');
     socket.on('stream', (data) => {
         console.log(data);
-        socket.emit('stream', data);
+        socket.broadcast.emit('stream', data);
     });
     socket.on('disconnect', () => {
         // console.log('Client disconnected');

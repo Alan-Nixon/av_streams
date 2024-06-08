@@ -7,7 +7,7 @@ export const getReportsBySection = async (Section: string) => {
 }
 
 export const getBlockedVideos = async () => {
-    const { data } = await adminAxiosApiGateWay.get('/streamManagement/getBlockedVideos',)
+    const { data } = await adminAxiosApiGateWay.get('/streamManagement/getBlockedVideos')
     return data
 }
 
@@ -27,11 +27,28 @@ export const getCategory = async () => {
 }
 
 export const blockCategoryCateId = async (cateId: string) => {
-    const { data } = await adminAxiosApiGateWay.patch('/streamManagement/blockcategory', {cateId})
+    const { data } = await adminAxiosApiGateWay.patch('/streamManagement/blockcategory', { cateId })
     return data
 }
 
 export const addCategory = async (cateDetails: { categoryName: string, Description: string }) => {
     const { data } = await adminAxiosApiGateWay.post('/streamManagement/addCategory', cateDetails)
+    return data
+}
+
+
+export const getPostDongnutData = async (userCount: number) => {
+    const { data } = await adminAxiosApiGateWay.get('/streamManagement/getPostDongnutData?userCount=' + userCount)
+    return data
+}
+
+export const getDoungnutData = async () => {
+    const { data } = await adminAxiosApiGateWay.get('/userManagement/getDoungnutData')
+    return data
+}
+
+
+export const getLastSubscriptions = async (monthCount: number) => {
+    const { data } = await adminAxiosApiGateWay.get('/userManagement/getLastSubscriptions?monthCount=' + monthCount)
     return data
 }

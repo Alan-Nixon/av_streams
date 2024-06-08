@@ -7,6 +7,6 @@ streamRouter.get('/:Route', streamGetController)
 streamRouter.post("/:Route",streamPostController)
 streamRouter.patch('/:Route',streamPatchController)
 streamRouter.delete('/:Route',streamDeleteController)
-
+ 
 
 export default streamRouter 

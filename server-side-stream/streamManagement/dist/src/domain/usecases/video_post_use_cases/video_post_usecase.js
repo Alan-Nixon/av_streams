@@ -250,5 +250,18 @@ class videoPostUseCase {
             return yield post_videos_Repositary_1.postVideosRepo.addCategory(Object.assign(Object.assign({}, Data), { videosCount: [], postCount: [], Display: true }));
         });
     }
+    getPostDongnutData(userCount) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            const postLength = ((_a = (yield post_videos_Repositary_1.postVideosRepo.getAllPosts())) === null || _a === void 0 ? void 0 : _a.length) || 0;
+            const data = {
+                completeText: "users with post",
+                remainingText: "users who don't have post",
+                completedPercentage: Math.floor((postLength * 100) / userCount),
+                get remainingPercentage() { return 100 - this.completedPercentage; }
+            };
+            return { status: true, message: "success", data };
+        });
+    }
 }
 exports.videoPost = new videoPostUseCase();

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isValidObjectId = exports.getUserDetailsFromToken = void 0;
+exports.getDatesOfCurrentYear = exports.getDate = exports.getLastMonths = exports.isValidObjectId = exports.getUserDetailsFromToken = void 0;
 const userauthenticationforavstreams_1 = require("userauthenticationforavstreams");
 const user_1 = require("../src/data/models/user");
 function getUserDetailsFromToken(req) {
@@ -24,3 +24,31 @@ const isValidObjectId = (str) => {
     return objectIdPattern.test(str);
 };
 exports.isValidObjectId = isValidObjectId;
+const getLastMonths = (monthCount) => {
+    let currentDate = new Date().getMonth();
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const lastMonths = [];
+    while (currentDate > -1) {
+        lastMonths.push(monthNames[currentDate]);
+        currentDate--;
+    }
+    return lastMonths.reverse();
+};
+exports.getLastMonths = getLastMonths;
+const getDate = (date, inc, fullDay) => {
+    let currentDate = (!fullDay) ? new Date() : new Date(fullDay);
+    currentDate.setDate(currentDate.getDate() + (inc ? date : -date));
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    return `${currentDate.getFullYear()}-${month}-${day}`;
+};
+exports.getDate = getDate;
+const getDatesOfCurrentYear = (arrayOfDays) => {
+    const currentYear = new Date().getFullYear();
+    const filteredArray = arrayOfDays.filter(item => {
+        let dateYear = new Date(item).getFullYear();
+        return dateYear <= currentYear;
+    });
+    return filteredArray;
+};
+exports.getDatesOfCurrentYear = getDatesOfCurrentYear;

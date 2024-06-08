@@ -130,7 +130,6 @@ export const joinCommentWithpost = (array1: postInterface[], array2: commentInte
 export const getDate = (date: number, fullDay: string) => {
     let currentDate = (!fullDay) ? new Date() : new Date(fullDay);
     currentDate.setDate(currentDate.getDate() + date);
-
     const month = String(currentDate.getMonth() + 1).padStart(2, '0')
     const day = String(currentDate.getDate()).padStart(2, '0');
     return `${currentDate.getFullYear()}-${month}-${day}`;

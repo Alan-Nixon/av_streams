@@ -220,3 +220,13 @@ export const addCategory = async (req: Request, res: Response) => {
         res.status(500).json({ status: false, message: error.message || "internal server error" })
     }
 }
+
+export const getPostDongnutData = async (req: Request, res: Response) => {
+    try {
+        const count = JSON.parse(req.query.query as string).userCount;
+        res.status(200).json(await videoPost.getPostDongnutData(Number(count)))
+    } catch (error: any) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" })
+    }
+}

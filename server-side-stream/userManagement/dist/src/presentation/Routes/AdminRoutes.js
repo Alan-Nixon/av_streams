@@ -35,6 +35,8 @@ router.get('/getAllUsers', userauthenticationforavstreams_1.isAdminAuthenticated
 router.get('/blockUser', userauthenticationforavstreams_1.isAdminAuthenticated, adminController.blockUser);
 router.get('/getBannerByLocation', userauthenticationforavstreams_1.isAdminAuthenticated, adminController.getBannerByLocation);
 router.get('/getPremiumUsers', userauthenticationforavstreams_1.isAdminAuthenticated, adminController.getPremiumUsers);
+router.get('/getDoungnutData', userauthenticationforavstreams_1.isAdminAuthenticated, adminController.getDoungnutData);
+router.get('/getLastSubscriptions', userauthenticationforavstreams_1.isAdminAuthenticated, adminController.getLastSubscriptions);
 router.post('/addbanner', userauthenticationforavstreams_1.isAdminAuthenticated, adminController.addBanner);
 router.post('/adminPostLogin', adminController.adminPostLogin);
 router.post('/createUser', userauthenticationforavstreams_1.isAdminAuthenticated, adminController.createUser);

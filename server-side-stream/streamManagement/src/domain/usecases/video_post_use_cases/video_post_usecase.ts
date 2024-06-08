@@ -210,6 +210,17 @@ class videoPostUseCase implements videoPostInterface {
         return await postVideosRepo.addCategory({ ...Data, videosCount: [], postCount: [], Display: true })
     }
 
+    async getPostDongnutData(userCount: number) {
+        const postLength = (await postVideosRepo.getAllPosts())?.length || 0
+        const data = {
+            completeText: "users with post",
+            remainingText: "users who don't have post",
+            completedPercentage: Math.floor((postLength * 100) / userCount),
+            get remainingPercentage() { return 100 - this.completedPercentage }
+        }
+        return { status: true, message: "success", data }
+    }
+
 }
 
 export const videoPost: videoPostInterface = new videoPostUseCase()

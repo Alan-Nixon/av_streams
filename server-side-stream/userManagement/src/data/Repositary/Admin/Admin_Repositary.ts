@@ -3,7 +3,7 @@ import { responseInterface } from "../../../domain/interfaces/ChangeUserDetails_
 import { IUserArrayOrNull, admin_repositary_interface } from "../../interfaces/Admin/admin_repositary_interface";
 import { IUser } from "../../interfaces/user_Model_Interface";
 import { BannerModel } from "../../models/banner";
-import { ChannelModel, SubscriptionInterface } from "../../models/channel";
+import { ChannelModel, IChannel, SubscriptionInterface } from "../../models/channel";
 import { UserModel } from "../../models/user";
 
 
@@ -42,8 +42,12 @@ class admin_repositary_layer implements admin_repositary_interface {
     }
 
     async addBanner(Data: Object): Promise<responseInterface> {
-        await BannerModel.insertMany(Data)
-        return { status: true, message: "success" }
+        try {
+            await BannerModel.insertMany(Data)
+            return { status: true, message: "success" }
+        } catch (error) {
+            return { status: false, message: "failed" }
+        }
     }
 
     async getBannerByLocation(location: string): Promise<responseInterface> {
@@ -62,6 +66,10 @@ class admin_repositary_layer implements admin_repositary_interface {
         return { status: true, message: "success", data: await ChannelModel.find({ premiumCustomer: true }) }
     }
 
+    async getChannels(): Promise<IChannel[] | null> {
+        return await ChannelModel.find()
+    }
+
     async cancelSubscription(userId: string) {
         const obj: SubscriptionInterface = {
             amount: 0, email: "",
@@ -71,6 +79,8 @@ class admin_repositary_layer implements admin_repositary_interface {
         await ChannelModel.findOneAndUpdate({ userId }, { subscription: obj })
         return { status: true, message: "success" }
     }
+
+  
 }
 
 export const adminRepositaryLayer: admin_repositary_interface = new admin_repositary_layer()

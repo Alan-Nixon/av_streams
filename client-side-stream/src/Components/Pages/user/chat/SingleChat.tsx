@@ -80,22 +80,22 @@ const ChatComponent = ({ setChatHome, personDetails, messages, messageSocket, se
                                                 <div className="bg-indigo-300 p-3 rounded-l-lg rounded-br-lg">
                                                     <p className="text-sm">{item.message}</p>
                                                 </div>
-                                                <span className="text-xs text-gray-500 leading-none">{getTimeDifference(item.time) ||  "0 minute"} ago</span>
+                                                <span className="text-xs text-gray-500 leading-none">{getTimeDifference(item.time) || "0 minute"} ago</span>
                                             </div>
                                             <div className="flex-shrink-0 h-8 w-8 m-1 rounded-full bg-gray-300">
-                                                <img src={personDetails.profileImage} className="rounded-full" alt="" />
+                                                <img src={user?.profileImage} className="rounded-full" alt="" />
                                             </div>
                                         </div>
                                         :
                                         <div className="flex justify-start w-[75%] p-3  max-w-xs">
                                             <div className="flex-shrink-0 h-8 w-8 m-1 rounded-full bg-gray-300">
-                                                <img src={user?.profileImage} alt="" className='rounded-full' />
+                                                <img src={personDetails.profileImage} alt="" className='rounded-full' />
                                             </div>
                                             <div>
                                                 <div className="bg-gray-300 p-3 ml-1 rounded-r-lg rounded-bl-lg">
                                                     <p className="text-sm">{item.message}</p>
                                                 </div>
-                                                <span className="text-xs text-gray-500 leading-none">{getTimeDifference(item.time)} ago</span>
+                                                <span className="text-xs text-gray-500 leading-none">{getTimeDifference(item.time) || "0 minute"} ago</span>
                                             </div>
                                         </div>
 

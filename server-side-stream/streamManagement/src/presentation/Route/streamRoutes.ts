@@ -34,10 +34,11 @@ router.delete('/deletePostFromCloudinary', isAuthenticated, controller.deletePos
 
 router.get('/getReportsBySection', isAdminAuthenticated, controller.getReportsBySection)
 router.get('/getBlockedVideos', isAdminAuthenticated, controller.getBlockedVideos)
-router.get('/getCategory',isAdminAuthenticated,controller.getCategory)
+router.get('/getCategory', isAdminAuthenticated, controller.getCategory)
+router.get('/getPostDongnutData', isAdminAuthenticated, controller.getPostDongnutData)
 
 
-router.patch('/blockcategory',isAdminAuthenticated,controller.blockcategory)
+router.patch('/blockcategory', isAdminAuthenticated, controller.blockcategory)
 router.patch('/blockContentVisiblity', isAdminAuthenticated, controller.blockContentVisiblity)
 router.patch('/ChangeVisiblityContent', isAdminAuthenticated, controller.changeVisiblityContent)
 

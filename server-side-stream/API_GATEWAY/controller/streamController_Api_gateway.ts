@@ -9,12 +9,14 @@ export const streamGetController = async (req: Request, res: Response) => {
     try {
         if (req.headers.authorization?.split(' ')[1] !== 'undefined') {
             const query = JSON.stringify(req.query)
+            console.log(streamUrl+req.params.Route);
+            
             const { data } = await axios.get(streamUrl + req.params.Route + `?query=${query}`, {
                 headers: { 'Authorization': req.headers.authorization }
             })
             res.status(200).json(data)
         } else {
-            res.status(304).json({ status: false, message: "no token found sorry" })
+            res.status(200).json({ status: false, message: "no token found sorry" })
         }
     } catch (error) {
         console.error(error)
