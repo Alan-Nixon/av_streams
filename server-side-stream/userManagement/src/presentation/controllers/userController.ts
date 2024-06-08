@@ -321,3 +321,17 @@ export const getNewChats = async (req: Request, res: Response) => {
         res.status(500).json({ status: false, message: error?.message || "internal server error" })
     }
 }
+
+
+export const getUserById = async (req: Request, res: Response) => {
+    try {
+        const userId = JSON.parse(req.query.query as string).userId
+        console.log(userId);
+
+        res.status(200).json(await change_user_usecase.getUserById(userId))
+    } catch (error: any) {
+        console.error(error);
+        res.status(500).json({ status: false, message: error?.message || "internal server error" })
+    }
+}
+

@@ -72,7 +72,6 @@ class changeUserDetails_usecase implements changeUserDetails_usecase_interface {
 
     async isFollowing(userId: string, channelUserId: string) {
         const channel = await changeUserRepositaryLayer.getChannelByUserId(channelUserId)
-        console.log(channel, userId, "this is the data");
         return {
             status: true, message: "success", data: {
                 profileLink: await changeUserRepositaryLayer.getProfileLinkByUserId(channelUserId),
@@ -147,6 +146,16 @@ class changeUserDetails_usecase implements changeUserDetails_usecase_interface {
         } catch (error: any) {
             console.error(error.message ?? "");
 
+            return { status: false, message: "failed", data: [] }
+        }
+    }
+
+    async getUserById(userId: string) {
+        try {
+            console.log(userId);
+
+            return { status: true, message: "success", data: await changeUserRepositaryLayer.getChannelByUserId(userId) }
+        } catch (error: any) {
             return { status: false, message: "failed", data: [] }
         }
     }

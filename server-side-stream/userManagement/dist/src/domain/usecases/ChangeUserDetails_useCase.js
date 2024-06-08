@@ -92,7 +92,6 @@ class changeUserDetails_usecase {
     isFollowing(userId, channelUserId) {
         return __awaiter(this, void 0, void 0, function* () {
             const channel = yield ChangeUserDetails_Repositary_1.changeUserRepositaryLayer.getChannelByUserId(channelUserId);
-            console.log(channel, userId, "this is the data");
             return {
                 status: true, message: "success", data: {
                     profileLink: yield ChangeUserDetails_Repositary_1.changeUserRepositaryLayer.getProfileLinkByUserId(channelUserId),
@@ -173,6 +172,17 @@ class changeUserDetails_usecase {
             }
             catch (error) {
                 console.error((_a = error.message) !== null && _a !== void 0 ? _a : "");
+                return { status: false, message: "failed", data: [] };
+            }
+        });
+    }
+    getUserById(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                console.log(userId);
+                return { status: true, message: "success", data: yield ChangeUserDetails_Repositary_1.changeUserRepositaryLayer.getChannelByUserId(userId) };
+            }
+            catch (error) {
                 return { status: false, message: "failed", data: [] };
             }
         });

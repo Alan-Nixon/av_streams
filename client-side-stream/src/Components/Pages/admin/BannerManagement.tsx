@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Layout from './Layout'
-import { bannerInterface, changeEvent, videoInterface } from '../../../Functions/interfaces'
+import { bannerInterface, changeEvent } from '../../../Functions/interfaces'
 import { animateScroll as scroll } from 'react-scroll';
 import { addBannerImageAdmin, getBannerByLocation, updateBannerImage } from '../../../Functions/userFunctions/adminManagement';
 import { toast } from 'react-toastify';

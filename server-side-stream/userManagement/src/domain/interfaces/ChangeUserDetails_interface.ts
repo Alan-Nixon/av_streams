@@ -33,4 +33,5 @@ export interface changeUserDetails_usecase_interface {
     getPopularChannels(limit: number): Promise<responseInterface>;
     getTrendingChannels(limit: number): Promise<responseInterface>;
     getNewChats(notIn: string[], userId: string): Promise<responseInterface>;
+    getUserById(userId: string): Promise<responseInterface>;
 } 

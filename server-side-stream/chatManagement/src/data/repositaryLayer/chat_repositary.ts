@@ -17,7 +17,6 @@ class chat_repositary_layer implements chat_repo_interface {
     async addChat(message: messageArray) {
         try {
             const chat = await ChatModel.findOne({ userId: { $all: [message.sender, message.to] } })
-            console.log(message, chat);
             if (chat) {
                 chat.details.push(message)
                 await chat.save()

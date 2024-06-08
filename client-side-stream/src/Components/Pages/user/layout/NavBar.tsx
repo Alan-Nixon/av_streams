@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useUser } from '../../../../UserContext';
-import { logout } from '../../../../Functions/userFunctions/userManagement';
+import { getUserById, logout } from '../../../../Functions/userFunctions/userManagement';
 
 
 import { useLocation, useNavigate } from 'react-router-dom';
-import ChatWindow from '../chat/chatHome';
+import ChatHome from '../chat/chatHome';
 import { Popup } from 'reactjs-popup'
-import ChatComponent from '../chat/SingleChat';
+import SingleChat from '../chat/SingleChat';
 import { Data, channelInterface, chatInterfaceProps, chatsInterface, messageArray } from '../../../../Functions/interfaces';
+import io from 'socket.io-client'
+import toast from 'react-hot-toast';
+import { toastFunction } from '../../../messageShowers/ToastFunction';
+import VideoCall from '../chat/VideoCall';
 
 
 
@@ -16,11 +20,36 @@ import { Data, channelInterface, chatInterfaceProps, chatsInterface, messageArra
 
 function NavBar() {
     const { setShowHideSideBar, showHideSideBar } = useUser()
+    const [messageSocket, setMessageSocket] = useState<any>(null)
+
     const [chatWindow, setChatwindow] = useState<boolean>(false)
     const [search, setSearch] = useState<string>('');
     const { user } = useUser()
     const location = useLocation()
     const Navigate = useNavigate()
+
+    if (messageSocket) {
+        messageSocket.on('incoming_message', (messReponse: any) => {
+            getUserById(messReponse.sender).then(({ data }) => {
+                if (data) {
+                    toastFunction({
+                        Link: data.profileImage,
+                        SenderId: data.channelName,
+                        Message: messReponse.message
+                    })
+
+                }
+            })
+        })
+    }
+
+    useEffect(() => {
+        if (user && user?._id) {
+            const messageSocket = io(process.env.REACT_APP_CHAT_MANAGEMENT_URL || "")
+            setMessageSocket(messageSocket);
+            messageSocket.emit('join', user._id)
+        }
+    }, [])
 
     function searchNow() {
         if (search !== "") {
@@ -28,6 +57,7 @@ function NavBar() {
             setTimeout(() => Navigate('/search?search=' + search), 0)
         }
     }
+
     return (
         <nav style={{ zIndex: "999" }} className="fixed top-0 left-0 right-0 bg-white  dark:bg-gray-900   border-white border-b-[1px] z-10">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
@@ -100,9 +130,9 @@ function NavBar() {
             </div >
 
 
-            {chatWindow && user && (
+            {chatWindow && messageSocket && user && (
                 <div className="fixed md:right-[100px] md:top-0 min-w-[360px]">
-                    <ChatPopup setChatWindow={setChatwindow} user={user} chatWindow={chatWindow} />
+                    <ChatPopup setChatWindow={setChatwindow} user={user} messageSocket={messageSocket} chatWindow={chatWindow} />
                 </div>
             )}
 
@@ -115,6 +145,8 @@ function NavBar() {
                     </button>
                 </div>
             )}
+
+            <VideoCall />
         </nav >
     );
 
@@ -127,7 +159,7 @@ export default React.memo(NavBar)
 
 
 
-export function ChatPopup({ chatWindow, setChatWindow, user }: chatInterfaceProps) {
+export function ChatPopup({ chatWindow, setChatWindow, user, messageSocket }: chatInterfaceProps) {
 
     const dumChannel: channelInterface = {
         _id: "", channelDescription: "", channelName: "",
@@ -139,7 +171,6 @@ export function ChatPopup({ chatWindow, setChatWindow, user }: chatInterfaceProp
     const [chatHome, setChatHome] = useState(true)
     const [chats, setChats] = useState<messageArray[]>([])
     const [person, setPerson] = useState<channelInterface>(dumChannel)
-    const [messageSocket, setMessageSocket] = useState<any>(null)
 
 
     const singleChatopen = (personDetails: any) => {
@@ -150,11 +181,12 @@ export function ChatPopup({ chatWindow, setChatWindow, user }: chatInterfaceProp
 
 
 
+
     return (
         <Popup trigger={<button />} position={'right top'} open={chatWindow} onClose={() => setChatWindow(false)}>
             {chatHome ?
-                <ChatWindow setChatHome={setChatWindow} singleChatopen={singleChatopen} userDetails={user} messageSocket={messageSocket} setMessageSocket = { setMessageSocket } /> :
-            <ChatComponent personDetails={person} messages={chats} setMessages={setChats} setChatHome={setChatHome} messageSocket={messageSocket} setMessageSocket = { setMessageSocket } />}
+                <ChatHome singleChatopen={singleChatopen} userDetails={user} /> :
+                <SingleChat personDetails={person} messages={chats} setMessages={setChats} setChatHome={setChatHome} messageSocket={messageSocket} />}
         </Popup>
     )
 }

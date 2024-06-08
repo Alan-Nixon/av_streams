@@ -4,12 +4,11 @@ import { useUser } from '../../../../UserContext'
 import { getChatOfUser } from '../../../../Functions/chatFunctions/chatManagement'
 import { useNavigate } from 'react-router-dom'
 import { getPersonDetailsChat, getTimeDifference } from '../../../../Functions/commonFunctions'
-import { toast } from 'react-toastify';
-import io from 'socket.io-client'
 import { getNewChats } from '../../../../Functions/userFunctions/userManagement'
 
 
-function ChatWindow({ singleChatopen, userDetails, setChatHome, messageSocket, setMessageSocket }: chatHomeIterface) {
+function ChatHome({ singleChatopen, userDetails }: chatHomeIterface) {
+
     const [homeChats, setHomeChats] = useState<chatHomeUsers[]>([])
     const [newChats, setNewChat] = useState<chatHomeUsers[]>([])
     const [loading, setLoading] = useState<boolean>(true)
@@ -36,15 +35,6 @@ function ChatWindow({ singleChatopen, userDetails, setChatHome, messageSocket, s
             setLoading(false)
         })();
     }, [user])
-
-    useEffect(() => {
-        if (user && user?._id) {
-            const messageSocket = io(process.env.REACT_APP_CHAT_MANAGEMENT_URL || "")
-            setMessageSocket(messageSocket);
-            messageSocket.emit('join', user._id)
-        }
-    }, [])
-
 
 
     if (loading) {
@@ -145,4 +135,4 @@ function ChatWindow({ singleChatopen, userDetails, setChatHome, messageSocket, s
     )
 }
 
-export default React.memo(ChatWindow)
+export default React.memo(ChatHome)

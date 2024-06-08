@@ -1,4 +1,4 @@
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import { confirmToastInterface, tableInterfaceData } from '../../Functions/interfaces';
 import { ToastOptions, toast } from 'react-toastify';
 

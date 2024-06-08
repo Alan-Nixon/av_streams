@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { messageArray, singleChatInterfce } from '../../../../Functions/interfaces';
-import { getTimeDifference, scrollDown } from '../../../../Functions/commonFunctions';
+import { getTimeDifference } from '../../../../Functions/commonFunctions';
 import { useUser } from '../../../../UserContext';
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
+import DuoIcon from '@mui/icons-material/Duo';
 
-const ChatComponent = ({ setChatHome, personDetails, messages, messageSocket, setMessages }: singleChatInterfce) => {
-    console.log(messages);
+
+const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMessages }: singleChatInterfce) => {
     const { user } = useUser();
     const [selectEmoji, setSelectEmoji] = useState<boolean>(false)
     const [message, setMessage] = useState("")
@@ -66,6 +67,9 @@ const ChatComponent = ({ setChatHome, personDetails, messages, messageSocket, se
                             <h2 className="text-xl leading-snug font-bold">{personDetails.channelName}</h2>
                         </a>
                         <a className="block text-sm font-medium hover:text-indigo-500" href="#0">@{personDetails.userName}</a>
+                    </div>
+                    <div className="call mx-auto">
+                        <DuoIcon style={{ fontSize: "40px",cursor:"pointer" }} />
                     </div>
                 </div><hr className='mt-1' />
 
@@ -127,4 +131,4 @@ const ChatComponent = ({ setChatHome, personDetails, messages, messageSocket, se
         </div>
     );
 };
-export default React.memo(ChatComponent)
+export default React.memo(SingleChat)

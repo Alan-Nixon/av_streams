@@ -27,7 +27,6 @@ class chat_repositary_layer {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const chat = yield chat_1.ChatModel.findOne({ userId: { $all: [message.sender, message.to] } });
-                console.log(message, chat);
                 if (chat) {
                     chat.details.push(message);
                     yield chat.save();
