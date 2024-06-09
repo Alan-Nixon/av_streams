@@ -14,6 +14,7 @@ import { useSocket } from './Functions/realtime/socketContext';
 import { useUser } from './UserContext';
 import { Toaster } from 'react-hot-toast'
 import { toastFunction } from './Components/messageShowers/ToastFunction';
+import ErrorBoundary from './ErrorBoundry';
 
 const Error = lazy(() => import('./Components/Pages/user/pages/Error'));
 
@@ -40,7 +41,7 @@ const Search = lazy(() => import('./Components/Pages/user/pages/Search'))
 const ShowLive = lazy(() => import('./Components/Pages/user/pages/ShowLive'))
 
 function App() {
- 
+
   const [loading, setLoading] = useState(true)
   const dispatch = useDispatch();
   const userAuthenticated = useSelector((state: any) => state?.counter?.userAuthenticated);
@@ -87,9 +88,13 @@ function App() {
 
   const SuspenceComponent = ({ children }: ContentProps) => {
     return <Suspense fallback={<><div className="lds-dual-ring"></div></>} >
-      <ToastContainer />
-      <Toaster />
-      {children}
+      <ErrorBoundary onError={() => { }} >
+        <>
+          <ToastContainer />
+          <Toaster />
+          {children}
+        </>
+      </ErrorBoundary>
     </Suspense>
   }
 
@@ -98,38 +103,38 @@ function App() {
     <Router>
 
 
-        <SuspenceComponent>
-          <Routes>
+      <SuspenceComponent>
+        <Routes>
 
-            <Route path="/" element={<Home />} />
-            <Route path='/forgetPassword' element={<ForgetPassword />} />
-            <Route path='/LiveNow' element={<LiveNow />} />
-            <Route path='/Videos' element={<Videos />} />
-            <Route path='/Shorts' element={<Shorts />} />
-            <Route path='/Channels' element={<Channels />} />
-            <Route path='/FullVideo' element={<FullVideo />} />
-            <Route path='/channel' element={<Channel />} />
-            <Route path='/search' element={<Search />} />
+          <Route path="/" element={<Home />} />
+          <Route path='/forgetPassword' element={<ForgetPassword />} />
+          <Route path='/LiveNow' element={<LiveNow />} />
+          <Route path='/Videos' element={<Videos />} />
+          <Route path='/Shorts' element={<Shorts />} />
+          <Route path='/Channels' element={<Channels />} />
+          <Route path='/FullVideo' element={<FullVideo />} />
+          <Route path='/channel' element={<Channel />} />
+          <Route path='/search' element={<Search />} />
 
-            <Route path='/subscription' element={userAuthenticated ? <Subscription /> : <Navigate to="/login" />} />
-            <Route path='/profile' element={userAuthenticated ? <Profile /> : <Navigate to="/login" />} />
-            <Route path='/Login' element={userAuthenticated ? <Navigate to='/' /> : <Login />} />
-            <Route path='/Signup' element={userAuthenticated ? <Navigate to='/' /> : <Signup />} />
-            <Route path='/startLive' element={userAuthenticated ? <StartLive /> : <Navigate to='/' />} />
-            <Route path='/showLive'  element={userAuthenticated ? <ShowLive /> : <Navigate to='/' />} />
+          <Route path='/subscription' element={userAuthenticated ? <Subscription /> : <Navigate to="/login" />} />
+          <Route path='/profile' element={userAuthenticated ? <Profile /> : <Navigate to="/login" />} />
+          <Route path='/Login' element={userAuthenticated ? <Navigate to='/' /> : <Login />} />
+          <Route path='/Signup' element={userAuthenticated ? <Navigate to='/' /> : <Signup />} />
+          <Route path='/startLive' element={userAuthenticated ? <StartLive /> : <Navigate to='/' />} />
+          <Route path='/showLive' element={userAuthenticated ? <ShowLive /> : <Navigate to='/' />} />
 
-            <Route path='/admin/adminLogin' element={adminAuthenticated ? <Navigate to="/admin" /> : <AdminLogin />} />
-            <Route path='/admin' element={adminAuthenticated ? <AdminDashboard /> : <Navigate to="/admin/adminLogin" />} />
-            <Route path='/admin/userManagement' element={adminAuthenticated ? <UserManagement /> : <Navigate to="/admin/adminLogin" />} />
-            <Route path='/admin/categoryManagement' element={adminAuthenticated ? <CategoryManagement /> : <Navigate to="/admin/adminLogin" />} />
-            <Route path='/admin/bannerManagement' element={adminAuthenticated ? <BannerManagement /> : <Navigate to="/admin/adminLogin" />} />
-            <Route path='/admin/reportManagement' element={adminAuthenticated ? <ReportManagement /> : <Navigate to="/admin/adminLogin" />} />
-            <Route path='/admin/offerManagement' element={adminAuthenticated ? <OfferManagement /> : <Navigate to="/admin/adminLogin" />} />
+          <Route path='/admin/adminLogin' element={adminAuthenticated ? <Navigate to="/admin" /> : <AdminLogin />} />
+          <Route path='/admin' element={adminAuthenticated ? <AdminDashboard /> : <Navigate to="/admin/adminLogin" />} />
+          <Route path='/admin/userManagement' element={adminAuthenticated ? <UserManagement /> : <Navigate to="/admin/adminLogin" />} />
+          <Route path='/admin/categoryManagement' element={adminAuthenticated ? <CategoryManagement /> : <Navigate to="/admin/adminLogin" />} />
+          <Route path='/admin/bannerManagement' element={adminAuthenticated ? <BannerManagement /> : <Navigate to="/admin/adminLogin" />} />
+          <Route path='/admin/reportManagement' element={adminAuthenticated ? <ReportManagement /> : <Navigate to="/admin/adminLogin" />} />
+          <Route path='/admin/offerManagement' element={adminAuthenticated ? <OfferManagement /> : <Navigate to="/admin/adminLogin" />} />
 
-            <Route path='*' element={<Error />} />
+          <Route path='*' element={<Error />} />
 
-          </Routes>
-        </SuspenceComponent> 
+        </Routes>
+      </SuspenceComponent>
     </Router>
   );
 

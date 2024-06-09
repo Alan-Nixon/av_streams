@@ -3,7 +3,7 @@ import { ReplyCommentInterface, propsComment } from "../interfaces"
 
 export const getCommentByCate = async (cate: string) => {
     const { data } = await axiosApiGateWay.get('/commentManagement/get_all_comments_cate?cate=' + cate)
-    return JSON.parse(data.data as string) || { data: "" }
+    return data?.data ? JSON.parse(data?.data as string) : []
 }
 
 export const uploadCommentFunc = async (Data: propsComment) => {
@@ -25,5 +25,5 @@ export const commentLikeWithId = async (commentId: string, userId: string) => {
 
 export const getCommentsByLinkId = async (linkId: string, cate: string) => {
     const { data } = await axiosApiGateWay.get('/commentManagement/get_comment_by_linkid?cate=' + cate + '&linkId=' + linkId)
-    return JSON.parse(data.data as string) || []
+    return JSON.parse(data?.data as string) || []
 }

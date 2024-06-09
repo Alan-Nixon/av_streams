@@ -22,6 +22,8 @@ app.use(cors({
 
 app.use(morgan('dev'));
 
+
+
 export type ProxyConfig = { 
     [key: string]: {
         target: string;
@@ -32,7 +34,6 @@ export type ProxyConfig = {
     };
 }
  
-
 
 const proxyConfig: ProxyConfig = {
     '/chatManagement': {

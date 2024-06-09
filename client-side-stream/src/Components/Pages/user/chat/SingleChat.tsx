@@ -6,6 +6,11 @@ import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 import DuoIcon from '@mui/icons-material/Duo';
 
+// video call
+import { ZIM } from "zego-zim-web";
+import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
+
+
 
 const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMessages }: singleChatInterfce) => {
     const { user } = useUser();
@@ -69,7 +74,7 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
                         <a className="block text-sm font-medium hover:text-indigo-500" href="#0">@{personDetails.userName}</a>
                     </div>
                     <div className="call mx-auto">
-                        <DuoIcon style={{ fontSize: "40px",cursor:"pointer" }} />
+                        <DuoIcon style={{ fontSize: "40px", cursor: "pointer" }} />
                     </div>
                 </div><hr className='mt-1' />
 
@@ -128,7 +133,29 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
                 </div>
 
             </div>
+            <VideoCall />
         </div>
     );
 };
+
 export default React.memo(SingleChat)
+
+
+
+function VideoCall() {
+
+    useEffect(() => {
+        // const userID = "";
+        // const userName = "userName" + userID;
+        // const appID = 0;
+        // const serverSecret = "";
+        // const TOKEN = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, null, userID, userName);
+
+        // const zp = ZegoUIKitPrebuilt.create(TOKEN);
+        // zp.addPlugins({ ZIM });
+    }, [])
+
+    return (<>
+
+    </>)
+}

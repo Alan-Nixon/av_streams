@@ -2,6 +2,7 @@ import axios, { AxiosProgressEvent } from "axios";
 import Cookies from "js-cookie";
 import { SetProgressFunction, commentInterface, postInterface } from "./interfaces";
 import { getChannelByUserId } from "./userFunctions/userManagement";
+import { toast } from "react-toastify";
 
 export const getTokenCookie = () => {
     const token = Cookies.get('userToken')
@@ -42,6 +43,9 @@ axiosApiGateWay.interceptors.response.use(
                     Cookies.remove('userToken');
                     window.location.href = '/login';
                 }
+            } else if (status === 504){
+                console.log(":service ");
+                return toast .error("service not available")
             }
         } else {
             // window.location.href = '/error';
@@ -109,6 +113,8 @@ export const likePostHome = (postId: string) => {
 
 
 export const joinCommentWithpost = (array1: postInterface[], array2: commentInterface[], userId: string) => {
+    console.log(array2);
+    
     if (array2) {
         for (const elem of array2) {
             if (elem.likedUsers.length && elem.likedUsers.includes(userId)) { elem.isUserLiked = true }

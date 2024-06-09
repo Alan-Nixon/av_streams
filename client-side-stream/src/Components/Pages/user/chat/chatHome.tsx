@@ -19,14 +19,13 @@ function ChatHome({ singleChatopen, userDetails }: chatHomeIterface) {
     useEffect(() => {
         (async () => {
             if (user && user._id) {
-                const { data } = await getChatOfUser(user._id)
-                if (data) {
+                const res = await getChatOfUser(user._id)
+                if (res && res?.data?.length > 0) {
 
-                    const personDetails = await getPersonDetailsChat(data, user._id)
+                    const personDetails = await getPersonDetailsChat(res.data, user._id)
                     setHomeChats(personDetails);
-                    const newChats = await getNewChats(data.map((item: any) => item.personDetails.userId))
-                    console.log(newChats.data);
-                    setNewChat(newChats.data)
+                    const newChats = await getNewChats(res.data.map((item: any) => item.personDetails.userId))
+                    setNewChat(newChats.res?.data)
                 }
 
             } else {

@@ -11,7 +11,6 @@ import { Data, channelInterface, chatInterfaceProps, chatsInterface, messageArra
 import io from 'socket.io-client'
 import toast from 'react-hot-toast';
 import { toastFunction } from '../../../messageShowers/ToastFunction';
-import VideoCall from '../chat/VideoCall';
 
 
 
