@@ -19,9 +19,6 @@ app.use((0, cors_1.default)({
     optionsSuccessStatus: 200
 }));
 app.use((0, morgan_1.default)('dev'));
-// app.use('/userManagement', router);
-// app.use('/streamManagement', streamRouter);
-// app.use('/commentManagement', commentRouter);
 const proxyConfig = {
     '/chatManagement': {
         target: process.env.CHATMANAGEMENT || '',

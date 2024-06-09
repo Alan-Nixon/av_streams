@@ -3,9 +3,6 @@ import cors from 'cors';
 import morgan from 'morgan';
 import http from 'http';
 import { config } from 'dotenv'; config();
-import router from './Routes/userRoutes';
-import streamRouter from './Routes/streamRoutes';
-import commentRouter from './Routes/commentRoutes';
 
 import { Server, Socket } from 'socket.io';
 import { createProxyMiddleware } from 'http-proxy-middleware';
@@ -18,20 +15,26 @@ const app: Application = express();
 app.use(cors({
     origin: process.env.CLIENT_SIDE_URL,
     credentials: true,
-    methods: ["GET", "POST", "PUT","PATCH", "DELETE", "OPTIONS"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     optionsSuccessStatus: 200
 }));
 
 
 app.use(morgan('dev'));
 
+export type ProxyConfig = { 
+    [key: string]: {
+        target: string;
+        changeOrigin: boolean;
+        timeout: number,
+        proxyTimeout: number,
+        pathRewrite?: { [key: string]: string };
+    };
+}
+ 
 
-// app.use('/userManagement', router);
-// app.use('/streamManagement', streamRouter);
-// app.use('/commentManagement', commentRouter);
 
-
-const proxyConfig:any = {
+const proxyConfig: ProxyConfig = {
     '/chatManagement': {
         target: process.env.CHATMANAGEMENT || '',
         changeOrigin: true,
@@ -72,9 +75,9 @@ const server = http.createServer(app);
 
 
 const io = new Server(server, {
-    cors: {
+    cors: { 
         origin: process.env.CLIENT_SIDE_URL,
-        methods: ["GET", "POST","PATCH","DELETE","PUT"],
+        methods: ["GET", "POST", "PATCH", "DELETE", "PUT"],
         credentials: true
     }
 });
