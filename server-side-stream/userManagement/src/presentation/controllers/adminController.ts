@@ -59,7 +59,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
 export const blockUser = async (req: Request, res: Response) => {
     try {
-        const obj: any = JSON.parse(req.query.query as string)
+        const obj: any = req.query
         await admin_useCase.blockUser(obj.userId)
         return res.status(200).json({ status: true })
     } catch (error) {
@@ -82,7 +82,7 @@ export const addBanner = async (req: Request, res: Response) => {
 
 export const getBannerByLocation = async (req: Request, res: Response) => {
     try {
-        const location: string = JSON.parse(req.query.query as string).location
+        const location: any = req.query.location
         return res.status(200).json(await admin_useCase.getBannerByLocation(location))
     } catch (error) {
         console.error(error)
@@ -129,8 +129,8 @@ export const getDoungnutData = async (req: Request, res: Response) => {
 
 export const getLastSubscriptions = async (req: Request, res: Response) => {
     try {
-        const data = Number(JSON.parse(req.query.query as string).monthCount)
-        return res.status(200).json(await admin_useCase.getLastSubscriptions(data))
+        const data = req.query.monthCount
+        return res.status(200).json(await admin_useCase.getLastSubscriptions(Number(data)))
     } catch (error) {
         console.error(error)
         return res.status(500).json({ status: false })

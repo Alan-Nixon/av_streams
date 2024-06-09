@@ -5,12 +5,12 @@ import { compare, hash } from "bcryptjs";
 import { createChannel, uploadImage } from "../../../../utils/HelperFunction";
 import { adminRepositaryLayer } from "../../../data/Repositary/Admin/Admin_Repositary";
 import { Request } from "express";
-import { responseInterface, walletDataInterface } from "../../interfaces/ChangeUserDetails_interface";
+import { walletDataInterface } from "../../interfaces/ChangeUserDetails_interface";
 import { SubscriptionInterface } from "../../../data/models/channel";
 import { changeUserRepositaryLayer } from "../../../data/Repositary/ChangeUserDetails_Repositary";
 import { user_authentication_layer } from "../../../data/Repositary/Authentication_Repositary";
 import { getDate, getDatesOfCurrentYear, getLastMonths } from "../../../../utils/commonFunctions";
-
+import { Fields, Files, IncomingForm } from 'formidable'
 
 class Admin_useCase implements Admin_Usecase_Interface {
 
@@ -93,8 +93,9 @@ class Admin_useCase implements Admin_Usecase_Interface {
 
     async addBanner(req: Request) {
         try {
-            const imageData = req.body.files.imageData[0]
-            const location = req.body.fields.location[0]
+            const form: any = await multipartFormSubmission(req)
+            const imageData = form.files.imageData[0]
+            const location = form.fields.location[0]
             const result = await uploadImage(imageData, "avstreamBannerImages")
             return await adminRepositaryLayer.addBanner({ imgUrl: result.url, location })
         } catch (error: any) {
@@ -112,11 +113,13 @@ class Admin_useCase implements Admin_Usecase_Interface {
 
     async updateBanner(req: Request) {
         try {
-            const file = req.body.files.file[0]
-            const bannerId = req.body.fields.bannerId[0]
-            console.log(file, bannerId);
+            
+            const form: any = await multipartFormSubmission(req)
+            const file = form.files.file[0]
+            const bannerId = form.fields.bannerId[0]
             const result = await uploadImage(file, "avstreamBannerImages")
             return await adminRepositaryLayer.updateBanner(result.url, bannerId)
+
         } catch (error: any) {
             return this.errorResponse(error)
         }
@@ -220,7 +223,7 @@ class Admin_useCase implements Admin_Usecase_Interface {
                 if (data[month] !== undefined)
                     data[month] += 1
             })
-            
+
             return { status: true, message: "success", data: { months, data } }
         } catch (error: any) {
             return this.errorResponse(error)
@@ -230,4 +233,20 @@ class Admin_useCase implements Admin_Usecase_Interface {
 }
 
 
-export const admin_useCase: Admin_Usecase_Interface = new Admin_useCase()
+export const admin_useCase: Admin_Usecase_Interface = new Admin_useCase();
+
+
+
+function multipartFormSubmission(req: Request): Promise<{ files: Files; fields: Fields }> {
+    return new Promise((resolve, reject) => {
+        const form = new IncomingForm();
+        form.parse(req, async (err: Error | null, fields: Fields, files: Files) => {
+            if (err) {
+                console.log(err);
+                reject(err);
+            } else {
+                resolve({ files, fields });
+            }
+        });
+    });
+}

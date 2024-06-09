@@ -146,7 +146,7 @@ function NavBar() {
                 </div>
             )}
 
-            <VideoCall />
+            {/* <VideoCall /> */}
         </nav >
     );
 

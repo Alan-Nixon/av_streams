@@ -155,6 +155,7 @@ class changeUserDetails_usecase {
         return __awaiter(this, void 0, void 0, function* () {
             var _a;
             try {
+                console.log(notIn, userId);
                 const { data } = yield this.getfollowersByUserId(userId);
                 const channels = yield Promise.all(data.Followers.map((item) => __awaiter(this, void 0, void 0, function* () {
                     const chan = yield this.getChannelByUserId(item._id);

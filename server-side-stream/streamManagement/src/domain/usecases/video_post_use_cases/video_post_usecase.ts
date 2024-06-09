@@ -114,7 +114,7 @@ class videoPostUseCase implements videoPostInterface {
     async getUserVideos(req: Request) {
         try {
             const data = getDataFromToken(getTokenFromRequest(req) || "") as payload
-            const val = JSON.parse(req.query.query as string).shorts
+            const val = req.query.shorts
             return await postVideosRepo.getUserVideos(data.id, val === "false" ? false : true)
         } catch (error: any) {
             console.log(error)
@@ -133,7 +133,7 @@ class videoPostUseCase implements videoPostInterface {
 
     async getVideosWithId(req: Request) {
         try {
-            const videoId = JSON.parse(req.query.query as string).videoId
+            const videoId: any = req.query.videoId
             return await postVideosRepo.getVideosWithId(videoId)
         } catch (error) {
             console.log(error)

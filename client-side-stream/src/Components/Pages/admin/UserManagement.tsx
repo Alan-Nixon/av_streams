@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Layout from './Layout';
 import { DataTable } from '../../Helpers/helperComponents';
+import { toast } from 'react-toastify';
 
 function UserManagement() {
     const [userData, setUserData] = useState<Data[]>([]);
@@ -42,7 +43,17 @@ function UserManagement() {
                         if (emailRegex.test(createUserData.Email.trim())) {
                             if (passwordRegex.test(createUserData.Password.trim())) {
                                 if (createUserData.confirmPassword.trim() === createUserData.Password.trim()) {
-                                    // adminCreateUser(createUserData)
+                                    adminCreateUser(createUserData).then(() => {
+                                        toast.success("successfully created the user")
+                                        setTimeout(() => {
+                                            setCreateUserData({
+                                                confirmPassword: "",
+                                                Email: "", FullName: "",
+                                                isAdmin: false, Password: "",
+                                                Phone: "", userName: ""
+                                            })
+                                        }, 0)
+                                    })
                                 } else {
                                     setError("Password do not match")
                                 }

@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import NavBar from '../layout/NavBar'
 import { useUser } from '../../../../UserContext';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import Comment from '../helpers/Comment';
 import { addReportSubmit, getVideosWithId } from '../../../../Functions/streamFunctions/streamManagement';
 import { followChannel, isFollowing, isPremiumUser } from '../../../../Functions/userFunctions/userManagement';
@@ -60,7 +59,9 @@ function FullVideo() {
 
             })
 
-            getCommentsByLinkId(videoId, 'video').then(({ data }) => {
+            getCommentsByLinkId(videoId, 'video').then(( data ) => {
+                console.log(data);
+                
                 setComments(data)
             })
 
@@ -87,26 +88,28 @@ function FullVideo() {
 
         const handleKeyPress = (event: KeyboardEvent) => {
             const { key } = event; const { current } = videoRef
+            if(key) {
 
-            if (key.toLowerCase() === 'f' && current) {
-
-                if (isFullScreen) {
-                    document.exitFullscreen();
-                    setIsFullScreen(false);
-                } else {
-                    setIsFullScreen(true);
-                    current.requestFullscreen()
+                if (key.toLowerCase() === 'f' && current) {
+    
+                    if (isFullScreen) {
+                        document.exitFullscreen();
+                        setIsFullScreen(false);
+                    } else {
+                        setIsFullScreen(true);
+                        current.requestFullscreen()
+                    }
+    
+                } else if (key.toLocaleLowerCase() === 'm' && current) {
+    
+                    current.muted = !current.muted;
+    
+                } else if (key === ' ' && current) {
+    
+                    event.preventDefault()
+                    current.paused ? current.play() : current.pause();
+    
                 }
-
-            } else if (key.toLocaleLowerCase() === 'm' && current) {
-
-                current.muted = !current.muted;
-
-            } else if (key === ' ' && current) {
-
-                event.preventDefault()
-                current.paused ? current.play() : current.pause();
-
             }
         };
 
@@ -121,7 +124,7 @@ function FullVideo() {
 
         if (!isActive) {
 
-            document.addEventListener('keydown', handleKeyPress);
+            // document.addEventListener('keydown', handleKeyPress);
         }
 
         return () => {
@@ -265,9 +268,9 @@ function FullVideo() {
                         </div>
                         <div className="justify-center">
                             {RecomandedVideos.length !== 0 ?
-                                RecomandedVideos.map((video) => {
+                                RecomandedVideos.map((video,idx) => {
                                     return (
-                                        <a href="#" style={{ width: "80%", backgroundColor: "#141414" }} className="recomandedBackgroundParentDiv flex mt-2 ml-auto mr-3 flex-col rounded-lg shadow md:flex-row md:max-w-xl ">
+                                      <a href="#" key={idx} style={{ width: "80%", backgroundColor: "#141414" }} className="recomandedBackgroundParentDiv flex mt-2 ml-auto mr-3 flex-col rounded-lg shadow md:flex-row md:max-w-xl ">
                                             <img className="object-cover rounded-t-lg" style={{ width: "150px" }} src="https://lh3.googleusercontent.com/a/ACg8ocL2nEt-sPQXcxr1GD76jsTKuIqccxtnrdZ0IGBnCC9I-FE35w=s96-c" alt="" />
                                             <div className="flex flex-col m-2 leading-normal">
                                                 <h5 className=" tracking-tight text-gray-900 dark:text-white">{video.Title}</h5>

@@ -1,84 +1,99 @@
 import express, { Application } from 'express';
 import cors from 'cors';
-import morgan from 'morgan'
+import morgan from 'morgan';
 import http from 'http';
-import { config } from 'dotenv'; config()
+import { config } from 'dotenv'; config();
 import router from './Routes/userRoutes';
 import streamRouter from './Routes/streamRoutes';
 import commentRouter from './Routes/commentRoutes';
 
 import { Server, Socket } from 'socket.io';
 import { createProxyMiddleware } from 'http-proxy-middleware';
-import { ProxyConfig } from './interface';
-
 
 const app: Application = express();
 
 
-app.use(express.json())
+
+
 app.use(cors({
     origin: process.env.CLIENT_SIDE_URL,
-    credentials:true,
+    credentials: true,
+    methods: ["GET", "POST", "PUT","PATCH", "DELETE", "OPTIONS"],
     optionsSuccessStatus: 200
-}))
-
-app.use(morgan('dev'))
-
-app.use('/userManagement', router)
-app.use('/streamManagement', streamRouter)
-app.use('/commentManagement', commentRouter);
+}));
 
 
+app.use(morgan('dev'));
 
 
+// app.use('/userManagement', router);
+// app.use('/streamManagement', streamRouter);
+// app.use('/commentManagement', commentRouter);
 
 
-const proxyConfig: ProxyConfig = {
+const proxyConfig:any = {
     '/chatManagement': {
-        target: process.env.CHATMANAGEMENT ?? '',
+        target: process.env.CHATMANAGEMENT || '',
         changeOrigin: true,
         pathRewrite: { '^/chatManagement': '' },
+        timeout: 60000,
+        proxyTimeout: 60000
     },
+    '/userManagement': {
+        target: process.env.USERMANAGEMENT || '',
+        changeOrigin: true,
+        pathRewrite: { '^/userManagement': '' },
+        timeout: 60000,
+        proxyTimeout: 60000
+    },
+    '/streamManagement': {
+        target: process.env.STREAMANAGEMENT || '',
+        changeOrigin: true,
+        pathRewrite: { '^/userManagement': '' },
+        timeout: 60000,
+        proxyTimeout: 60000
+    },
+    '/commentManagement': {
+        target: process.env.COMMENTMANAGEMENT || '',
+        changeOrigin: true,
+        pathRewrite: { '^/commentManagement': '' },
+        timeout: 60000,
+        proxyTimeout: 60000
+    }
 };
- 
 
 
 Object.keys(proxyConfig).forEach(context => {
-    app.use(context, createProxyMiddleware({
-        ...proxyConfig[context],
-        timeout: 5000,
-        proxyTimeout: 5000,
-    }));
+    app.use(context, createProxyMiddleware(proxyConfig[context]));
 });
 
 
+const server = http.createServer(app);
 
-
-
-
-const server = http.createServer(app)
 
 const io = new Server(server, {
     cors: {
         origin: process.env.CLIENT_SIDE_URL,
-        methods: ["GET", "POST"],
+        methods: ["GET", "POST","PATCH","DELETE","PUT"],
         credentials: true
     }
-})
+});
 
 
 io.on('connection', (socket: Socket) => {
-    console.log("scoket connected");
+    console.log("Socket connected");
 
-    socket.on('join', (Data) => { socket.join(Data); });
+    socket.on('join', (data) => {
+        socket.join(data);
+    });
 
     socket.on('followChannel', ({ data, userId }) => {
-        io.to(userId).emit('showFollowMessage', data) 
-    })
-
+        io.to(userId).emit('showFollowMessage', data);
+    });
 });
- 
 
 
-const PORT: string = process.env.PORT || "";
+const PORT: string = process.env.PORT || "8000";
 server.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
+
+export default app;

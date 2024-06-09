@@ -21,8 +21,12 @@ function Home() {
 
     useEffect(() => {
         getCategory().then(({ data }) => {
-            data = data.filter((item: categoryInterface) => item.Display)
-            setCateName(data.map((item: categoryInterface) => item.categoryName));
+            if (data) {
+                data = data?.filter((item: categoryInterface) => item.Display);
+                if (data) {
+                    setCateName(data?.map((item: categoryInterface) => item.categoryName));
+                }
+            }
         })
 
         const Banners: BannerInterfaceHome = {
@@ -46,7 +50,7 @@ function Home() {
 
     useEffect(() => {
         if (user && user?._id) {
-            getCommentByCate('post').then(({ data }) => {
+            getCommentByCate('post').then(( data ) => {
                 getAllPosts().then((response) => {
                     const res = joinCommentWithpost(response, data, user?._id || "");
                     if (data && res) { setPosts(res) }

@@ -69,7 +69,7 @@ export const likePost = async (req: Request, res: Response) => {
 
 export const getPostFromUser = async (req: Request, res: Response) => {
     try {
-        const { userId } = JSON.parse(req.query.query as string)
+        const { userId }: any = req.query
         const data = await videoPost.getPostFromUser(userId)
         res.status(200).json(data)
     } catch (error: any) {
@@ -98,7 +98,7 @@ export const getUserVideos = async (req: Request, res: Response) => {
 
 export const getAllVideos = async (req: Request, res: Response) => {
     try {
-        const isShorts = JSON.parse(req.query.query as string).shorts === "false" ? false : true
+        const isShorts = req.query.shorts === "false" ? false : true
         res.status(200).json(await videoPost.getAllVideos(isShorts))
     } catch (error: any) {
         console.log(error)
@@ -118,7 +118,7 @@ export const getVideosWithId = async (req: Request, res: Response) => {
 
 export const getMostWatchedVideoUser = async (req: Request, res: Response) => {
     try {
-        const userId = JSON.parse(req.query.query as string).userId
+        const userId: any = req.query.userId
         res.status(200).json(await videoPost.getMostWatchedVideoUser(userId))
     } catch (error: any) {
         console.log(error);
@@ -139,7 +139,7 @@ export const getPremiumVideos = async (req: Request, res: Response) => {
 
 export const searchVideosAndProfile = async (req: Request, res: Response) => {
     try {
-        const search = JSON.parse(req.query.query as string).search
+        const search: any = req.query.search
         res.status(200).json(await videoPost.searchVideosAndProfile(search))
     } catch (error: any) {
         console.log(error);
@@ -159,7 +159,7 @@ export const addReportSubmit = async (req: Request, res: Response) => {
 
 export const getReportsBySection = async (req: Request, res: Response) => {
     try {
-        const section = JSON.parse(req.query.query as string).Section
+        const section: any = req.query.Section
         res.status(200).json(await videoPost.getReportsBySection(section))
     } catch (error: any) {
         console.log(error);
@@ -223,7 +223,7 @@ export const addCategory = async (req: Request, res: Response) => {
 
 export const getPostDongnutData = async (req: Request, res: Response) => {
     try {
-        const count = JSON.parse(req.query.query as string).userCount;
+        const count: any = req.query.userCount;
         res.status(200).json(await videoPost.getPostDongnutData(Number(count)))
     } catch (error: any) {
         console.log(error);

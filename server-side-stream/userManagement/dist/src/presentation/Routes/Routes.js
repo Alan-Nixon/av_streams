@@ -31,10 +31,7 @@ const router = express_1.default.Router();
 const controller = __importStar(require("../controllers/userController"));
 const userauthenticationforavstreams_1 = require("userauthenticationforavstreams");
 //user get
-router.get('/sendOtp', controller.sendOtp);
-router.get('/forgetPasswordOtpSend', controller.forgetPasswordOtpSend);
 router.get('/userDetails', userauthenticationforavstreams_1.isAuthenticated, controller.isBlocked, controller.userDetails);
-router.get('/isUserAuth', controller.authenticated);
 router.get('/getWalletDetails', userauthenticationforavstreams_1.isAuthenticated, controller.getWalletDetails);
 router.get('/isPremiumUser', userauthenticationforavstreams_1.isAuthenticated, controller.isPremiumUser);
 router.get('/isFollowing', userauthenticationforavstreams_1.isAuthenticated, controller.isFollowing);
@@ -43,6 +40,9 @@ router.get('/getChannelById', userauthenticationforavstreams_1.isAuthenticated, 
 router.get('/getChannelByUserId', userauthenticationforavstreams_1.isAuthenticated, controller.getChannelByUserId);
 router.get('/getfollowersByUserId', userauthenticationforavstreams_1.isAuthenticated, controller.getfollowersByUserId);
 router.get('/getUserById', userauthenticationforavstreams_1.isAuthenticated, controller.getUserById);
+router.get('/sendOtp', controller.sendOtp);
+router.get('/isUserAuth', controller.authenticated);
+router.get('/forgetPasswordOtpSend', controller.forgetPasswordOtpSend);
 router.get('/getPopularChannels', controller.getPopularChannels);
 router.get('/getTrendingChannels', controller.getTrendingChannels);
 //user post

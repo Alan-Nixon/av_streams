@@ -12,7 +12,6 @@ def add_comment(request):
             data["Likes"] = 0
             data["Replies"] = []
             data["likedUsers"] = []
-            print(data)
             models.insertComment(data)
             return JsonResponse({"message": "Appo post route set aaytoo"})
         else:
@@ -24,13 +23,14 @@ def add_comment(request):
 def get_all_comments_cate(request):
     try:
         if request.method == "GET":
-            query = json.loads(request.GET.get("query")).get("cate")
+            query = request.GET["cate"]
             data = list(reversed(models.get_all_comments_grouped(query)))
             data = convert_to_json(data)
             return JsonResponse({"data": data, "message": "Appo get route  aaytoo"})
         else:
             return JsonResponse({"message": "Requesting as post error try get"})
     except:
+        print(request.GET["cate"], "error ind")
         return JsonResponse({"message": "Requesting as post error try get"})
 
 
@@ -67,14 +67,14 @@ def like_comment(request):
 def get_comment_by_linkid(request):
     try:
         if request.method == "GET":
-            query = json.loads(request.GET.get("query"))
+            query = request.GET
             data = list(reversed(models.get_all_comments_grouped(query.get("cate"))))
+
             filtered_comments = [
                 comment
                 for comment in data
                 if comment.get("LinkId") == query.get("linkId")
             ]
-            print(filtered_comments,query)
             return JsonResponse(
                 {
                     "message": "successfully fetched",

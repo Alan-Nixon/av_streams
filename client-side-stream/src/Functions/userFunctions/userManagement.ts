@@ -30,9 +30,10 @@ export const sendOtp = async (Email: string) => {
 }
 export const postSignup = async (postData: Data) => {
     try {
-        const { data } = await axiosApiGateWay.post('/userManagement/postSignup', postData)
+        const { data } = await axiosApiGateWay.post('/userManagement/postSignup', postData, { withCredentials: true })
         return data
     } catch (error) {
+        console.log(error);
 
     }
 }

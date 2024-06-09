@@ -16,14 +16,26 @@ require("./presentation/RabbitMq/producer");
 const app = (0, express_1.default)();
 const port = process.env.PORT || 8000;
 app.use((0, cors_1.default)({
-    origin: process.env.APIGATEWAY_URL,
+    origin: process.env.CLIENT_SIDE_URL,
+    credentials: true,
     allowedHeaders: ['Authorization']
 }));
 app.use(express_1.default.json());
 app.use((0, morgan_1.default)('dev'));
-app.use('/', Routes_1.default);
-app.use('/', AdminRoutes_1.default);
+// Route handling
+app.use('/', Routes_1.default); // Use a specific prefix for API routes
+app.use('/', AdminRoutes_1.default); // Use a specific prefix for admin routes
+// 404 Handler
+app.use((req, res) => {
+    res.status(404).json({ message: 'Resource not found' });
+});
+// Error Handler
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ message: 'Internal server error' });
+});
+// Server startup
 app.listen(port, () => {
-    console.log(`Server running http://localhost:${port}`);
+    console.log(`Server running at http://localhost:${port}`);
 });
 exports.default = app;

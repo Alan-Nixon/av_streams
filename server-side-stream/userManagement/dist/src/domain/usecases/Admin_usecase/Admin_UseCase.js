@@ -18,6 +18,7 @@ const Admin_Repositary_1 = require("../../../data/Repositary/Admin/Admin_Reposit
 const ChangeUserDetails_Repositary_1 = require("../../../data/Repositary/ChangeUserDetails_Repositary");
 const Authentication_Repositary_1 = require("../../../data/Repositary/Authentication_Repositary");
 const commonFunctions_1 = require("../../../../utils/commonFunctions");
+const formidable_1 = require("formidable");
 class Admin_useCase {
     errorResponse(error) {
         var _a;
@@ -114,8 +115,9 @@ class Admin_useCase {
     addBanner(req) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const imageData = req.body.files.imageData[0];
-                const location = req.body.fields.location[0];
+                const form = yield multipartFormSubmission(req);
+                const imageData = form.files.imageData[0];
+                const location = form.fields.location[0];
                 const result = yield (0, HelperFunction_1.uploadImage)(imageData, "avstreamBannerImages");
                 return yield Admin_Repositary_1.adminRepositaryLayer.addBanner({ imgUrl: result.url, location });
             }
@@ -137,9 +139,9 @@ class Admin_useCase {
     updateBanner(req) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const file = req.body.files.file[0];
-                const bannerId = req.body.fields.bannerId[0];
-                console.log(file, bannerId);
+                const form = yield multipartFormSubmission(req);
+                const file = form.files.file[0];
+                const bannerId = form.fields.bannerId[0];
                 const result = yield (0, HelperFunction_1.uploadImage)(file, "avstreamBannerImages");
                 return yield Admin_Repositary_1.adminRepositaryLayer.updateBanner(result.url, bannerId);
             }
@@ -265,3 +267,17 @@ class Admin_useCase {
     }
 }
 exports.admin_useCase = new Admin_useCase();
+function multipartFormSubmission(req) {
+    return new Promise((resolve, reject) => {
+        const form = new formidable_1.IncomingForm();
+        form.parse(req, (err, fields, files) => __awaiter(this, void 0, void 0, function* () {
+            if (err) {
+                console.log(err);
+                reject(err);
+            }
+            else {
+                resolve({ files, fields });
+            }
+        }));
+    });
+}

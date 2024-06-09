@@ -21,7 +21,9 @@ function MyPosts() {
     useEffect(() => {
         (async () => {
             const posts: postInterface[] = (await getAllpostOfUser()).data
-            const { data } = await getCommentByCate('post')
+            const data = await getCommentByCate('post')
+            console.log(data);
+            
             const res = joinCommentWithpost(posts, data, user?._id || "")
             posts.forEach(element => element.profileLink = user?.profileImage || "")
             setMyPost(res); setLoading(false);

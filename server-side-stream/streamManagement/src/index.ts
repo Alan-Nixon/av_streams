@@ -16,13 +16,13 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: process.env.CLIENT_SIDE_URL,
     methods: ['GET', 'POST']
   }
 })
 
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: process.env.CLIENT_SIDE_URL,
   credentials: true,
   allowedHeaders: ["Session", "Cookie"]
 }));

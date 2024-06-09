@@ -133,7 +133,7 @@ class videoPostUseCase {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const data = (0, userauthenticationforavstreams_1.getDataFromToken)((0, userauthenticationforavstreams_1.getTokenFromRequest)(req) || "");
-                const val = JSON.parse(req.query.query).shorts;
+                const val = req.query.shorts;
                 return yield post_videos_Repositary_1.postVideosRepo.getUserVideos(data.id, val === "false" ? false : true);
             }
             catch (error) {
@@ -156,7 +156,7 @@ class videoPostUseCase {
     getVideosWithId(req) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const videoId = JSON.parse(req.query.query).videoId;
+                const videoId = req.query.videoId;
                 return yield post_videos_Repositary_1.postVideosRepo.getVideosWithId(videoId);
             }
             catch (error) {

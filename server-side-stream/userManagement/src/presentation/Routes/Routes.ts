@@ -6,10 +6,7 @@ import { isAuthenticated } from "userauthenticationforavstreams"
 
 
 //user get
-router.get('/sendOtp', controller.sendOtp)
-router.get('/forgetPasswordOtpSend', controller.forgetPasswordOtpSend)
 router.get('/userDetails', isAuthenticated, controller.isBlocked, controller.userDetails)
-router.get('/isUserAuth', controller.authenticated)
 router.get('/getWalletDetails', isAuthenticated, controller.getWalletDetails)
 router.get('/isPremiumUser', isAuthenticated, controller.isPremiumUser)
 router.get('/isFollowing', isAuthenticated, controller.isFollowing)
@@ -19,6 +16,9 @@ router.get('/getChannelByUserId', isAuthenticated, controller.getChannelByUserId
 router.get('/getfollowersByUserId', isAuthenticated, controller.getfollowersByUserId)
 router.get('/getUserById', isAuthenticated, controller.getUserById)
 
+router.get('/sendOtp', controller.sendOtp)
+router.get('/isUserAuth', controller.authenticated)
+router.get('/forgetPasswordOtpSend', controller.forgetPasswordOtpSend)
 router.get('/getPopularChannels', controller.getPopularChannels)
 router.get('/getTrendingChannels', controller.getTrendingChannels)
 

@@ -9,8 +9,10 @@ export const getTokenCookie = () => {
 }
 
 
+
 export const axiosApiGateWay = axios.create({
     baseURL: process.env.REACT_APP_API_GATEWAY, headers: {
+        "Content-Type": "application/json",
         'Authorization': getTokenCookie()
     }
 })
@@ -106,23 +108,24 @@ export const likePostHome = (postId: string) => {
 }
 
 
-
-
 export const joinCommentWithpost = (array1: postInterface[], array2: commentInterface[], userId: string) => {
-    for (const elem of array2) {
-        if (elem.likedUsers.length && elem.likedUsers.includes(userId)) { elem.isUserLiked = true }
-        const foundedPost = array1.find((item) => item._id === elem.LinkId);
-        if (foundedPost) {
-            if (foundedPost.Comments) {
-                foundedPost.Comments.push(elem);
-            } else {
-                foundedPost.Comments = [elem]
+    if (array2) {
+        for (const elem of array2) {
+            if (elem.likedUsers.length && elem.likedUsers.includes(userId)) { elem.isUserLiked = true }
+            const foundedPost = array1.find((item) => item._id === elem.LinkId);
+            if (foundedPost) {
+                if (foundedPost.Comments) {
+                    foundedPost.Comments.push(elem);
+                } else {
+                    foundedPost.Comments = [elem]
+                }
             }
         }
+        for (const item of array1) {
+            item.liked = item.likesArray?.includes(userId) ? true : false;
+        }
     }
-    for (const item of array1) {
-        item.liked = item.likesArray?.includes(userId) ? true : false;
-    }
+
     return array1;
 }
 

@@ -44,12 +44,12 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 const io = new socket_io_1.Server(server, {
     cors: {
-        origin: 'http://localhost:3000',
+        origin: process.env.CLIENT_SIDE_URL,
         methods: ['GET', 'POST']
     }
 });
 app.use((0, cors_1.default)({
-    origin: "http://localhost:3000",
+    origin: process.env.CLIENT_SIDE_URL,
     credentials: true,
     allowedHeaders: ["Session", "Cookie"]
 }));

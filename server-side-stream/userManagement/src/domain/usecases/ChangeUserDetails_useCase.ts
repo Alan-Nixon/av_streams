@@ -127,7 +127,8 @@ class changeUserDetails_usecase implements changeUserDetails_usecase_interface {
 
     async getNewChats(notIn: string[], userId: string) {
         try {
-
+            console.log(notIn,userId);
+            
             const { data } = await this.getfollowersByUserId(userId)
             const channels = await Promise.all(data.Followers.map(async (item: any) => {
                 const chan = await this.getChannelByUserId(item._id)

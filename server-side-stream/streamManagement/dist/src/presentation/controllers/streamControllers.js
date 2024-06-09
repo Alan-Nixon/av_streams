@@ -83,7 +83,7 @@ const likePost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.likePost = likePost;
 const getPostFromUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { userId } = JSON.parse(req.query.query);
+        const { userId } = req.query;
         const data = yield video_post_usecase_1.videoPost.getPostFromUser(userId);
         res.status(200).json(data);
     }
@@ -115,7 +115,7 @@ const getUserVideos = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.getUserVideos = getUserVideos;
 const getAllVideos = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const isShorts = JSON.parse(req.query.query).shorts === "false" ? false : true;
+        const isShorts = req.query.shorts === "false" ? false : true;
         res.status(200).json(yield video_post_usecase_1.videoPost.getAllVideos(isShorts));
     }
     catch (error) {
@@ -136,7 +136,7 @@ const getVideosWithId = (req, res) => __awaiter(void 0, void 0, void 0, function
 exports.getVideosWithId = getVideosWithId;
 const getMostWatchedVideoUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userId = JSON.parse(req.query.query).userId;
+        const userId = req.query.userId;
         res.status(200).json(yield video_post_usecase_1.videoPost.getMostWatchedVideoUser(userId));
     }
     catch (error) {
@@ -157,7 +157,7 @@ const getPremiumVideos = (req, res) => __awaiter(void 0, void 0, void 0, functio
 exports.getPremiumVideos = getPremiumVideos;
 const searchVideosAndProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const search = JSON.parse(req.query.query).search;
+        const search = req.query.search;
         res.status(200).json(yield video_post_usecase_1.videoPost.searchVideosAndProfile(search));
     }
     catch (error) {
@@ -178,7 +178,7 @@ const addReportSubmit = (req, res) => __awaiter(void 0, void 0, void 0, function
 exports.addReportSubmit = addReportSubmit;
 const getReportsBySection = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const section = JSON.parse(req.query.query).Section;
+        const section = req.query.Section;
         res.status(200).json(yield video_post_usecase_1.videoPost.getReportsBySection(section));
     }
     catch (error) {
@@ -249,7 +249,7 @@ const addCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.addCategory = addCategory;
 const getPostDongnutData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const count = JSON.parse(req.query.query).userCount;
+        const count = req.query.userCount;
         res.status(200).json(yield video_post_usecase_1.videoPost.getPostDongnutData(Number(count)));
     }
     catch (error) {

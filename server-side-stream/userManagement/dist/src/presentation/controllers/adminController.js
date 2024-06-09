@@ -60,7 +60,7 @@ const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getAllUsers = getAllUsers;
 const blockUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const obj = JSON.parse(req.query.query);
+        const obj = req.query;
         yield Admin_UseCase_1.admin_useCase.blockUser(obj.userId);
         return res.status(200).json({ status: true });
     }
@@ -83,7 +83,7 @@ const addBanner = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.addBanner = addBanner;
 const getBannerByLocation = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const location = JSON.parse(req.query.query).location;
+        const location = req.query.location;
         return res.status(200).json(yield Admin_UseCase_1.admin_useCase.getBannerByLocation(location));
     }
     catch (error) {
@@ -134,8 +134,8 @@ const getDoungnutData = (req, res) => __awaiter(void 0, void 0, void 0, function
 exports.getDoungnutData = getDoungnutData;
 const getLastSubscriptions = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const data = Number(JSON.parse(req.query.query).monthCount);
-        return res.status(200).json(yield Admin_UseCase_1.admin_useCase.getLastSubscriptions(data));
+        const data = req.query.monthCount;
+        return res.status(200).json(yield Admin_UseCase_1.admin_useCase.getLastSubscriptions(Number(data)));
     }
     catch (error) {
         console.error(error);

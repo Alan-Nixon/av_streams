@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUserById = exports.getNewChats = exports.getTrendingChannels = exports.getPopularChannels = exports.getfollowersByUserId = exports.getChannelByUserId = exports.getChannelById = exports.followChannel = exports.isFollowing = exports.isPremiumUser = exports.subscribeToPremium = exports.withDrawMoneyToWallet = exports.addMoneyToWallet = exports.changeChannelName = exports.changeProfileData = exports.changePassword = exports.forgetPasswordOtpSend = exports.authenticated = exports.changeProfileImage = exports.getWalletDetails = exports.regenerateToken = exports.userDetails = exports.sendOtp = exports.postLogin = exports.isBlocked = exports.postSignup = void 0;
+const formidable_1 = require("formidable");
 //usecase
 const Authentication_1 = require("../../domain/usecases/Authentication");
 const ChangeUserDetails_useCase_1 = require("../../domain/usecases/ChangeUserDetails_useCase");
@@ -78,7 +79,7 @@ const postLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.postLogin = postLogin;
 const sendOtp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const obj = JSON.parse(req.query.query);
+        const obj = req.query;
         const otp = Authentication_1.userDetailsInstance.sendOtp(obj.Email);
         res.status(200).json({ status: true, otp });
     }
@@ -118,7 +119,7 @@ const regenerateToken = (req, res) => __awaiter(void 0, void 0, void 0, function
 exports.regenerateToken = regenerateToken;
 const getWalletDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const obj = JSON.parse(req.query.query);
+        const obj = req.query;
         res.status(200).json(yield Authentication_1.userDetailsInstance.getWalletDetails(obj.userId));
     }
     catch (error) {
@@ -130,9 +131,10 @@ exports.getWalletDetails = getWalletDetails;
 //change use case
 const changeProfileImage = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const form = yield multipartFormSubmission(req);
         const payload = JSON.parse(JSON.stringify(req.user));
         if (payload) {
-            yield Authentication_1.userDetailsInstance.changeProfile(payload.id, req.body.files.file[0]);
+            yield Authentication_1.userDetailsInstance.changeProfile(payload.id, form.files.file[0]);
             res.status(200).json({ status: true, message: "changed successfully" });
         }
         else {
@@ -151,7 +153,7 @@ const authenticated = (req, res) => {
 exports.authenticated = authenticated;
 const forgetPasswordOtpSend = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const query = JSON.parse(req.query.query);
+        const query = req.query;
         const isSuccess = yield ChangeUserDetails_useCase_1.change_user_usecase.forgetPassword(query.Email);
         if (isSuccess) {
             res.status(200).json({ status: true, message: "An email has sent to your email" });
@@ -190,7 +192,7 @@ const changeProfileData = (req, res) => __awaiter(void 0, void 0, void 0, functi
 exports.changeProfileData = changeProfileData;
 const changeChannelName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const obj = JSON.parse(req.query.query);
+        const obj = req.query;
         const payload = JSON.parse(JSON.stringify(req.user));
         const data = yield ChangeUserDetails_useCase_1.change_user_usecase.changeChannelName(obj.channelName, payload);
         res.status(200).json(data);
@@ -234,7 +236,7 @@ const subscribeToPremium = (req, res) => __awaiter(void 0, void 0, void 0, funct
 exports.subscribeToPremium = subscribeToPremium;
 const isPremiumUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { userId } = JSON.parse(req.query.query);
+        const { userId } = req.query;
         res.status(200).json(yield ChangeUserDetails_useCase_1.change_user_usecase.isPremiumUser(userId));
     }
     catch (error) {
@@ -245,7 +247,7 @@ const isPremiumUser = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.isPremiumUser = isPremiumUser;
 const isFollowing = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const payload = JSON.parse(req.query.query);
+        const payload = req.query;
         res.status(200).json(yield ChangeUserDetails_useCase_1.change_user_usecase.isFollowing(payload.userId, payload.channelUserId));
     }
     catch (error) {
@@ -257,7 +259,7 @@ exports.isFollowing = isFollowing;
 const followChannel = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const payload = JSON.parse(JSON.stringify(req.user));
-        const channelId = JSON.parse(req.query.query).channelId;
+        const channelId = req.query.channelId;
         res.status(200).json(yield ChangeUserDetails_useCase_1.change_user_usecase.followChannel(payload.id || "", channelId));
     }
     catch (error) {
@@ -268,7 +270,7 @@ const followChannel = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.followChannel = followChannel;
 const getChannelById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const channelId = JSON.parse(req.query.query).channelId;
+        const channelId = req.query.channelId;
         res.status(200).json(yield ChangeUserDetails_useCase_1.change_user_usecase.getChannelById(channelId));
     }
     catch (error) {
@@ -279,7 +281,7 @@ const getChannelById = (req, res) => __awaiter(void 0, void 0, void 0, function*
 exports.getChannelById = getChannelById;
 const getChannelByUserId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const channelId = JSON.parse(req.query.query).channelId;
+        const channelId = req.query.channelId;
         res.status(200).json(yield ChangeUserDetails_useCase_1.change_user_usecase.getChannelByUserId(channelId));
     }
     catch (error) {
@@ -290,7 +292,7 @@ const getChannelByUserId = (req, res) => __awaiter(void 0, void 0, void 0, funct
 exports.getChannelByUserId = getChannelByUserId;
 const getfollowersByUserId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userId = JSON.parse(req.query.query).userId;
+        const userId = req.query.userId;
         res.status(200).json(yield ChangeUserDetails_useCase_1.change_user_usecase.getfollowersByUserId(userId));
     }
     catch (error) {
@@ -301,7 +303,7 @@ const getfollowersByUserId = (req, res) => __awaiter(void 0, void 0, void 0, fun
 exports.getfollowersByUserId = getfollowersByUserId;
 const getPopularChannels = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const limit = JSON.parse(req.query.query).limit;
+        const limit = req.query.limit;
         res.status(200).json(yield ChangeUserDetails_useCase_1.change_user_usecase.getPopularChannels(limit));
     }
     catch (error) {
@@ -312,7 +314,7 @@ const getPopularChannels = (req, res) => __awaiter(void 0, void 0, void 0, funct
 exports.getPopularChannels = getPopularChannels;
 const getTrendingChannels = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const limit = JSON.parse(req.query.query).limit;
+        const limit = req.query.limit;
         res.status(200).json(yield ChangeUserDetails_useCase_1.change_user_usecase.getTrendingChannels(limit));
     }
     catch (error) {
@@ -323,7 +325,9 @@ const getTrendingChannels = (req, res) => __awaiter(void 0, void 0, void 0, func
 exports.getTrendingChannels = getTrendingChannels;
 const getNewChats = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log(req.user);
         const { id } = Object.assign({}, req.user);
+        console.log(id);
         res.status(200).json(yield ChangeUserDetails_useCase_1.change_user_usecase.getNewChats(req.body, id));
     }
     catch (error) {
@@ -334,7 +338,7 @@ const getNewChats = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getNewChats = getNewChats;
 const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userId = JSON.parse(req.query.query).userId;
+        const userId = req.query.userId;
         console.log(userId);
         res.status(200).json(yield ChangeUserDetails_useCase_1.change_user_usecase.getUserById(userId));
     }
@@ -344,3 +348,17 @@ const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getUserById = getUserById;
+function multipartFormSubmission(req) {
+    return new Promise((resolve, reject) => {
+        const form = new formidable_1.IncomingForm();
+        form.parse(req, (err, fields, files) => __awaiter(this, void 0, void 0, function* () {
+            if (err) {
+                console.log(err);
+                reject(err);
+            }
+            else {
+                resolve({ files, fields });
+            }
+        }));
+    });
+}

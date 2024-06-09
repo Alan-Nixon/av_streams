@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-
+import { Fields, Files, IncomingForm } from 'formidable'
 //usecase
 import { userDetailsInstance } from '../../domain/usecases/Authentication';
 import { payloadInterface } from '../../domain/interfaces/AuthenticationInterface';
@@ -72,7 +72,7 @@ export const postLogin = async (req: Request, res: Response) => {
 
 export const sendOtp = async (req: Request, res: Response) => {
     try {
-        const obj: any = JSON.parse(req.query.query as string);
+        const obj: any = req.query
         const otp = userDetailsInstance.sendOtp(obj.Email)
         res.status(200).json({ status: true, otp })
     } catch (error) {
@@ -109,7 +109,7 @@ export const regenerateToken = async (req: Request, res: Response) => {
 
 export const getWalletDetails = async (req: Request, res: Response) => {
     try {
-        const obj: any = JSON.parse(req.query.query as string);
+        const obj: any = req.query
         res.status(200).json(await userDetailsInstance.getWalletDetails(obj.userId))
     } catch (error) {
         console.error(error);
@@ -124,9 +124,10 @@ export const getWalletDetails = async (req: Request, res: Response) => {
 
 export const changeProfileImage = async (req: Request, res: Response) => {
     try {
+        const form: any = await multipartFormSubmission(req)
         const payload = JSON.parse(JSON.stringify(req.user))
         if (payload) {
-            await userDetailsInstance.changeProfile(payload.id, req.body.files.file[0])
+            await userDetailsInstance.changeProfile(payload.id, form.files.file[0])
             res.status(200).json({ status: true, message: "changed successfully" })
         } else {
             throw new Error("payload not found")
@@ -147,7 +148,7 @@ export const authenticated = (req: Request, res: Response) => {
 
 export const forgetPasswordOtpSend = async (req: Request, res: Response) => {
     try {
-        const query = JSON.parse(req.query.query as string)
+        const query: any = req.query
         const isSuccess = await change_user_usecase.forgetPassword(query.Email)
         if (isSuccess) {
             res.status(200).json({ status: true, message: "An email has sent to your email" })
@@ -189,7 +190,7 @@ export const changeProfileData = async (req: Request, res: Response) => {
 
 export const changeChannelName = async (req: Request, res: Response) => {
     try {
-        const obj: any = JSON.parse(req.query.query as string)
+        const obj: any = req.query
         const payload = JSON.parse(JSON.stringify(req.user))
         const data = await change_user_usecase.changeChannelName(obj.channelName, payload)
         res.status(200).json(data)
@@ -232,7 +233,7 @@ export const subscribeToPremium = async (req: Request, res: Response) => {
 
 export const isPremiumUser = async (req: Request, res: Response) => {
     try {
-        const { userId } = JSON.parse(req.query.query as string)
+        const { userId }: any = req.query
         res.status(200).json(await change_user_usecase.isPremiumUser(userId))
     } catch (error: any) {
         console.error(error);
@@ -243,7 +244,7 @@ export const isPremiumUser = async (req: Request, res: Response) => {
 
 export const isFollowing = async (req: Request, res: Response) => {
     try {
-        const payload = JSON.parse(req.query.query as string)
+        const payload: any = req.query
         res.status(200).json(await change_user_usecase.isFollowing(payload.userId, payload.channelUserId))
     } catch (error: any) {
         console.log(error);
@@ -254,7 +255,7 @@ export const isFollowing = async (req: Request, res: Response) => {
 export const followChannel = async (req: Request, res: Response) => {
     try {
         const payload = JSON.parse(JSON.stringify(req.user as string))
-        const channelId = JSON.parse(req.query.query as string).channelId
+        const channelId: any = req.query.channelId
         res.status(200).json(await change_user_usecase.followChannel(payload.id || "", channelId))
     } catch (error: any) {
         console.log(error);
@@ -264,7 +265,7 @@ export const followChannel = async (req: Request, res: Response) => {
 
 export const getChannelById = async (req: Request, res: Response) => {
     try {
-        const channelId = JSON.parse(req.query.query as string).channelId
+        const channelId: any = req.query.channelId
         res.status(200).json(await change_user_usecase.getChannelById(channelId))
     } catch (error: any) {
         console.log(error);
@@ -274,7 +275,7 @@ export const getChannelById = async (req: Request, res: Response) => {
 
 export const getChannelByUserId = async (req: Request, res: Response) => {
     try {
-        const channelId = JSON.parse(req.query.query as string).channelId
+        const channelId: any = req.query.channelId
         res.status(200).json(await change_user_usecase.getChannelByUserId(channelId))
     } catch (error: any) {
         console.log(error);
@@ -284,7 +285,7 @@ export const getChannelByUserId = async (req: Request, res: Response) => {
 
 export const getfollowersByUserId = async (req: Request, res: Response) => {
     try {
-        const userId = JSON.parse(req.query.query as string).userId
+        const userId: any = req.query.userId
         res.status(200).json(await change_user_usecase.getfollowersByUserId(userId))
     } catch (error: any) {
         console.log(error);
@@ -294,7 +295,7 @@ export const getfollowersByUserId = async (req: Request, res: Response) => {
 
 export const getPopularChannels = async (req: Request, res: Response) => {
     try {
-        const limit = JSON.parse(req.query.query as string).limit
+        const limit: any = req.query.limit
         res.status(200).json(await change_user_usecase.getPopularChannels(limit))
     } catch (error: any) {
         console.log(error);
@@ -304,7 +305,7 @@ export const getPopularChannels = async (req: Request, res: Response) => {
 
 export const getTrendingChannels = async (req: Request, res: Response) => {
     try {
-        const limit = JSON.parse(req.query.query as string).limit
+        const limit: any = req.query.limit
         res.status(200).json(await change_user_usecase.getTrendingChannels(limit))
     } catch (error: any) {
         console.log(error);
@@ -314,7 +315,11 @@ export const getTrendingChannels = async (req: Request, res: Response) => {
 
 export const getNewChats = async (req: Request, res: Response) => {
     try {
+        console.log(req.user); 
+        
         const { id }: any = { ...req.user }
+        console.log(id);
+        
         res.status(200).json(await change_user_usecase.getNewChats(req.body, id))
     } catch (error: any) {
         console.error(error);
@@ -325,7 +330,7 @@ export const getNewChats = async (req: Request, res: Response) => {
 
 export const getUserById = async (req: Request, res: Response) => {
     try {
-        const userId = JSON.parse(req.query.query as string).userId
+        const userId: any = req.query.userId
         console.log(userId);
 
         res.status(200).json(await change_user_usecase.getUserById(userId))
@@ -333,5 +338,20 @@ export const getUserById = async (req: Request, res: Response) => {
         console.error(error);
         res.status(500).json({ status: false, message: error?.message || "internal server error" })
     }
+}
+
+
+function multipartFormSubmission(req: Request): Promise<{ files: Files; fields: Fields }> {
+    return new Promise((resolve, reject) => {
+        const form = new IncomingForm();
+        form.parse(req, async (err: Error | null, fields: Fields, files: Files) => {
+            if (err) {
+                console.log(err);
+                reject(err);
+            } else {
+                resolve({ files, fields });
+            }
+        });
+    });
 }
 

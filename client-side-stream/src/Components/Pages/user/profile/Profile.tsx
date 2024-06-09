@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useUser } from '../../../../UserContext'
 import NavBar from '../layout/NavBar'
 import { changeChannelName, changeProfileData, changeProfileImage, isPremiumUser } from '../../../../Functions/userFunctions/userManagement';
-import Swal from 'sweetalert2';
 import { Data, changeEvent, responseIntefraceImage } from '../../../../Functions/interfaces';
 
 import Mystreams from './Mystreams';
@@ -11,6 +10,7 @@ import MyPosts from './MyPosts';
 import WalletSection from './Wallet';
 import Followers from '../pages/Followers';
 import WatchHistory from './WatchHistory';
+import { toast } from 'react-toastify';
 
 
 function Profile() {
@@ -106,13 +106,8 @@ const ProfileSection = () => {
         if (imageData) {
             console.log(Array.from(imageData)[0]);
             changeProfileImage(Array.from(imageData)[0]).then((result: responseIntefraceImage) => {
-                console.log(result, "this is the dgblrgll")
                 if (result.status) {
-                    Swal.fire({
-                        title: "Success",
-                        text: "Image succussfuly changed",
-                        icon: "success"
-                    }).then(() => {
+                   toast.success("Image succussfuly changed")
                         setImageData(null)
                         if (user) {
                             const updatedUserData: Data = {
@@ -122,13 +117,8 @@ const ProfileSection = () => {
                             };
                             setUserData(updatedUserData);
                         }
-                    })
                 } else {
-                    Swal.fire({
-                        title: "Error occured",
-                        text: "Cannot change image",
-                        icon: "error"
-                    })
+                   toast.error("failed to change profile image")
                 }
             })
         }
@@ -226,18 +216,23 @@ const ProfileSection = () => {
 
             </div>
         </div>
-        <div className="beforeResponsiveProfileChangeIcon">
+        <div className="beforeResponsiveProfileChangeIcon ">
             <input className='hidden' onChange={setImage} ref={fileInputRef} type="file" accept='image/*' />
-            <button onClick={() => { if (fileInputRef.current) { fileInputRef.current.click() } }} style={{ marginLeft: "16%" }} className="mt-5 flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
-                <span className="flex px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                    Change profile
-                </span>
-            </button>
-            {imageData && <button onClick={changeImage} className=" relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
-                <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                    Save
-                </span>
-            </button>}
+            <div className="flex">
+                <button onClick={() => { if (fileInputRef.current) { fileInputRef.current.click() } }} style={{ marginLeft: "16%" }} className="mt-5 flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
+                    <span className="flex px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                        Change profile
+                    </span>
+                </button>
+                <div className="mt-5">
+
+                    {imageData && <button onClick={changeImage} className="p-0.5  items-center justify-center   overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+                        <span className="flex px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                            Save
+                        </span>
+                    </button>}
+                </div>
+            </div>
         </div>
 
     </>)
