@@ -31,7 +31,7 @@ const router = express_1.default.Router();
 const controller = __importStar(require("../controllers/userController"));
 const userauthenticationforavstreams_1 = require("userauthenticationforavstreams");
 //user get
-router.get('/userDetails', userauthenticationforavstreams_1.isAuthenticated, controller.isBlocked, controller.userDetails);
+router.get('/userDetails', userauthenticationforavstreams_1.isAuthenticated, controller.userDetails);
 router.get('/getWalletDetails', userauthenticationforavstreams_1.isAuthenticated, controller.getWalletDetails);
 router.get('/isPremiumUser', userauthenticationforavstreams_1.isAuthenticated, controller.isPremiumUser);
 router.get('/isFollowing', userauthenticationforavstreams_1.isAuthenticated, controller.isFollowing);
@@ -53,7 +53,7 @@ router.post('/addMoneyToWallet', userauthenticationforavstreams_1.isAuthenticate
 router.post('/withDrawMoneyToWallet', userauthenticationforavstreams_1.isAuthenticated, controller.withDrawMoneyToWallet);
 router.post('/getNewChats', userauthenticationforavstreams_1.isAuthenticated, controller.getNewChats);
 //user patch
-router.patch('/changeChannelName', userauthenticationforavstreams_1.isAuthenticated, controller.isBlocked, controller.changeChannelName);
+router.patch('/changeChannelName', userauthenticationforavstreams_1.isAuthenticated, controller.changeChannelName);
 router.patch('/changePassword', controller.changePassword);
 router.patch('/changeProfileData', userauthenticationforavstreams_1.isAuthenticated, controller.changeProfileData);
 router.patch('/changeProfileImage', userauthenticationforavstreams_1.isAuthenticated, controller.changeProfileImage);

@@ -30,23 +30,22 @@ const postSignup = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.postSignup = postSignup;
-const isBlocked = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const isBlocked = (req, res, next, userId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const payload = Object.assign({}, req.user);
-        if (payload) {
-            const blocked = yield Authentication_1.userDetailsInstance.isBlocked(payload.id);
+        if (userId) {
+            const blocked = yield Authentication_1.userDetailsInstance.isBlocked(userId);
             if (blocked === "blocked") {
-                return res.status(204).json({ status: false, message: "Blocked" });
+                return "Blocked";
             }
             else if (blocked === "no user") {
-                return res.status(204).json({ status: false, message: "token expired" });
+                return "token expired";
             }
-            next();
         }
+        return true;
     }
     catch (error) {
         console.log(error);
-        res.status(500).json({ status: false, message: "error occured in the block middleware" });
+        return "error occured in the block middleware";
     }
 });
 exports.isBlocked = isBlocked;
@@ -89,12 +88,20 @@ const sendOtp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.sendOtp = sendOtp;
-const userDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const userDetails = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (req.user) {
-            const userDetails = JSON.parse(JSON.stringify(req.user));
-            const userData = yield Authentication_1.userDetailsInstance.getUserDetails(userDetails);
-            res.status(200).json({ status: true, userData });
+            const userId = JSON.parse(JSON.stringify(req.user)).id;
+            const blocked = yield (0, exports.isBlocked)(req, res, next, userId);
+            console.log(blocked);
+            if (blocked !== true) {
+                res.status(201).json({ status: false, message: blocked });
+            }
+            else {
+                const userDetails = JSON.parse(JSON.stringify(req.user));
+                const userData = yield Authentication_1.userDetailsInstance.getUserDetails(userDetails);
+                res.status(200).json({ status: true, userData });
+            }
         }
         else {
             throw new Error("req user not found");

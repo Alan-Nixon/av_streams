@@ -396,7 +396,7 @@ export type singleChatInterfce = {
     messages: messageArray[]
     setMessages: Dispatch<SetStateAction<messageArray[]>>
     messageSocket: any
-    zp:any
+    zp: any
 }
 
 
@@ -405,8 +405,8 @@ export interface chatInterfaceProps {
     chatWindow: boolean;
     setChatWindow: React.Dispatch<React.SetStateAction<boolean>>
     user: Data;
-    messageSocket:any;
-    zp:any
+    messageSocket: any;
+    zp: any
 }
 
 export type dongnutTypeData = {
@@ -425,4 +425,8 @@ export type chartType = {
     heading: string,
     months: string[],
     data: number[]
+}
+
+export type liveDetails = {
+    Title: string, Description: string, Thumbnail: null | File
 }

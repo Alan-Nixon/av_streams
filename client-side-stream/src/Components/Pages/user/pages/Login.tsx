@@ -6,10 +6,11 @@ import Swal from 'sweetalert2'
 import Google from '../../../socialMediaLogins/Google'
 import Linkedin from '../../../socialMediaLogins/Linkedin'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 export default function Login() {
 
-    const Navigate=useNavigate()
+    const Navigate = useNavigate()
     const { setUserData } = useUser()
     const [showModal, setShowModal] = useState("login")
     const [hideIcons, setHideIcons] = useState(true)
@@ -21,13 +22,12 @@ export default function Login() {
     const LoginValidation = async () => {
         if (emailRegex.test(loginData.Email)) {
             if (passwordRegex.test(loginData.Password)) {
-                const result = await PostLogin(loginData)
+                const result = await PostLogin(loginData, setUserData)
                 if (!result.status) {
                     setError((rest) => ({ ...rest, emailErr: result.message }))
                 } else {
                     Cookies.set("userToken", result.token, { expires: 7 })
-                    setUserData(result.userData)
-                    Navigate("/")
+                    window.location.href = '/'
                 }
             } else {
                 setError((rest) => ({ ...rest, passwordErr: "Password should be 8 characters with letters, numbers, @, or _" }))
@@ -58,17 +58,13 @@ export default function Login() {
         }
         console.log(obj);
 
-        PostLogin(obj).then((result) => {
+        PostLogin(obj, setUserData).then((result) => {
             if (result.status) {
                 Cookies.set("userToken", result.token)
-                setUserData(result.userData)
-                window.location.reload()
+                window.location.href = '/'
             } else {
-                Swal.fire({
-                    title: "error login!",
-                    text: result.message,
-                    icon: "error",
-                })
+                toast.error(result?.message ?? "error occured while login")
+
             }
         })
     }
@@ -122,7 +118,7 @@ export default function Login() {
                             <ul className=" text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                                 <li className='flex mt-1'>
                                     <div className="mx-auto">
-                                    <Google onSuccess={googleLogin} responseErrorGoogle={responseErrorGoogle} />
+                                        <Google onSuccess={googleLogin} responseErrorGoogle={responseErrorGoogle} />
 
                                     </div>
                                 </li>

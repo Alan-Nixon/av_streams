@@ -36,11 +36,11 @@ router.get('/getAllPosts', userauthenticationforavstreams_1.isAuthenticated, con
 router.get('/getPostFromUser', controller.getPostFromUser);
 router.get('/getName', userauthenticationforavstreams_1.isAuthenticated, controller.getName);
 router.get('/getUserVideos', userauthenticationforavstreams_1.isAuthenticated, controller.getUserVideos);
-router.get('/getAllVideos', userauthenticationforavstreams_1.isAuthenticated, controller.getAllVideos);
 router.get('/getVideosWithId', userauthenticationforavstreams_1.isAuthenticated, controller.getVideosWithId);
 router.get('/getMostWatchedVideoUser', userauthenticationforavstreams_1.isAuthenticated, controller.getMostWatchedVideoUser);
 router.get('/searchVideosAndProfile', userauthenticationforavstreams_1.isAuthenticated, controller.searchVideosAndProfile);
 router.get('/getPremiumVideos', controller.getPremiumVideos);
+router.get('/getAllVideos', controller.getAllVideos);
 router.post('/uploadPost', userauthenticationforavstreams_1.isAuthenticated, controller.uploadPost);
 router.post('/uploadVideo', userauthenticationforavstreams_1.isAuthenticated, controller.uploadVideo);
 router.post('/addReportSubmit', userauthenticationforavstreams_1.isAuthenticated, controller.addReportSubmit);

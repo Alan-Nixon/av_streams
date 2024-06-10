@@ -12,12 +12,12 @@ router.get('/getAllPosts', isAuthenticated, controller.getAllPosts)
 router.get('/getPostFromUser', controller.getPostFromUser)
 router.get('/getName', isAuthenticated, controller.getName)
 router.get('/getUserVideos', isAuthenticated, controller.getUserVideos)
-router.get('/getAllVideos', isAuthenticated, controller.getAllVideos)
 router.get('/getVideosWithId', isAuthenticated, controller.getVideosWithId)
 router.get('/getMostWatchedVideoUser', isAuthenticated, controller.getMostWatchedVideoUser)
 router.get('/searchVideosAndProfile', isAuthenticated, controller.searchVideosAndProfile)
 
 router.get('/getPremiumVideos', controller.getPremiumVideos)
+router.get('/getAllVideos', controller.getAllVideos)
 
 
 router.post('/uploadPost', isAuthenticated, controller.uploadPost)

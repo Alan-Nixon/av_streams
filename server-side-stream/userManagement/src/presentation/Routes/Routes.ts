@@ -6,7 +6,7 @@ import { isAuthenticated } from "userauthenticationforavstreams"
 
 
 //user get
-router.get('/userDetails', isAuthenticated, controller.isBlocked, controller.userDetails)
+router.get('/userDetails', isAuthenticated,  controller.userDetails)
 router.get('/getWalletDetails', isAuthenticated, controller.getWalletDetails)
 router.get('/isPremiumUser', isAuthenticated, controller.isPremiumUser)
 router.get('/isFollowing', isAuthenticated, controller.isFollowing)
@@ -32,7 +32,7 @@ router.post('/withDrawMoneyToWallet', isAuthenticated, controller.withDrawMoneyT
 router.post('/getNewChats', isAuthenticated, controller.getNewChats)
 
 //user patch
-router.patch('/changeChannelName', isAuthenticated, controller.isBlocked, controller.changeChannelName)
+router.patch('/changeChannelName', isAuthenticated, controller.changeChannelName)
 router.patch('/changePassword', controller.changePassword)
 router.patch('/changeProfileData', isAuthenticated, controller.changeProfileData)
 router.patch('/changeProfileImage', isAuthenticated, controller.changeProfileImage)

@@ -25,21 +25,22 @@ export const postSignup = async (req: Request, res: Response) => {
 
 
 
-export const isBlocked = async (req: Request, res: Response, next: NextFunction) => {
+export const isBlocked = async (req: Request, res: Response, next: NextFunction, userId: string): Promise<boolean | string> => {
     try {
-        const payload: any = { ...req.user }
-        if (payload) {
-            const blocked = await userDetailsInstance.isBlocked(payload.id)
+
+        if (userId) {
+            const blocked = await userDetailsInstance.isBlocked(userId)
             if (blocked === "blocked") {
-                return res.status(204).json({ status: false, message: "Blocked" })
+                return "Blocked"
             } else if (blocked === "no user") {
-                return res.status(204).json({ status: false, message: "token expired" })
+                return "token expired"
             }
-            next()
         }
+        return true
+
     } catch (error) {
         console.log(error);
-        res.status(500).json({ status: false, message: "error occured in the block middleware" })
+        return "error occured in the block middleware"
     }
 }
 
@@ -81,13 +82,19 @@ export const sendOtp = async (req: Request, res: Response) => {
     }
 }
 
-
-export const userDetails = async (req: Request, res: Response) => {
+export const userDetails = async (req: Request, res: Response, next: NextFunction) => {
     try {
         if (req.user) {
-            const userDetails: payloadInterface = JSON.parse(JSON.stringify(req.user))
-            const userData = await userDetailsInstance.getUserDetails(userDetails)
-            res.status(200).json({ status: true, userData })
+            const userId = JSON.parse(JSON.stringify(req.user)).id
+            const blocked = await isBlocked(req, res, next, userId)
+            console.log(blocked);
+            if (blocked !== true) {
+                res.status(201).json({ status: false, message: blocked })
+            } else {
+                const userDetails: payloadInterface = JSON.parse(JSON.stringify(req.user))
+                const userData = await userDetailsInstance.getUserDetails(userDetails)
+                res.status(200).json({ status: true, userData })
+            }
         } else {
             throw new Error("req user not found")
         }
@@ -315,11 +322,11 @@ export const getTrendingChannels = async (req: Request, res: Response) => {
 
 export const getNewChats = async (req: Request, res: Response) => {
     try {
-        console.log(req.user); 
-        
+        console.log(req.user);
+
         const { id }: any = { ...req.user }
         console.log(id);
-        
+
         res.status(200).json(await change_user_usecase.getNewChats(req.body, id))
     } catch (error: any) {
         console.error(error);
