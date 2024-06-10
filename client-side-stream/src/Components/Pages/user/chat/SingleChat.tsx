@@ -6,17 +6,16 @@ import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 import DuoIcon from '@mui/icons-material/Duo';
 
-// video call
-import { ZIM } from "zego-zim-web";
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 
 
 
-const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMessages }: singleChatInterfce) => {
+const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMessages, zp }: singleChatInterfce) => {
     const { user } = useUser();
     const [selectEmoji, setSelectEmoji] = useState<boolean>(false)
     const [message, setMessage] = useState("")
     const emojiPickerRef = useRef<HTMLDivElement>(null);
+    const messageDivRef = useRef<any>()
 
     messageSocket.on("incoming_message", (Data: any) => {
         console.log(Data);
@@ -29,17 +28,20 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
                 setSelectEmoji(false);
             }
         };
-
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
 
+    useEffect(() => {
+        if (messageDivRef.current) {
+          messageDivRef.current.scrollTop = messageDivRef.current.scrollHeight;
+        }
+      }, [messages]);
+
     const handleEmojiSelect = (emoji: { native: string; }) => {
         setMessage((data) => data + emoji.native);
-        console.log(message + emoji.native);
-
     };
 
     const sendMessage = () => {
@@ -53,9 +55,23 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
             }
 
             messageSocket.emit('new_message', newMessage)
-
             setMessages([...messages, newMessage])
         }
+    }
+
+    async function invite() {
+
+        const targetUser = {
+            userID: personDetails.userId,
+            userName: personDetails.channelName,
+            image: personDetails.profileImage,
+        };
+        zp.sendCallInvitation({
+            callees: [targetUser],
+            callType: ZegoUIKitPrebuilt.InvitationTypeVideoCall,
+            timeout: 60,
+        })
+
     }
 
     return (
@@ -73,12 +89,12 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
                         </a>
                         <a className="block text-sm font-medium hover:text-indigo-500" href="#0">@{personDetails.userName}</a>
                     </div>
-                    <div className="call mx-auto">
+                    <div className="call mx-auto" onClick={() => invite()} >
                         <DuoIcon style={{ fontSize: "40px", cursor: "pointer" }} />
                     </div>
                 </div><hr className='mt-1' />
 
-                <div className="max-h-[600px] overflow-y-auto mt-2">
+                <div className="max-h-[600px] overflow-y-auto mt-2" ref={messageDivRef} >
                     {messages.map((item, index) => {
                         return (
                             <div className="flex w-full" key={index}  >
@@ -133,7 +149,6 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
                 </div>
 
             </div>
-            <VideoCall />
         </div>
     );
 };
@@ -141,21 +156,3 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
 export default React.memo(SingleChat)
 
 
-
-function VideoCall() {
-
-    useEffect(() => {
-        // const userID = "";
-        // const userName = "userName" + userID;
-        // const appID = 0;
-        // const serverSecret = "";
-        // const TOKEN = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, null, userID, userName);
-
-        // const zp = ZegoUIKitPrebuilt.create(TOKEN);
-        // zp.addPlugins({ ZIM });
-    }, [])
-
-    return (<>
-
-    </>)
-}

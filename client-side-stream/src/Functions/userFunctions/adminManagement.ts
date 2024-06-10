@@ -12,6 +12,19 @@ export const adminAxiosApiGateWay = axios.create({
     }
 })
 
+adminAxiosApiGateWay.interceptors.response.use(
+    (response: any) => {
+        return response;
+    },
+    (error) => {
+        console.log(error, "this is the error");
+
+        const { response } = error;
+        
+        return response
+    }
+);
+
 export const isAdminAuthenticated = async () => {
     const token = adminGetToken()
     if (token.split(' ')[1] !== 'undefined') {

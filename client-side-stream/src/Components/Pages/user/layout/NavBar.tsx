@@ -9,9 +9,11 @@ import { Popup } from 'reactjs-popup'
 import SingleChat from '../chat/SingleChat';
 import { Data, channelInterface, chatInterfaceProps, chatsInterface, messageArray } from '../../../../Functions/interfaces';
 import io from 'socket.io-client'
-import toast from 'react-hot-toast';
 import { toastFunction } from '../../../messageShowers/ToastFunction';
 
+import { ZIM } from "zego-zim-web";
+import { v4 as uuidv4 } from 'uuid';
+import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 
 
 
@@ -20,10 +22,12 @@ import { toastFunction } from '../../../messageShowers/ToastFunction';
 function NavBar() {
     const { setShowHideSideBar, showHideSideBar } = useUser()
     const [messageSocket, setMessageSocket] = useState<any>(null)
+    const [zp, setZP] = useState<any>()
+
 
     const [chatWindow, setChatwindow] = useState<boolean>(false)
     const [search, setSearch] = useState<string>('');
-    const { user } = useUser()
+    const { user } = useUser();
     const location = useLocation()
     const Navigate = useNavigate()
 
@@ -47,6 +51,26 @@ function NavBar() {
             const messageSocket = io(process.env.REACT_APP_CHAT_MANAGEMENT_URL || "")
             setMessageSocket(messageSocket);
             messageSocket.emit('join', user._id)
+
+
+            const userID = user._id;
+            const userName = user.channelName;
+            const appID = Number(process.env.REACT_APP_ZEGO_APP_ID);
+            const serverSecret = process.env.REACT_APP_ZEGO_SERVER_ID ?? "";
+            const roomId = uuidv4()
+            const TOKEN = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomId, userID, userName);
+
+            const zp = ZegoUIKitPrebuilt.create(TOKEN);
+            zp.addPlugins({ ZIM });
+            zp.setCallInvitationConfig({
+                ringtoneConfig: {
+                    incomingCallUrl: 'https://res.cloudinary.com/dyh7c1wtm/video/upload/v1717999547/rrr_uixgh2.mp3',
+                    outgoingCallUrl: 'https://res.cloudinary.com/dyh7c1wtm/video/upload/v1718002692/beggin_edited_kgcew8.mp3'
+                }
+            })
+
+            setZP(zp)
+
         }
     }, [])
 
@@ -131,7 +155,7 @@ function NavBar() {
 
             {chatWindow && messageSocket && user && (
                 <div className="fixed md:right-[100px] md:top-0 min-w-[360px]">
-                    <ChatPopup setChatWindow={setChatwindow} user={user} messageSocket={messageSocket} chatWindow={chatWindow} />
+                    <ChatPopup zp={zp} setChatWindow={setChatwindow} user={user} messageSocket={messageSocket} chatWindow={chatWindow} />
                 </div>
             )}
 
@@ -144,8 +168,6 @@ function NavBar() {
                     </button>
                 </div>
             )}
-
-            {/* <VideoCall /> */}
         </nav >
     );
 
@@ -158,7 +180,7 @@ export default React.memo(NavBar)
 
 
 
-export function ChatPopup({ chatWindow, setChatWindow, user, messageSocket }: chatInterfaceProps) {
+export function ChatPopup({ chatWindow, setChatWindow, user, messageSocket, zp }: chatInterfaceProps) {
 
     const dumChannel: channelInterface = {
         _id: "", channelDescription: "", channelName: "",
@@ -177,6 +199,7 @@ export function ChatPopup({ chatWindow, setChatWindow, user, messageSocket }: ch
         setPerson(personDetails.personDetails)
         setChats(personDetails.details)
     }
+    console.log(zp);
 
 
 
@@ -185,7 +208,7 @@ export function ChatPopup({ chatWindow, setChatWindow, user, messageSocket }: ch
         <Popup trigger={<button />} position={'right top'} open={chatWindow} onClose={() => setChatWindow(false)}>
             {chatHome ?
                 <ChatHome singleChatopen={singleChatopen} userDetails={user} /> :
-                <SingleChat personDetails={person} messages={chats} setMessages={setChats} setChatHome={setChatHome} messageSocket={messageSocket} />}
+                <SingleChat zp={zp} personDetails={person} messages={chats} setMessages={setChats} setChatHome={setChatHome} messageSocket={messageSocket} />}
         </Popup>
     )
 }
