@@ -33,13 +33,13 @@ export interface responseObject {
 }
 
 export interface videoPostInterface {
-    uploadPost(Data: postFilesnFeilds, user: payload): Promise<responseObject>;
+    uploadPost(Data: any, user: payload): Promise<responseObject>;
     getAllpostOfUser(req: Request): Promise<responseObject | null>;
     deletePostUseCase(link: string, postLink: string): Promise<responseObject>;
     getAllPosts(): Promise<responseObject>;
     likePost(postId: string, userId: string): Promise<responseObject>;
     getPostFromUser(userId: string): Promise<responseObject>
-    uploadVideo(req: Request): Promise<responseObject>;
+    uploadVideo(data: any): Promise<responseObject>;
     getUserVideos(req: Request): Promise<responseObject>;
     getAllVideos(shorts: boolean): Promise<responseObject>;
     getVideosWithId(req: Request): Promise<responseObject>;

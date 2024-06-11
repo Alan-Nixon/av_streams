@@ -13,14 +13,16 @@ exports.getPostDongnutData = exports.addCategory = exports.blockcategory = expor
 const video_post_usecase_1 = require("../../domain/usecases/video_post_use_cases/video_post_usecase");
 const userauthenticationforavstreams_1 = require("userauthenticationforavstreams");
 const user_random_name_generator_1 = require("user_random_name_generator");
+const formidable_1 = require("formidable");
 const stopStream = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.status(200).json({});
 });
 exports.stopStream = stopStream;
 const uploadVideo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        if (req.body.files) {
-            res.status(200).json(yield video_post_usecase_1.videoPost.uploadVideo(req));
+        const data = yield multipartFormSubmission(req);
+        if (data) {
+            res.status(200).json(yield video_post_usecase_1.videoPost.uploadVideo(data));
         }
         else {
             res.status(500).json({ status: false, message: "req.body not found" });
@@ -34,7 +36,8 @@ const uploadVideo = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.uploadVideo = uploadVideo;
 const uploadPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        res.status(200).json(yield video_post_usecase_1.videoPost.uploadPost(req.body, req.user));
+        const data = yield multipartFormSubmission(req);
+        res.status(200).json(yield video_post_usecase_1.videoPost.uploadPost(data, req.user));
     }
     catch (error) {
         console.error(error);
@@ -258,3 +261,17 @@ const getPostDongnutData = (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.getPostDongnutData = getPostDongnutData;
+function multipartFormSubmission(req) {
+    return new Promise((resolve, reject) => {
+        const form = new formidable_1.IncomingForm();
+        form.parse(req, (err, fields, files) => __awaiter(this, void 0, void 0, function* () {
+            if (err) {
+                console.log(err);
+                reject(err);
+            }
+            else {
+                resolve({ files, fields });
+            }
+        }));
+    });
+}

@@ -6,7 +6,6 @@ import { axiosApiGateWay, getTokenCookie } from "../commonFunctions";
 
 export const PostLogin = async (userData: loginData,setUserData:any) => {
     const { data } = await axiosApiGateWay.post('/userManagement/postLogin', userData)
-    // alert(data.status)
     if (data.status === 200) {
         setUserData(data.userData)
         return { status: true, message: "success", userData: data.userData, token: data.token }
@@ -58,14 +57,10 @@ export const forgetPasswordPost = async (userData: object) => {
     const { data } = await axiosApiGateWay.patch('/userManagement/changePassword', userData)
     return data
 }
-
-const token = getTokenCookie()
-console.log(token);
+ 
 
 export const isUserAuthenticated = async () => {
     const token = getTokenCookie()
-    console.log(token);
-
     if (token.split(' ')[1] !== "undefined") {
         const { data } = await axiosApiGateWay.get('/userManagement/isUserAuth')
         return data.status

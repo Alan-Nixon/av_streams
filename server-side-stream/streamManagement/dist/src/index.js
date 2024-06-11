@@ -26,22 +26,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const WebSocket = __importStar(require("ws"));
 const express = __importStar(require("express"));
 const express_session_1 = __importDefault(require("express-session"));
 const http = __importStar(require("http"));
 const dotenv_1 = require("dotenv");
 (0, dotenv_1.config)();
+const socket_io_1 = require("socket.io");
 const cors_1 = __importDefault(require("cors"));
 const morgan_1 = __importDefault(require("morgan"));
 const streamRoutes_1 = __importDefault(require("./presentation/Route/streamRoutes"));
 require("../config/Database");
 require("./presentation/Grpc/stream_user");
 require("./presentation/Rabbitmq/consumer");
-const socket_io_1 = require("socket.io");
+const socketConn_1 = require("./data/Socket/socketConn");
 const app = express.default();
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
 const io = new socket_io_1.Server(server, {
     cors: {
         origin: process.env.CLIENT_SIDE_URL,
@@ -60,34 +59,7 @@ app.use((0, express_session_1.default)({
 }));
 app.use(express.json());
 app.use((0, morgan_1.default)('dev'));
-wss.on('connection', (ws) => {
-    console.log("WebSocket connected");
-    ws.on('message', (data) => {
-        console.log(data);
-        wss.emit("message", data);
-        // wss.clients.forEach((client) => {
-        //     if (client.readyState === WebSocket.OPEN) {
-        //         client.send(data);
-        //     }
-        // });
-    });
-    // ws.on('close', () => {
-    //     console.log('Client disconnected');
-    // });
-    ws.on('error', (error) => {
-        console.error('WebSocket error:', error);
-    });
-});
-io.on('connection', (socket) => {
-    console.log('New client connected');
-    socket.on('stream', (data) => {
-        console.log(data);
-        socket.broadcast.emit('stream', data);
-    });
-    socket.on('disconnect', () => {
-        // console.log('Client disconnected');
-    });
-});
+(0, socketConn_1.connectToSocket)(io);
 app.use('/', streamRoutes_1.default);
 server.listen(3001, () => {
     console.log('server started on port 3001');

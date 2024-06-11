@@ -31,10 +31,10 @@ router.delete('/deletePostFromCloudinary', isAuthenticated, controller.deletePos
 
 
 // admin routes
+router.get('/getCategory', controller.getCategory)
 
 router.get('/getReportsBySection', isAdminAuthenticated, controller.getReportsBySection)
 router.get('/getBlockedVideos', isAdminAuthenticated, controller.getBlockedVideos)
-router.get('/getCategory', isAdminAuthenticated, controller.getCategory)
 router.get('/getPostDongnutData', isAdminAuthenticated, controller.getPostDongnutData)
 
 

@@ -40,7 +40,6 @@ function MyVideos() {
     }, [])
 
 
-
     const uploadVideoValidation = (isShorts: boolean) => {
         if (validation()) {
             if (uploadVideoFile && user && user._id && user.channelName && Thumbnail) {

@@ -47,9 +47,9 @@ router.post('/addReportSubmit', userauthenticationforavstreams_1.isAuthenticated
 router.patch('/likePost', userauthenticationforavstreams_1.isAuthenticated, controller.likePost);
 router.delete('/deletePostFromCloudinary', userauthenticationforavstreams_1.isAuthenticated, controller.deletePostFromCloudinary);
 // admin routes
+router.get('/getCategory', controller.getCategory);
 router.get('/getReportsBySection', userauthenticationforavstreams_1.isAdminAuthenticated, controller.getReportsBySection);
 router.get('/getBlockedVideos', userauthenticationforavstreams_1.isAdminAuthenticated, controller.getBlockedVideos);
-router.get('/getCategory', userauthenticationforavstreams_1.isAdminAuthenticated, controller.getCategory);
 router.get('/getPostDongnutData', userauthenticationforavstreams_1.isAdminAuthenticated, controller.getPostDongnutData);
 router.patch('/blockcategory', userauthenticationforavstreams_1.isAdminAuthenticated, controller.blockcategory);
 router.patch('/blockContentVisiblity', userauthenticationforavstreams_1.isAdminAuthenticated, controller.blockContentVisiblity);

@@ -1,11 +1,19 @@
-import { currentLives } from "../../../../Functions/LiveNow"
 import { Link, useLocation } from "react-router-dom"
 import { useUser } from "../../../../UserContext"
+import { useEffect, useState } from "react"
+import { channelInterface } from "../../../../Functions/interfaces"
+import { getTrendingChannels } from "../../../../Functions/userFunctions/userManagement"
 
 
 export default function SideBar() {
     const pathName = useLocation()
     const { showHideSideBar } = useUser()
+    const [currentLives, setCurrentLives] = useState<channelInterface[]>([]);
+    
+    useEffect(() => {
+        getTrendingChannels(5).then(({ data }) => setCurrentLives(data))
+    }, [])
+
     return (<>
         <div className="sidebarParentDiv fixed top-[64px] bottom-0 left-0 bg-gray-200 dark:bg-gray-800 w-50">
             <aside id="default-sidebar" className="fixed top-19 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
@@ -60,16 +68,16 @@ export default function SideBar() {
                     <ul style={{ marginLeft: "3%", marginTop: "5%" }}>
                         {
                             currentLives.map((item, index) =>
-                                <li className="hover:bg-gray-600 p-1" key={index} style={{ display: "flex", borderRadius: "20%" }}>
-                                    <img src={item.profileImage} style={{ borderRadius: "100%", width: "35px", height: "35px" }} alt="" />
-                                    <div style={{ marginLeft: "5%", margin: "2%", display: "flex" }}>
-                                        <p style={{ fontWeight: "400" }} >{item.channelName}</p>
-                                        <div className="flex" style={{ float: "right", marginLeft: "50%", marginTop: "4%" }} >
-                                            <div className="w-3 h-3 bg-red-500 rounded-full" />
+                                <Link to={`/channel?userId=${item._id}`}>
+
+                                    <li className="hover:bg-gray-600 p-1 mt-1" key={index} style={{ display: "flex", borderRadius: "20%" }}>
+                                        <img src={item.profileImage} style={{ borderRadius: "100%", width: "35px", height: "35px" }} alt="" />
+                                        <div style={{ marginLeft: "10%", margin: "2%", display: "flex" }}>
+                                            <p style={{ fontWeight: "400" }} >{item.channelName}</p>
+
                                         </div>
-                                        <p style={{ marginLeft: "7%" }}>{item.count}</p>
-                                    </div>
-                                </li>
+                                    </li>
+                                </Link>
                             )}
                     </ul>
                 </div>

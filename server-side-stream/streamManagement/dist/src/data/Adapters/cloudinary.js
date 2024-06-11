@@ -9,8 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findImageByPublicId = exports.deleteImageFromCloudinary = exports.getPublicIdFromUrlCloudinary = exports.uploadImage = void 0;
+exports.uploadImageBuffer = exports.findImageByPublicId = exports.deleteImageFromCloudinary = exports.getPublicIdFromUrlCloudinary = exports.uploadImage = void 0;
 const cloudinary_1 = require("cloudinary");
+const stream_1 = require("stream");
 cloudinary_1.v2.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -26,7 +27,7 @@ const uploadImage = (imageData, folder) => __awaiter(void 0, void 0, void 0, fun
     }
     catch (error) {
         console.error('Error uploading image to Cloudinary:', error);
-        throw error;
+        // throw error;
     }
 });
 exports.uploadImage = uploadImage;
@@ -64,3 +65,25 @@ const findImageByPublicId = (publicId) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.findImageByPublicId = findImageByPublicId;
+const uploadImageBuffer = (bufferData, folderName) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const bufferStream = new stream_1.PassThrough();
+        bufferStream.end(bufferData);
+        const result = yield new Promise((resolve, reject) => {
+            const uploadStream = cloudinary_1.v2.uploader.upload_stream(bufferData, (error, result) => {
+                if (error) {
+                    reject(error);
+                }
+                else {
+                    resolve(result);
+                }
+            });
+            bufferStream.pipe(uploadStream);
+        });
+        return result.secure_url;
+    }
+    catch (error) {
+        console.error('Error during upload:', error);
+    }
+});
+exports.uploadImageBuffer = uploadImageBuffer;

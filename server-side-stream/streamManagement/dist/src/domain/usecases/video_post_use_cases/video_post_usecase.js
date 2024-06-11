@@ -102,12 +102,12 @@ class videoPostUseCase {
             return yield post_videos_Repositary_1.postVideosRepo.getPostFromUser(userId);
         });
     }
-    uploadVideo(req) {
+    uploadVideo(data) {
         return __awaiter(this, void 0, void 0, function* () {
             var _a;
             try {
-                const thumbnail = req.body.files.thumbnail[0];
-                const videoData = JSON.parse((_a = req.body.fields) === null || _a === void 0 ? void 0 : _a.videoData[0]);
+                const thumbnail = data.files.thumbnail[0];
+                const videoData = JSON.parse((_a = data.fields) === null || _a === void 0 ? void 0 : _a.videoData[0]);
                 const { url } = yield (0, cloudinary_1.uploadImage)(thumbnail, 'avstreamThumbnail');
                 delete videoData._id;
                 videoData.Thumbnail = url;

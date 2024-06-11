@@ -31,6 +31,7 @@ function SocketContext({ children }: ContentProps) {
     socket,
     setSocket,
   }
+  
   return (
     <socketContextProvider.Provider value={SocketContextValue}>
       {children}

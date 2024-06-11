@@ -43,7 +43,6 @@ export default function Login() {
     }
 
     const responseErrorGoogle = (error: any) => {
-        alert("failed")
         if (error.error === 'popup_closed_by_user') {
             console.log('Google Sign-In popup was closed by the user.');
         } else {

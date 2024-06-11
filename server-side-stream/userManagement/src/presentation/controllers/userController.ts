@@ -37,7 +37,7 @@ export const isBlocked = async (req: Request, res: Response, next: NextFunction,
             }
         }
         return true
-
+ 
     } catch (error) {
         console.log(error);
         return "error occured in the block middleware"
@@ -360,5 +360,5 @@ function multipartFormSubmission(req: Request): Promise<{ files: Files; fields: 
             }
         });
     });
-}
+} 
 

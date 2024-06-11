@@ -3,6 +3,7 @@ import { videoPost } from "../../domain/usecases/video_post_use_cases/video_post
 import { payload } from "../../domain/interfaces/video_post_interface/videoPostInterface"
 import { getDataFromToken, getTokenFromRequest } from "userauthenticationforavstreams"
 import { generateName } from 'user_random_name_generator'
+import { Fields, Files, IncomingForm } from 'formidable'
 
 
 export const stopStream = async (req: Request, res: Response) => {
@@ -11,8 +12,9 @@ export const stopStream = async (req: Request, res: Response) => {
 
 export const uploadVideo = async (req: Request, res: Response) => {
     try {
-        if (req.body.files) {
-            res.status(200).json(await videoPost.uploadVideo(req))
+        const data = await multipartFormSubmission(req)
+        if (data) {
+            res.status(200).json(await videoPost.uploadVideo(data))
         } else {
             res.status(500).json({ status: false, message: "req.body not found" })
         }
@@ -24,7 +26,8 @@ export const uploadVideo = async (req: Request, res: Response) => {
 
 export const uploadPost = async (req: Request, res: Response) => {
     try {
-        res.status(200).json(await videoPost.uploadPost(req.body, req.user as payload))
+        const data = await multipartFormSubmission(req)
+        res.status(200).json(await videoPost.uploadPost(data, req.user as payload))
     } catch (error) {
         console.error(error);
 
@@ -229,4 +232,18 @@ export const getPostDongnutData = async (req: Request, res: Response) => {
         console.log(error);
         res.status(500).json({ status: false, message: error.message || "internal server error" })
     }
+}
+
+function multipartFormSubmission(req: Request): Promise<{ files: Files; fields: Fields }> {
+    return new Promise((resolve, reject) => {
+        const form = new IncomingForm();
+        form.parse(req, async (err: Error | null, fields: Fields, files: Files) => {
+            if (err) {
+                console.log(err);
+                reject(err);
+            } else {
+                resolve({ files, fields });
+            }
+        });
+    });
 }

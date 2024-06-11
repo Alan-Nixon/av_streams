@@ -29,21 +29,21 @@ function Home() {
             }
         })
 
-        const Banners: BannerInterfaceHome = {
-            bigBanner: '/images/gtaSeaCar.jpeg',
-            mainBanner: "/images/Pasted_image.png",
-            isLive: true,
-            subBanners: Array(4).fill({
-                thumbnail: "/images/subThumbNail.jpeg",
-                isLive: true
-            })
-        }
-        setBanner(Banners)
+      
 
         // getBanners
 
         getAllVideos(false).then(videos => {
             setTrending(videos);
+            console.log(videos,"hio");
+            
+            const Banners: BannerInterfaceHome = {
+                bigBanner: '/images/gtaSeaCar.jpeg',
+                mainBanner: "http://res.cloudinary.com/dyh7c1wtm/image/upload/v1716715947/avstreamThumbnail/w9tihgk7cur5vhpsxezc.jpg",
+                isLive: false,
+                subBanners: videos.slice(0,3)
+            }
+            setBanner(Banners)
         })
 
     }, [])

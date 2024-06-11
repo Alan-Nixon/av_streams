@@ -9,7 +9,7 @@ import { VideoModel } from "../../../data/Models/videos";
 import { IReport } from "../../../data/interfaces/videoModelInterface";
 
 class videoPostUseCase implements videoPostInterface {
-    async uploadPost(Data: postFilesnFeilds, user: payload) {
+    async uploadPost(Data: any, user: payload) {
         try {
             const data = await uploadImage(Data.files.PostImage[0] as unknown as ImageData, "avstreamPosts")
             const channelName: string = await postVideosRepo.findChannelNameUsingId(user.id)
@@ -87,10 +87,10 @@ class videoPostUseCase implements videoPostInterface {
         return await postVideosRepo.getPostFromUser(userId)
     }
 
-    async uploadVideo(req: Request) {
+    async uploadVideo(data: any) {
         try {
-            const thumbnail = req.body.files.thumbnail[0]
-            const videoData = JSON.parse(req.body.fields?.videoData[0])
+            const thumbnail = data.files.thumbnail[0]
+            const videoData = JSON.parse(data.fields?.videoData[0])
             const { url } = await uploadImage(thumbnail, 'avstreamThumbnail')
             delete videoData._id;
             videoData.Thumbnail = url

@@ -1,8 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import NavBar from '../layout/NavBar';
+import { useParams } from 'react-router-dom';
 
-const socket = io('http://localhost:3001');
+
+const socket = io(process.env.REACT_APP_STREAM_MANAGEMENT_URL ?? "");
 
 const Viewer: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -10,9 +12,15 @@ const Viewer: React.FC = () => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const mediaRecorderRef = useRef<MediaRecorder | null>(null);
     const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
+    const { liveId } = useParams()
 
     const lastFrameTimeRef = useRef<number>(0);
-    const frameRate = 30; // Desired frame rate
+    const frameRate = 30;
+
+    useEffect(() => {
+        console.log(liveId);
+        socket.emit("joinRoom",liveId)
+    }, [])
 
     useEffect(() => {
         socket.on('stream', (data: { screen: string; camera: string }) => {
@@ -30,7 +38,7 @@ const Viewer: React.FC = () => {
     }, []);
 
     const startRecording = () => {
-        const canvasStream = canvasRef.current?.captureStream(30); // 30 FPS
+        const canvasStream = canvasRef.current?.captureStream(30);
         const screenStream = screenRef.current?.captureStream(30);
 
         if (canvasStream && screenStream) {
@@ -96,7 +104,7 @@ const Viewer: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <video ref={videoRef} style={{ width: '640px', height: '360px', margin: '12%', marginLeft: "15%" }} controls />
+            {/* <video ref={videoRef} style={{ width: '640px', height: '360px', margin: '12%', marginLeft: "15%" }} controls /> */}
             <div style={{ textAlign: 'center' }}>
                 <button onClick={startRecording}>Start Recording</button>
                 <button onClick={stopRecording}>Stop Recording</button>

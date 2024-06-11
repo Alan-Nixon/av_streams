@@ -1,5 +1,7 @@
 import { v2 as cloudinary } from 'cloudinary';
 import { ImageData } from '../interfaces/cloundinaryInterface';
+import { PassThrough } from 'stream'
+
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -16,7 +18,7 @@ export const uploadImage = async (imageData: ImageData, folder: string): Promise
         });
     } catch (error) {
         console.error('Error uploading image to Cloudinary:', error);
-        throw error;
+        // throw error;
     }
 }
 
@@ -47,6 +49,32 @@ export const findImageByPublicId = async (publicId: string) => {
         return res
     } catch (error) {
         console.error(error)
+    }
+}
+
+
+
+export const uploadImageBuffer = async (bufferData:Buffer, folderName:string) => {
+    try {
+        const bufferStream = new PassThrough();
+        bufferStream.end(bufferData);
+
+        const result:any = await new Promise((resolve, reject) => {
+            const uploadStream = cloudinary.uploader.upload_stream(bufferData, (error, result) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(result);
+                }
+            });
+
+            bufferStream.pipe(uploadStream);
+        });
+
+        return result.secure_url; 
+
+    } catch (error) {
+        console.error('Error during upload:', error);
     }
 }
 
