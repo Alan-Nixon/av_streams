@@ -41,6 +41,7 @@ router.get('/getMostWatchedVideoUser', userauthenticationforavstreams_1.isAuthen
 router.get('/searchVideosAndProfile', userauthenticationforavstreams_1.isAuthenticated, controller.searchVideosAndProfile);
 router.get('/getPremiumVideos', controller.getPremiumVideos);
 router.get('/getAllVideos', controller.getAllVideos);
+router.get('/getCurrentLives', controller.getCurrentLives);
 router.post('/uploadPost', userauthenticationforavstreams_1.isAuthenticated, controller.uploadPost);
 router.post('/uploadVideo', userauthenticationforavstreams_1.isAuthenticated, controller.uploadVideo);
 router.post('/addReportSubmit', userauthenticationforavstreams_1.isAuthenticated, controller.addReportSubmit);

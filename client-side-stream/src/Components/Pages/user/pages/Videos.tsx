@@ -23,6 +23,8 @@ function Videos() {
     useEffect(() => {
         
         getBannerByLocation('videos').then(({data}) => {
+            console.log(data);
+            
             setCarousel(data)
         })
 

@@ -263,5 +263,10 @@ class videoPostUseCase {
             return { status: true, message: "success", data };
         });
     }
+    getCurrentLives() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield post_videos_Repositary_1.postVideosRepo.getCurrentLives();
+        });
+    }
 }
 exports.videoPost = new videoPostUseCase();

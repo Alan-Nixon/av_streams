@@ -114,3 +114,8 @@ export const addReportSubmit = async (Data: reportType) => {
     return data
 }
 
+export const getCurrentLives = async () => {
+    const { data } = await axiosApiGateWay.get('/streamManagement/getCurrentLives')
+    return data
+}
+

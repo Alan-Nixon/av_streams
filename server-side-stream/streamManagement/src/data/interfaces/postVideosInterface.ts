@@ -35,4 +35,5 @@ export interface post_video_repo_interface {
     blockcategory(cateId: string): Promise<responseObject>;
     addCategory(Data: Object): Promise<responseObject>;
     returnErrorCatch(message: any): responseObject;
+    getCurrentLives(): Promise<responseObject>;
 }

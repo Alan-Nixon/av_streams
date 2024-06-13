@@ -3,9 +3,9 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import NavBar from '../layout/NavBar'
 import { useUser } from '../../../../UserContext';
 import Comment from '../helpers/Comment';
-import { addReportSubmit, getVideosWithId } from '../../../../Functions/streamFunctions/streamManagement';
+import { addReportSubmit, getAllVideos, getVideosWithId } from '../../../../Functions/streamFunctions/streamManagement';
 import { followChannel, isFollowing, isPremiumUser } from '../../../../Functions/userFunctions/userManagement';
-import { commentInterface } from '../../../../Functions/interfaces';
+import { commentInterface, videoInterface } from '../../../../Functions/interfaces';
 import { getCommentsByLinkId } from '../../../../Functions/streamFunctions/commentManagement';
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -21,6 +21,7 @@ function FullVideo() {
     const [Comments, setComments] = useState<commentInterface[] | []>([])
     const [loading, setLoading] = useState<boolean>(true)
     const [showReportModal, setShowReportModal] = useState(false)
+    const [recomandedVideos, setRecomandedVideos] = useState<videoInterface[]>([])
 
     const [videoDetails, setVideoDetails] = useState({
         _id: "", Link: "", channelName: "",
@@ -59,9 +60,9 @@ function FullVideo() {
 
             })
 
-            getCommentsByLinkId(videoId, 'video').then(( data ) => {
+            getCommentsByLinkId(videoId, 'video').then((data) => {
                 console.log(data);
-                
+
                 setComments(data)
             })
 
@@ -88,10 +89,10 @@ function FullVideo() {
 
         const handleKeyPress = (event: KeyboardEvent) => {
             const { key } = event; const { current } = videoRef
-            if(key) {
+            if (key) {
 
                 if (key.toLowerCase() === 'f' && current) {
-    
+
                     if (isFullScreen) {
                         document.exitFullscreen();
                         setIsFullScreen(false);
@@ -99,16 +100,16 @@ function FullVideo() {
                         setIsFullScreen(true);
                         current.requestFullscreen()
                     }
-    
+
                 } else if (key.toLocaleLowerCase() === 'm' && current) {
-    
+
                     current.muted = !current.muted;
-    
+
                 } else if (key === ' ' && current) {
-    
+
                     event.preventDefault()
                     current.paused ? current.play() : current.pause();
-    
+
                 }
             }
         };
@@ -132,7 +133,7 @@ function FullVideo() {
             if (element) {
                 element.removeEventListener('focusin', handleFocus);
                 element.removeEventListener('focusout', handleBlur);
-              }
+            }
         };
 
     }, [isFullScreen]);
@@ -158,12 +159,10 @@ function FullVideo() {
     }
 
 
-
-
-    const RecomandedVideos = new Array(5).fill({
-        userName: "Gamer 123",
-        Title: "The Kid LAROI, Justin Bieber - STAY (Official Video)"
+    getAllVideos(false).then(({ data }) => {
+        setRecomandedVideos(data)
     })
+
 
     if (loading) {
         return (<><div className="lds-dual-ring"></div></>)
@@ -183,7 +182,7 @@ function FullVideo() {
                                 <source src={videoDetails.Link} style={{ borderRadius: 0 }} type="video/mp4" />
                             </video>
                         </div>
-                       
+
                         <div className="superChat ml-7 mr-1 mt-2 rounded-md " style={{ width: "380px", backgroundColor: "#2e2e2e" }}>
                             <div className="heading mt-3" style={{ borderRadius: "10px" }}>
                                 <h2 className="text-2xl font-bold font-sans not-italic" style={{ textAlign: "center" }}>SUPER CHAT</h2>
@@ -267,21 +266,18 @@ function FullVideo() {
                             <Comment indexKey='0' Section='video' LinkId={videoDetails._id} CommentsArray={Comments} />
                         </div>
                         <div className="justify-center">
-                            {RecomandedVideos.length !== 0 ?
-                                RecomandedVideos.map((video,idx) => {
+                            {recomandedVideos?.length > 0 &&
+                                recomandedVideos?.map((video, idx) => {
                                     return (
-                                      <a href="#" key={idx} style={{ width: "80%", backgroundColor: "#141414" }} className="recomandedBackgroundParentDiv flex mt-2 ml-auto mr-3 flex-col rounded-lg shadow md:flex-row md:max-w-xl ">
-                                            <img className="object-cover rounded-t-lg" style={{ width: "150px" }} src="https://lh3.googleusercontent.com/a/ACg8ocL2nEt-sPQXcxr1GD76jsTKuIqccxtnrdZ0IGBnCC9I-FE35w=s96-c" alt="" />
+                                        <p key={idx} onClick={() => Navigate('/FullVideo?videoId=' + video?._id)} style={{ width: "80%", backgroundColor: "#141414" }} className="recomandedBackgroundParentDiv flex mt-2 ml-auto mr-3 flex-col rounded-lg shadow md:flex-row md:max-w-xl ">
+                                            <img className="object-cover rounded-t-lg" style={{ width: "150px" }} src={video.Thumbnail} alt="" />
                                             <div className="flex flex-col m-2 leading-normal">
                                                 <h5 className=" tracking-tight text-gray-900 dark:text-white">{video.Title}</h5>
-                                                <p className='text-sm'>{video.userName}</p>
                                                 <p className='text-sm'>185k views <span className='ml-2'> 18 hours ago</span></p>
                                             </div>
-                                        </a>
+                                        </p>
                                     )
-                                })
-
-                                : <></>}
+                                })}
                         </div>
                     </div>
 

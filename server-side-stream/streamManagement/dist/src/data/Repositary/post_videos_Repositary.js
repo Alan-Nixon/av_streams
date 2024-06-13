@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.postVideosRepo = void 0;
 const consumer_1 = require("../../presentation/Rabbitmq/consumer");
 const category_1 = require("../Models/category");
+const live_1 = require("../Models/live");
 const posts_1 = require("../Models/posts");
 const report_1 = require("../Models/report");
 const videos_1 = require("../Models/videos");
@@ -204,6 +205,16 @@ class postVideosRepositary {
             try {
                 yield category_1.CategoryModel.insertMany(Data);
                 return { status: true, message: "success" };
+            }
+            catch (error) {
+                return this.returnErrorCatch(error.message);
+            }
+        });
+    }
+    getCurrentLives() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return { status: true, message: "success", data: yield live_1.LiveModel.find() };
             }
             catch (error) {
                 return this.returnErrorCatch(error.message);

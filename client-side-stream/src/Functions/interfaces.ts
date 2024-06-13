@@ -51,8 +51,8 @@ export interface channelInterface {
 }
 
 export interface subBannerInterface {
-    thumbnail: string,
-    isLive: boolean,
+    _id: string
+    Thumbnail: string,
 }
 
 export interface captchaPropsInterface {
@@ -62,8 +62,7 @@ export interface captchaPropsInterface {
 
 export interface BannerInterfaceHome {
     bigBanner: string,
-    mainBanner: string,
-    isLive: boolean,
+    mainBanner: { _id: string, Thumbnail: string },
     subBanners: subBannerInterface[]
 }
 

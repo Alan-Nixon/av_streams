@@ -113,8 +113,6 @@ export const likePostHome = (postId: string) => {
 
 
 export const joinCommentWithpost = (array1: postInterface[], array2: commentInterface[], userId: string) => {
-    console.log(array2);
-    
     if (array2) {
         for (const elem of array2) {
             if (elem.likedUsers.length && elem.likedUsers.includes(userId)) { elem.isUserLiked = true }

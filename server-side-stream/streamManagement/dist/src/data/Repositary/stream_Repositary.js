@@ -11,11 +11,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.streamRepositaryLayer = void 0;
 const cloudinary_1 = require("../Adapters/cloudinary");
+const live_1 = require("../Models/live");
 class streamRepositaryLayerClass {
     insertLiveStreamData(data) {
         return __awaiter(this, void 0, void 0, function* () {
             const url = yield (0, cloudinary_1.uploadImageBuffer)(data.Thumbnail, "liveThumbnails");
-            // await LiveModel.insertMany(data)
+            yield live_1.LiveModel.insertMany(data);
             console.log(url);
         });
     }

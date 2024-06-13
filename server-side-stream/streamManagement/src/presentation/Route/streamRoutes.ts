@@ -18,6 +18,7 @@ router.get('/searchVideosAndProfile', isAuthenticated, controller.searchVideosAn
 
 router.get('/getPremiumVideos', controller.getPremiumVideos)
 router.get('/getAllVideos', controller.getAllVideos)
+router.get('/getCurrentLives', controller.getCurrentLives)
 
 
 router.post('/uploadPost', isAuthenticated, controller.uploadPost)

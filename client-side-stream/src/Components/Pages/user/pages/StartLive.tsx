@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import { liveDetails } from '../../../../Functions/interfaces';
 import { v4 as uuidv4 } from 'uuid';
+import NavBar from '../layout/NavBar';
 
 const socket = io(process.env.REACT_APP_STREAM_MANAGEMENT_URL ?? "");
 
@@ -42,6 +43,7 @@ const Streaming = () => {
 
                                 context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
                                 screenContext.drawImage(screenRef.current, 0, 0, screenCanvasRef.current.width, screenCanvasRef.current.height);
+                                saveVideo(stream, screenStream)
 
                                 if (context && screenContext) {
                                     socket.emit('stream', {
@@ -49,6 +51,7 @@ const Streaming = () => {
                                         camera: canvasRef.current.toDataURL('image/webp'),
                                         uuid: "2520"
                                     });
+
                                 }
 
                                 requestAnimationFrame(captureFrame);
@@ -77,15 +80,29 @@ const Streaming = () => {
         }
     }, [startedLive]);
 
+    const saveVideo = (streamCamera: any, screenStream: any) => {
+        const mediaRecorderCamera = new MediaRecorder(streamCamera);
+        mediaRecorderCamera.ondataavailable = (event) => {
+            socket.emit('saveCamera', event.data)
+        }
+
+        const mediaRecorderScreen = new MediaRecorder(screenStream);
+        mediaRecorderScreen.ondataavailable = (event) => {
+            socket.emit('saveScreen', event.data)
+        }
+        mediaRecorderCamera.start(1000)
+        mediaRecorderScreen.start(1000)
+    }
+
     const startLiveFunc = () => {
         if (liveDetails.Title?.trim() !== "") {
             if (liveDetails.Description?.trim() !== "") {
                 if (liveDetails.Thumbnail) {
-                    // setStartedLive(true);
+                    setStartedLive(true);
                     const uuid = "2520"
                     socket.emit("joinRoom", uuid);
-                    socket.emit("startLive", { ...liveDetails, Uuid:uuid })
-                    setTimeout(() => setDetails({ Description: "", Thumbnail: null, Title: "" }),0)
+                    socket.emit("startLive", { ...liveDetails, Uuid: uuid })
+                    setTimeout(() => setDetails({ Description: "", Thumbnail: null, Title: "" }), 0)
                 } else {
                     setError("Please select a thumbnail image")
                 }
@@ -98,8 +115,9 @@ const Streaming = () => {
     }
 
 
-    return (
-        <div>
+    return (<>
+        <NavBar />
+        <div className='mt-[14%]'>
             <div className="block">
                 <div style={{ marginLeft: '13%', marginTop: '8%', display: 'flex' }}>
                     <div style={{ position: 'relative', marginLeft: "6%", border: '1px solid black', transform: 'scale(1.5)' }}>
@@ -155,7 +173,80 @@ const Streaming = () => {
             </form>
 
         </div>
+    </>
     );
 };
 
 export default React.memo(Streaming);
+
+
+// import React, { useRef, useEffect } from 'react';
+// import io from 'socket.io-client';
+
+// const Broadcaster = () => {
+//   const videoRef = useRef<any>(null);
+//   const socketRef = useRef<any>(null);
+//   const peerConnections = useRef<any>({});
+
+//   useEffect(() => {
+//     socketRef.current = io('http://localhost:3001');
+
+//     socketRef.current.on('watcher', (id:any) => {
+//       const peerConnection = new RTCPeerConnection();
+//       peerConnections.current[id] = peerConnection;
+
+//       let stream = videoRef.current.srcObject;
+//       stream.getTracks().forEach((track:any) => peerConnection.addTrack(track, stream));
+
+//       peerConnection.onicecandidate = event => {
+//         if (event.candidate) {
+//           socketRef.current.emit('candidate', id, event.candidate);
+//         }
+//       };
+
+//       peerConnection.createOffer()
+//         .then(sdp => peerConnection.setLocalDescription(sdp))
+//         .then(() => {
+//           socketRef.current.emit('offer', id, peerConnection.localDescription);
+//         });
+//     });
+
+//     socketRef.current.on('answer', (id:any, description:any) => {
+//       peerConnections.current[id].setRemoteDescription(description);
+//     });
+
+//     socketRef.current.on('candidate', (id:any, candidate:any) => {
+//       peerConnections.current[id].addIceCandidate(new RTCIceCandidate(candidate));
+//     });
+
+//     socketRef.current.on('disconnectPeer', (id:any) => {
+//       peerConnections.current[id].close();
+//       delete peerConnections.current[id];
+//     });
+
+//     socketRef.current.emit('broadcaster');
+
+//     return () => {
+//       socketRef.current.disconnect();
+//       Object.values(peerConnections.current).forEach((pc:any) => pc.close());
+//     };
+//   }, []);
+
+//   const startLiveStream = async () => {
+//     try {
+//       const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+//       videoRef.current.srcObject = stream;
+//     } catch (error) {
+//       console.error('Error accessing media devices.', error);
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <button onClick={startLiveStream}>Start Live Stream</button>
+//       <video ref={videoRef} autoPlay muted playsInline></video>
+//     </div>
+//   );
+// };
+
+// export default Broadcaster;

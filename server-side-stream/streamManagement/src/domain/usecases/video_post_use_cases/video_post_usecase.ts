@@ -221,6 +221,10 @@ class videoPostUseCase implements videoPostInterface {
         return { status: true, message: "success", data }
     }
 
+    async getCurrentLives() { 
+        return await  postVideosRepo.getCurrentLives()
+    }
+
 }
 
 export const videoPost: videoPostInterface = new videoPostUseCase()

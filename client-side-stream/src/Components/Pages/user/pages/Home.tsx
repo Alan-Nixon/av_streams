@@ -29,19 +29,19 @@ function Home() {
             }
         })
 
-      
+
 
         // getBanners
 
         getAllVideos(false).then(videos => {
             setTrending(videos);
-            console.log(videos,"hio");
-            
             const Banners: BannerInterfaceHome = {
                 bigBanner: '/images/gtaSeaCar.jpeg',
-                mainBanner: "http://res.cloudinary.com/dyh7c1wtm/image/upload/v1716715947/avstreamThumbnail/w9tihgk7cur5vhpsxezc.jpg",
-                isLive: false,
-                subBanners: videos.slice(0,3)
+                mainBanner: {
+                    _id:videos[2]._id,
+                    Thumbnail:videos[2].Thumbnail
+                },
+                subBanners: videos.slice(0, 4)
             }
             setBanner(Banners)
         })
@@ -50,7 +50,7 @@ function Home() {
 
     useEffect(() => {
         if (user && user?._id) {
-            getCommentByCate('post').then(( data ) => {
+            getCommentByCate('post').then((data) => {
                 getAllPosts().then((response) => {
                     const res = joinCommentWithpost(response, data, user?._id || "");
                     if (data && res) { setPosts(res) }
@@ -76,55 +76,15 @@ function Home() {
 
                 <div className="ml-5 flex">
                     <div className="flex mainBanner relative">
-                        <img src={banner?.mainBanner} className='' style={{ maxWidth: "50%", cursor: "pointer" }} alt="" />
-                        {banner?.isLive && <div className="flex relative" style={{ float: "right" }}>
-                            <div className="flex p-1 absolute top-0 right-0" style={{ backgroundColor: "black" }}>
-                                <svg className="" xmlns="http://www.w3.org/2000/svg" fill="#fa000c" width={12} viewBox="0 0 512 512">
-                                    <path d="M16 128h416c8.8 0 16-7.2 16-16V48c0-8.8-7.2-16-16-16H16C7.2 32 0 39.2 0 48v64c0 8.8 7.2 16 16 16zm480 80H80c-8.8 0-16 7.2-16 16v64c0 8.8 7.2 16 16 16h416c8.8 0 16-7.2 16-16v-64c0-8.8-7.2-16-16-16zm-64 176H16c-8.8 0-16 7.2-16 16v64c0 8.8 7.2 16 16 16h416c8.8 0 16-7.2 16-16v-64c0-8.8-7.2-16-16-16z" />
-                                </svg>
-                                <span className='ml-1 text-xs' style={{ fontWeight: "bold" }}>LIVE</span>
-                            </div>
-                        </div>}
+                        <img src={banner?.mainBanner?.Thumbnail} onClick={() => Navigate('/FullVideo?videoId=' + banner?.mainBanner?._id)} style={{ width: "50%", cursor: "pointer" }} alt="" />
                         <div className="ml-2">
                             <div className="flex">
-                                <img src={banner?.subBanners[0].thumbnail} className='cursor-pointer' style={{ width: "50%" }} alt="" />
-                                {banner?.isLive && <div className="flex relative" style={{ float: "right" }}>
-                                    <div className="flex p-1 absolute top-0 right-0" style={{ backgroundColor: "black" }}>
-                                        <svg className="" xmlns="http://www.w3.org/2000/svg" fill="#fa000c" width={12} viewBox="0 0 512 512">
-                                            <path d="M16 128h416c8.8 0 16-7.2 16-16V48c0-8.8-7.2-16-16-16H16C7.2 32 0 39.2 0 48v64c0 8.8 7.2 16 16 16zm480 80H80c-8.8 0-16 7.2-16 16v64c0 8.8 7.2 16 16 16h416c8.8 0 16-7.2 16-16v-64c0-8.8-7.2-16-16-16zm-64 176H16c-8.8 0-16 7.2-16 16v64c0 8.8 7.2 16 16 16h416c8.8 0 16-7.2 16-16v-64c0-8.8-7.2-16-16-16z" />
-                                        </svg>
-                                        <span className='ml-1 text-xs' style={{ fontWeight: "bold" }}>LIVE</span>
-                                    </div>
-                                </div>}
-                                <img src={banner?.subBanners[1].thumbnail} className='ml-2 cursor-pointer' style={{ width: "47%" }} alt="" />
-                                {banner?.subBanners[1].isLive && <div className="flex relative" style={{ float: "right" }}>
-                                    <div className="flex p-1 absolute top-0 right-0" style={{ backgroundColor: "black" }}>
-                                        <svg className="" xmlns="http://www.w3.org/2000/svg" fill="#fa000c" width={12} viewBox="0 0 512 512">
-                                            <path d="M16 128h416c8.8 0 16-7.2 16-16V48c0-8.8-7.2-16-16-16H16C7.2 32 0 39.2 0 48v64c0 8.8 7.2 16 16 16zm480 80H80c-8.8 0-16 7.2-16 16v64c0 8.8 7.2 16 16 16h416c8.8 0 16-7.2 16-16v-64c0-8.8-7.2-16-16-16zm-64 176H16c-8.8 0-16 7.2-16 16v64c0 8.8 7.2 16 16 16h416c8.8 0 16-7.2 16-16v-64c0-8.8-7.2-16-16-16z" />
-                                        </svg>
-                                        <span className='ml-1 text-xs' style={{ fontWeight: "bold" }}>LIVE</span>
-                                    </div>
-                                </div>}
+                                <img onClick={() => Navigate('/FullVideo?videoId=' + banner?.subBanners[0]?._id)} src={banner?.subBanners[0]?.Thumbnail} className='cursor-pointer' style={{ width: "50%" }} alt="" />
+                                <img onClick={() => Navigate('/FullVideo?videoId=' + banner?.subBanners[1]?._id)} src={banner?.subBanners[1]?.Thumbnail} className='ml-2 cursor-pointer' style={{ width: "47%" }} alt="" />
                             </div>
                             <div className="flex mt-3">
-                                <img src={banner?.subBanners[2].thumbnail} className='mt-2 cursor-pointer' style={{ width: "50%" }} alt="" />
-                                {banner?.subBanners[2].isLive && <div className="flex relative" style={{ float: "right" }}>
-                                    <div className="flex p-1 absolute top-0 right-0" style={{ backgroundColor: "black" }}>
-                                        <svg className="" xmlns="http://www.w3.org/2000/svg" fill="#fa000c" width={12} viewBox="0 0 512 512">
-                                            <path d="M16 128h416c8.8 0 16-7.2 16-16V48c0-8.8-7.2-16-16-16H16C7.2 32 0 39.2 0 48v64c0 8.8 7.2 16 16 16zm480 80H80c-8.8 0-16 7.2-16 16v64c0 8.8 7.2 16 16 16h416c8.8 0 16-7.2 16-16v-64c0-8.8-7.2-16-16-16zm-64 176H16c-8.8 0-16 7.2-16 16v64c0 8.8 7.2 16 16 16h416c8.8 0 16-7.2 16-16v-64c0-8.8-7.2-16-16-16z" />
-                                        </svg>
-                                        <span className='ml-1 text-xs' style={{ fontWeight: "bold" }}>LIVE</span>
-                                    </div>
-                                </div>}
-                                <img src={banner?.subBanners[3].thumbnail} className='ml-2 cursor-pointer' style={{ width: "47%" }} alt="" />
-                                {banner?.subBanners[3].isLive && <div className="flex relative" style={{ float: "right" }}>
-                                    <div className="flex p-1 absolute top-0 right-0" style={{ backgroundColor: "black" }}>
-                                        <svg className="" xmlns="http://www.w3.org/2000/svg" fill="#fa000c" width={12} viewBox="0 0 512 512">
-                                            <path d="M16 128h416c8.8 0 16-7.2 16-16V48c0-8.8-7.2-16-16-16H16C7.2 32 0 39.2 0 48v64c0 8.8 7.2 16 16 16zm480 80H80c-8.8 0-16 7.2-16 16v64c0 8.8 7.2 16 16 16h416c8.8 0 16-7.2 16-16v-64c0-8.8-7.2-16-16-16zm-64 176H16c-8.8 0-16 7.2-16 16v64c0 8.8 7.2 16 16 16h416c8.8 0 16-7.2 16-16v-64c0-8.8-7.2-16-16-16z" />
-                                        </svg>
-                                        <span className='ml-1 text-xs' style={{ fontWeight: "bold" }}>LIVE</span>
-                                    </div>
-                                </div>}
+                                <img onClick={() => Navigate('/FullVideo?videoId=' + banner?.subBanners[2]?._id)} src={banner?.subBanners[2]?.Thumbnail} className='cursor-pointer' style={{ width: "50%" }} alt="" />
+                                <img onClick={() => Navigate('/FullVideo?videoId=' + banner?.subBanners[3]?._id)} src={banner?.subBanners[3]?.Thumbnail} className='ml-2 cursor-pointer' style={{ width: "47%" }} alt="" />
                             </div>
                         </div>
                     </div>

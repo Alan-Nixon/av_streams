@@ -1,6 +1,7 @@
 import { searchProfileGRPC } from "../../presentation/Grpc/stream_user";
 import { getUserByIdRabbit, searchProfileByUser } from "../../presentation/Rabbitmq/consumer";
 import { CategoryModel } from "../Models/category";
+import { LiveModel } from "../Models/live";
 import { PostModel } from "../Models/posts";
 import { ReportModel } from "../Models/report";
 import { VideoModel } from "../Models/videos";
@@ -170,6 +171,14 @@ class postVideosRepositary implements post_video_repo_interface {
             await CategoryModel.insertMany(Data);
             return { status: true, message: "success" }
         } catch (error: any) {
+            return this.returnErrorCatch(error.message)
+        }
+    }
+
+    async getCurrentLives() {
+        try {
+            return { status: true, message: "success", data: await LiveModel.find() }
+        } catch (error:any) {
             return this.returnErrorCatch(error.message)
         }
     }
