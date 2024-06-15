@@ -54,6 +54,7 @@ export interface videoPostInterface {
     getCategory(): Promise<responseObject>;
     blockcategory(cateId: string): Promise<responseObject>;
     addCategory(Data: Object): Promise<responseObject>;
-    getPostDongnutData(userCount:number): Promise<responseObject>;
+    getPostDongnutData(userCount: number): Promise<responseObject>;
     getCurrentLives(): Promise<responseObject>;
+    getVideosByUserId(shorts: string,userId:string): Promise<responseObject>;
 } 

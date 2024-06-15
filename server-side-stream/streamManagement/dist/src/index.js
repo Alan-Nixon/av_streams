@@ -38,6 +38,7 @@ const streamRoutes_1 = __importDefault(require("./presentation/Route/streamRoute
 require("../config/Database");
 require("./presentation/Grpc/stream_user");
 require("./presentation/Rabbitmq/consumer");
+const socketConn_1 = require("./data/Socket/socketConn");
 const app = express.default();
 const server = http.createServer(app);
 const io = new socket_io_1.Server(server, {
@@ -58,37 +59,7 @@ app.use((0, express_session_1.default)({
 }));
 app.use(express.json());
 app.use((0, morgan_1.default)('dev'));
-// connectToSocket(io);
-let broadcaster = null;
-io.on('connection', (socket) => {
-    console.log('New client connected: ', socket.id);
-    socket.on('broadcaster', () => {
-        console.log('Broadcaster connected');
-        broadcaster = socket.id;
-        socket.broadcast.emit('broadcaster');
-    });
-    socket.on('watcher', () => {
-        console.log('Watcher connected');
-        if (broadcaster) {
-            io.to(broadcaster).emit('watcher', socket.id);
-        }
-    });
-    socket.on('offer', (id, message) => {
-        console.log('Offer received');
-        io.to(id).emit('offer', socket.id, message);
-    });
-    socket.on('answer', (id, message) => {
-        console.log('Answer received');
-        io.to(id).emit('answer', socket.id, message);
-    });
-    socket.on('candidate', (id, message) => {
-        console.log('Candidate received');
-        io.to(id).emit('candidate', socket.id, message);
-    });
-    socket.on('disconnect', () => {
-        socket.broadcast.emit('disconnectPeer', socket.id);
-    });
-});
+(0, socketConn_1.connectToSocket)(io);
 app.use('/', streamRoutes_1.default);
 server.listen(3001, () => {
     console.log('server started on port 3001');

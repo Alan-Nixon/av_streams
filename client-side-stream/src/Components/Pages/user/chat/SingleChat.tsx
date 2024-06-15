@@ -5,17 +5,29 @@ import { useUser } from '../../../../UserContext';
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 import DuoIcon from '@mui/icons-material/Duo';
+import KeyboardVoiceIcon from '@mui/icons-material/KeyboardVoice';
+import CloseIcon from '@mui/icons-material/Close';
+
+import AudioPlayer from 'react-h5-audio-player';
+import 'react-h5-audio-player/lib/styles.css';
 
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 
 
 
 const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMessages, zp }: singleChatInterfce) => {
+
     const { user } = useUser();
     const [selectEmoji, setSelectEmoji] = useState<boolean>(false)
+    const [startAudio, setAudioRecord] = useState(false)
+    const [startTimer, setStartTimer] = useState(false)
+    const [time, setTime] = useState("0:00")
     const [message, setMessage] = useState("")
     const emojiPickerRef = useRef<HTMLDivElement>(null);
     const messageDivRef = useRef<any>()
+    const voiceRef = useRef<any>()
+    const audioChunksRef = useRef<any>([]);
+
 
     messageSocket.on("incoming_message", (Data: any) => {
         console.log(Data);
@@ -34,19 +46,82 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
         };
     }, []);
 
+
+
+
     useEffect(() => {
         if (messageDivRef.current) {
-          messageDivRef.current.scrollTop = messageDivRef.current.scrollHeight;
+            messageDivRef.current.scrollTop = messageDivRef.current.scrollHeight;
         }
-      }, [messages]);
+    }, [messages]);
 
     const handleEmojiSelect = (emoji: { native: string; }) => {
         setMessage((data) => data + emoji.native);
     };
 
+    let interval: any = null
+    useEffect(() => {
+        if (startTimer) {
+            interval = setTimeout(() => {
+                let [min, sec] = time.split(':')
+                let currentTime = (Number(sec) + 1).toString().padStart(2, "0")
+                if (currentTime === "59") {
+                    currentTime = "00"
+                    min = (Number(min) + 1).toString()
+                }
+                setTime(min + ":" + currentTime)
+            }, 1000)
+        }
+    }, [time, startTimer])
+
+
+
+    const startRecording = async () => {
+
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+        audioChunksRef.current = [];
+        voiceRef.current = new MediaRecorder(stream);
+        voiceRef.current.ondataavailable = (event: any) => audioChunksRef.current.push(event.data);
+        voiceRef.current.start(1000)
+
+        setAudioRecord(true); setTime("0:00"); setStartTimer(true);
+
+        if (interval) { clearTimeout(interval); }
+    }
+
+
+
+    const sendAudioMessage = () => {
+        setAudioRecord(false);
+
+        const combinedBlob = new Blob(audioChunksRef.current, { type: 'audio/webm;codecs=opus' });
+        console.log(combinedBlob, URL.createObjectURL(combinedBlob));
+
+        if (voiceRef.current) {
+            voiceRef.current.stop();
+            voiceRef.current = null;
+        }
+
+    }
+
+
+
+
+
+    const stopRecording = () => {
+        setAudioRecord(false);
+
+        if (voiceRef?.current) {
+            voiceRef?.current?.stop();
+            voiceRef.current = null;
+        }
+
+    }
+
     const sendMessage = () => {
-        setMessage("")
-        if (user?._id) {
+        if (user?._id && message?.trim() !== "") {
+
             const newMessage: messageArray = {
                 file: { Link: "", fileType: "" },
                 message, seen: false, sender: user._id,
@@ -56,6 +131,7 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
 
             messageSocket.emit('new_message', newMessage)
             setMessages([...messages, newMessage])
+            setMessage("")
         }
     }
 
@@ -99,7 +175,7 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
                         return (
                             <div className="flex w-full" key={index}  >
                                 {
-                                    item.sender !== personDetails.userId ?
+                                    item.sender !== personDetails.userId ? <>
                                         <div className="flex ml-auto p-3">
                                             <div>
                                                 <div className="bg-indigo-300 p-3 rounded-l-lg rounded-br-lg">
@@ -111,41 +187,72 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
                                                 <img src={user?.profileImage} className="rounded-full" alt="" />
                                             </div>
                                         </div>
+                                    </>
                                         :
-                                        <div className="flex justify-start w-[75%] p-3  max-w-xs">
-                                            <div className="flex-shrink-0 h-8 w-8 m-1 rounded-full bg-gray-300">
-                                                <img src={personDetails.profileImage} alt="" className='rounded-full' />
-                                            </div>
-                                            <div>
-                                                <div className="bg-gray-300 p-3 ml-1 rounded-r-lg rounded-bl-lg">
-                                                    <p className="text-sm">{item.message}</p>
+                                        <>
+                                            {item.file.fileType === " " ? <>
+                                                <div className="flex justify-start w-[75%] p-3  max-w-xs">
+                                                    <div className="flex-shrink-0 h-8 w-8 m-1 rounded-full bg-gray-300">
+                                                        <img src={personDetails.profileImage} alt="" className='rounded-full' />
+                                                    </div>
+                                                    <div>
+                                                        <div className="bg-gray-300 p-3 ml-1 rounded-r-lg rounded-bl-lg">
+                                                            <p className="text-sm">{item.message}</p>
+                                                        </div>
+                                                        <span className="text-xs text-gray-500 leading-none">{getTimeDifference(item.time) || "0 minute"} ago</span>
+                                                    </div>
                                                 </div>
-                                                <span className="text-xs text-gray-500 leading-none">{getTimeDifference(item.time) || "0 minute"} ago</span>
-                                            </div>
-                                        </div>
-
+                                            </> : <>
+                                                <div className="flex justify-start w-[75%] p-3  max-w-xs">
+                                                    <div className=" h-[45px]">
+                                                        <AudioPlayer className="hidden"
+                                                            style={{ borderRadius: "10px" }}
+                                                            src="http://commondatastorage.googleapis.com/codeskulptor-assets/Collision8-Bit.og"
+                                                        />
+                                                        <video src=""></video>
+                                                    </div>
+                                                </div>
+                                            </>}
+                                        </>
                                 }
                             </div>
                         )
                     })}
+
                 </div>
+
                 <div ref={emojiPickerRef} className="absolute ml-5">
                     {selectEmoji && <Picker data={data} onEmojiSelect={handleEmojiSelect} />}
                 </div>
                 <div className="bg-gray-300 p-4 mt-auto">
-                    <div className="flex">
-                        <button type="button" onClick={() => setSelectEmoji(!selectEmoji)} className="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
-                            <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.408 7.5h.01m-6.876 0h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM4.6 11a5.5 5.5 0 0 0 10.81 0H4.6Z" />
-                            </svg>
-                        </button>
-                        <input onChange={(e) => setMessage(e.target.value)} value={message} className="flex items-center h-10 w-full rounded px-3 text-sm" type="text" placeholder="Type your message…" />
-                        <button type="button" onClick={() => sendMessage()} className="inline-flex ml-4 justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
-                            <svg className="w-5 h-5 rotate-90 rtl:-rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
-                                <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z" />
-                            </svg>
-                        </button>
-                    </div>
+                    {startAudio ? <>
+                        <div className="flex">
+                            <CloseIcon onClick={() => stopRecording()} />
+                            <div className="mx-auto">{time.toString()} Recording...</div>
+                            <button type="button" onClick={() => sendAudioMessage()} className="inline-flex ml-4 justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                                <svg className="w-5 h-5 rotate-90 rtl:-rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                                    <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </> : <>
+
+                        <div className="flex">
+                            <button type="button" onClick={() => setSelectEmoji(!selectEmoji)} className="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                                <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.408 7.5h.01m-6.876 0h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM4.6 11a5.5 5.5 0 0 0 10.81 0H4.6Z" />
+                                </svg>
+                            </button>
+                            <input onChange={(e) => setMessage(e.target.value)} value={message} className="flex items-center h-10 w-full rounded px-3 text-sm" type="text" placeholder="Type your message…" />
+                            <button type="button" onClick={() => sendMessage()} className="inline-flex ml-4 justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                                <svg className="w-5 h-5 rotate-90 rtl:-rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                                    <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z" />
+                                </svg>
+                            </button>
+                            <KeyboardVoiceIcon onClick={() => startRecording()} className='inline-flex mt-1 h-10 justify-center text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600' />
+                        </div>
+
+                    </>}
                 </div>
 
             </div>

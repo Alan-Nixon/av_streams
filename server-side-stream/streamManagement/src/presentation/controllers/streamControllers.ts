@@ -246,6 +246,17 @@ export const getCurrentLives = async (req: Request, res: Response) => {
 }
 
 
+export const getVideosByUserId = async (req: Request, res: Response) => {
+    try {
+        const { shorts, userId } = req.query
+        res.status(200).json(await videoPost.getVideosByUserId(shorts, userId ))
+    } catch (error: any) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" })
+    }
+}
+
+
 
 function multipartFormSubmission(req: Request): Promise<{ files: Files; fields: Fields }> {
     return new Promise((resolve, reject) => {

@@ -178,7 +178,17 @@ class postVideosRepositary implements post_video_repo_interface {
     async getCurrentLives() {
         try {
             return { status: true, message: "success", data: await LiveModel.find() }
-        } catch (error:any) {
+        } catch (error: any) {
+            return this.returnErrorCatch(error.message)
+        }
+    }
+
+    async getVideosByUserId(shorts: string, userId: string) {
+        try {
+            console.log(Boolean(shorts),shorts);
+
+            return { status: true, message: "success", data: await VideoModel.find({ userId }) }
+        } catch (error: any) {
             return this.returnErrorCatch(error.message)
         }
     }

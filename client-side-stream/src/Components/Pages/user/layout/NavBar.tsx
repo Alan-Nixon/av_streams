@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import ChatHome from '../chat/chatHome';
 import { Popup } from 'reactjs-popup'
 import SingleChat from '../chat/SingleChat';
-import { Data, channelInterface, chatInterfaceProps, chatsInterface, messageArray } from '../../../../Functions/interfaces';
+import { channelInterface, chatInterfaceProps, messageArray } from '../../../../Functions/interfaces';
 import io from 'socket.io-client'
 import { toastFunction } from '../../../messageShowers/ToastFunction';
 

@@ -119,3 +119,8 @@ export const getCurrentLives = async () => {
     return data
 }
 
+
+export const getVideosByUserId = async (userId: string, shorts: boolean) => {
+    const { data } = await axiosApiGateWay.get('/streamManagement/getVideosByUserId?shorts=' + shorts + '&userId=' + userId)
+    return data
+}

@@ -268,5 +268,10 @@ class videoPostUseCase {
             return yield post_videos_Repositary_1.postVideosRepo.getCurrentLives();
         });
     }
+    getVideosByUserId(shorts, userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield post_videos_Repositary_1.postVideosRepo.getVideosByUserId(shorts, userId);
+        });
+    }
 }
 exports.videoPost = new videoPostUseCase();

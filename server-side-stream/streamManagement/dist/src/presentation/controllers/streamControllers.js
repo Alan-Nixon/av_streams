@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCurrentLives = exports.getPostDongnutData = exports.addCategory = exports.blockcategory = exports.getCategory = exports.changeVisiblityContent = exports.blockContentVisiblity = exports.getBlockedVideos = exports.getReportsBySection = exports.addReportSubmit = exports.searchVideosAndProfile = exports.getPremiumVideos = exports.getMostWatchedVideoUser = exports.getVideosWithId = exports.getAllVideos = exports.getUserVideos = exports.getName = exports.getPostFromUser = exports.likePost = exports.getAllPosts = exports.deletePostFromCloudinary = exports.getAllpostOfUser = exports.uploadPost = exports.uploadVideo = exports.stopStream = void 0;
+exports.getVideosByUserId = exports.getCurrentLives = exports.getPostDongnutData = exports.addCategory = exports.blockcategory = exports.getCategory = exports.changeVisiblityContent = exports.blockContentVisiblity = exports.getBlockedVideos = exports.getReportsBySection = exports.addReportSubmit = exports.searchVideosAndProfile = exports.getPremiumVideos = exports.getMostWatchedVideoUser = exports.getVideosWithId = exports.getAllVideos = exports.getUserVideos = exports.getName = exports.getPostFromUser = exports.likePost = exports.getAllPosts = exports.deletePostFromCloudinary = exports.getAllpostOfUser = exports.uploadPost = exports.uploadVideo = exports.stopStream = void 0;
 const video_post_usecase_1 = require("../../domain/usecases/video_post_use_cases/video_post_usecase");
 const userauthenticationforavstreams_1 = require("userauthenticationforavstreams");
 const user_random_name_generator_1 = require("user_random_name_generator");
@@ -271,6 +271,17 @@ const getCurrentLives = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.getCurrentLives = getCurrentLives;
+const getVideosByUserId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { shorts, userId } = req.query;
+        res.status(200).json(yield video_post_usecase_1.videoPost.getVideosByUserId(shorts, userId));
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" });
+    }
+});
+exports.getVideosByUserId = getVideosByUserId;
 function multipartFormSubmission(req) {
     return new Promise((resolve, reject) => {
         const form = new formidable_1.IncomingForm();

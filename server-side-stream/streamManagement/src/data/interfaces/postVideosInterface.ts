@@ -36,4 +36,5 @@ export interface post_video_repo_interface {
     addCategory(Data: Object): Promise<responseObject>;
     returnErrorCatch(message: any): responseObject;
     getCurrentLives(): Promise<responseObject>;
+    getVideosByUserId(shorts: string,userId:string): Promise<responseObject>;
 }

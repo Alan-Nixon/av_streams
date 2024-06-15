@@ -15,6 +15,8 @@ class chat_use_case implements chat_use_case_interface {
     async getChatOfUser(userId: string) {
         try {
             const data = await chatRepoLayer.getChatOfUser(userId)
+            console.log(data);
+            
             return { status: true, message: "success", data }
         } catch (error) {
             return this.errorResponse(error)

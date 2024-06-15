@@ -8,12 +8,13 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { CardActionArea } from '@mui/material';
 import { numTokandM } from '../../../../Functions/commonFunctions'
-import { carouselInterface, channelInterface, videoInterface } from '../../../../Functions/interfaces'
-import { getMostWatchedVideoUser } from '../../../../Functions/streamFunctions/streamManagement'
+import { carouselInterface, channelInterface, postInterface, videoInterface } from '../../../../Functions/interfaces'
+import { getAllVideos, getMostWatchedVideoUser, getPostFromUser, getUserVideos, getVideosByUserId } from '../../../../Functions/streamFunctions/streamManagement'
 import { followChannel, getChannelById } from '../../../../Functions/userFunctions/userManagement'
 import { useUser } from '../../../../UserContext'
 import ChakraMessage from '../../../messageShowers/ChakraUI'
 import { useSocket } from '../../../../Functions/realtime/socketContext'
+import { ShowPosts } from '../helpers/HelperComponents'
 
 
 function Channel() {
@@ -64,7 +65,7 @@ function Channel() {
             }
             setChannelDetails(Data);
             followChannel(channelDetails.userId).then(() => {
-                if (Data.Followers.includes(user?._id)) {
+                if (Data.Followers.includes(user?._id) && socket) {
                     socket.emit('followChannel', {
                         data: {
                             Link: user?.profileImage,
@@ -115,6 +116,9 @@ function Channel() {
                     </div>
                 </div>
                 {section === "Home" && <ChannelHome />}
+                {section === "Videos" && <Videos channelId={channelId} shorts={false} />}
+                {section === "Shorts" && <Videos channelId={channelId} shorts={true} />}
+                {section === "Posts" && <Posts channelId={channelId} />}
             </Content>
         </>}
     </>)
@@ -210,6 +214,67 @@ function Channel() {
                 }) : <>No videos yet</>}
             </div>
         </div>)
+    }
+
+
+    function Videos({ channelId, shorts }: { channelId: string, shorts: boolean }) {
+
+        const [videos, setVideos] = useState<videoInterface[]>([])
+
+        useEffect(() => {
+
+            getChannelById(channelId).then(({ userId }) => getVideosByUserId(userId, shorts).then(({ data }) => setVideos(data)))
+
+        }, [])
+
+        return (<>
+            <div className={`w-[86%] ml-12 mt-2 ${shorts && "flex"}`} >
+                {videos.length > 0 && videos.map((details, index) => (
+                    <>
+                        {shorts ? <>
+                            <div key={index} onClick={() => Navigate('/FullVideo?videoId=' + details._id)} style={{ width: "23%", minWidth: "250px", maxWidth: "300px" }} className="ml-3 mt-3 hover:bg-gray-900 cursor-pointer rounded-lg shadow">
+                                <p>
+                                    <img className="rounded-t-lg w-full" src={details.Thumbnail} alt="" />
+                                </p>
+                                <div className="p-5">
+                                    <p> <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{details.Title}</h5></p>
+                                    <p className="text-yellow-700 font-bold">Premium</p>
+                                </div>
+                            </div>
+                        </> : <>
+
+                            <p key={index} onClick={() => Navigate("/FullVideo?videoId=" + details._id)} style={{ width: "100%" }} className="flex  mt-3 bg-white border border-gray-200 rounded-lg shadow md:flex-row   hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                <img style={{ width: "150px" }} className="object-cover w-full rounded-t-lg md:rounded-none md:rounded-s-lg" src={details.Thumbnail} alt={details.Title} />
+                                <div className="flex flex-col m-4 leading-normal">
+                                    <h5 className=" text-lg font-bold tracking-tight text-gray-900 dark:text-white">{details.Title}</h5>
+                                    <p className="font-normal text-gray-700 dark:text-gray-400">{details.Description}</p>
+                                    <p>{details.channelName}</p>
+                                </div>
+                            </p>
+
+                        </>}
+                    </>))}
+            </div>
+        </>)
+    }
+
+    function Posts({ channelId }: { channelId: string }) {
+
+        const [posts, setPosts] = useState<postInterface[]>([])
+
+        useEffect(() => {
+            getChannelById(channelId).then(({ userId }) => {
+                getPostFromUser(userId).then((data) => {
+                    setPosts(data);
+                })
+            })
+        }, [])
+
+        return (<>
+            <div className="posts ml-8 mt-1">
+                {posts.length !== 0 && <ShowPosts Data={posts} />}
+            </div>
+        </>)
     }
 
 }

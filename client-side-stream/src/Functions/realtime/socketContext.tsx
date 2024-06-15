@@ -14,16 +14,16 @@ function SocketContext({ children }: ContentProps) {
   const [socket, setSocket] = useState<Socket | null>(null)
 
   useEffect(() => {
-    const websocket = io(process.env.REACT_APP_API_GATEWAY || "")
-    setSocket(websocket)
+    const socket = io(process.env.REACT_APP_API_GATEWAY || "")
+    setSocket(socket)
 
-    websocket.on('connect', () => {
-      console.log('Connected to websocket')
+    socket.on('connect', () => {
+      console.log('Connected to socket')
     })
 
 
     return () => {
-      websocket.disconnect()
+      socket.disconnect()
     }
   }, [])
 

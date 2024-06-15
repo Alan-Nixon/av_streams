@@ -8,6 +8,7 @@ class streamRepositaryLayerClass implements livestreamInterface {
 
     async insertLiveStreamData(data: liveDataInteface) {
         const url = await uploadImageBuffer(data.Thumbnail as Buffer , "liveThumbnails")
+        data.Thumbnail = url 
         await LiveModel.insertMany(data)
         console.log(url);
         

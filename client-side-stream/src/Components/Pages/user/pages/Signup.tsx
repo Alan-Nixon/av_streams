@@ -46,7 +46,7 @@ function SignupForm({ props }: any) {
 
     const userNameRegex = /^[a-zA-Z0-9]+$/;
     const fullNameRegex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/
-    const phoneRegex = /^[1-9][0-9]*$/
+    const phoneRegex = /^[1-9][0-9]{9}$/
 
     async function validate(from: boolean) {
         if (userNameRegex.test(signupData.userName.trim())) {

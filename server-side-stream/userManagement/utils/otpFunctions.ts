@@ -86,7 +86,7 @@ export const sendOtpToEmail = (email: string, otp: number) => {
         html: `<b>Your Av stream OTP is ${otp}</b>`
     };
 
-
+ 
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             console.error('Error:', error);

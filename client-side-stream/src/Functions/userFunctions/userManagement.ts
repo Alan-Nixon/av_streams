@@ -35,7 +35,6 @@ export const postSignup = async (postData: Data) => {
         return data
     } catch (error) {
         console.log(error);
-
     }
 }
 
@@ -146,8 +145,6 @@ export const getChannelById = async (userId: string) => {
 
 export const getChannelByUserId = async (channelId: string) => {
     const { data } = await axiosApiGateWay.get('/userManagement/getChannelByUserId?channelId=' + channelId)
-    console.log(data);
-
     return data
 }
 

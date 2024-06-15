@@ -16,6 +16,7 @@ class streamRepositaryLayerClass {
     insertLiveStreamData(data) {
         return __awaiter(this, void 0, void 0, function* () {
             const url = yield (0, cloudinary_1.uploadImageBuffer)(data.Thumbnail, "liveThumbnails");
+            data.Thumbnail = url;
             yield live_1.LiveModel.insertMany(data);
             console.log(url);
         });

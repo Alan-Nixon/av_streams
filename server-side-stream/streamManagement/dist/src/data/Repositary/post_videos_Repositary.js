@@ -221,5 +221,16 @@ class postVideosRepositary {
             }
         });
     }
+    getVideosByUserId(shorts, userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                console.log(Boolean(shorts), shorts);
+                return { status: true, message: "success", data: yield videos_1.VideoModel.find({ userId }) };
+            }
+            catch (error) {
+                return this.returnErrorCatch(error.message);
+            }
+        });
+    }
 }
 exports.postVideosRepo = new postVideosRepositary();

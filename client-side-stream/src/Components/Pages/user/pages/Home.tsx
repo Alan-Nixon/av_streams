@@ -38,8 +38,8 @@ function Home() {
             const Banners: BannerInterfaceHome = {
                 bigBanner: '/images/gtaSeaCar.jpeg',
                 mainBanner: {
-                    _id:videos[2]._id,
-                    Thumbnail:videos[2].Thumbnail
+                    _id: videos[2]._id,
+                    Thumbnail: videos[2].Thumbnail
                 },
                 subBanners: videos.slice(0, 4)
             }
@@ -72,8 +72,7 @@ function Home() {
                         )
                     })}
                 </div>
-
-
+                
                 <div className="ml-5 flex">
                     <div className="flex mainBanner relative">
                         <img src={banner?.mainBanner?.Thumbnail} onClick={() => Navigate('/FullVideo?videoId=' + banner?.mainBanner?._id)} style={{ width: "50%", cursor: "pointer" }} alt="" />

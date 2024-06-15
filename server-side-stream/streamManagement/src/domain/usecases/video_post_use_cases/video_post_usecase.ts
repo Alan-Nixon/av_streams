@@ -225,6 +225,10 @@ class videoPostUseCase implements videoPostInterface {
         return await  postVideosRepo.getCurrentLives()
     }
 
+    async getVideosByUserId(shorts:string,userId:string) {
+        return await postVideosRepo.getVideosByUserId(shorts,userId)
+    }
+
 }
 
 export const videoPost: videoPostInterface = new videoPostUseCase()

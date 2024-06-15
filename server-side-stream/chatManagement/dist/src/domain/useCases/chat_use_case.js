@@ -23,6 +23,7 @@ class chat_use_case {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const data = yield chat_repositary_1.chatRepoLayer.getChatOfUser(userId);
+                console.log(data);
                 return { status: true, message: "success", data };
             }
             catch (error) {
