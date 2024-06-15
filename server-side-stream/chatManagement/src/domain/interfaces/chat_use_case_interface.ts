@@ -1,3 +1,4 @@
+import { messageArray } from "../../data/interfaces/chatSchema";
 
 export type responseInterface = {
     status: boolean,
@@ -9,4 +10,5 @@ export type chat_use_case_interface = {
     errorResponse(error: any): responseInterface;
     successResponse(data: any): responseInterface;
     getChatOfUser(userId: string): Promise<responseInterface>;
+    saveAudio(message: messageArray, audioBuffer: any): Promise<responseInterface>;
 }

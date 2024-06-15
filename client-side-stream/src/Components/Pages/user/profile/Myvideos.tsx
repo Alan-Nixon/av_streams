@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { changeEvent, videoInterface } from '../../../../Functions/interfaces'
+import { categoryInterface, changeEvent, videoInterface } from '../../../../Functions/interfaces'
 import { Pagination } from '../helpers/HelperComponents'
 import { useUser } from '../../../../UserContext'
 import { uploadToS3Bucket } from '../../../../Functions/AWS_s3_bucket'
@@ -7,6 +7,9 @@ import { getUserVideos, uploadVideo } from '../../../../Functions/streamFunction
 import { isPremiumUser } from '../../../../Functions/userFunctions/userManagement'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import RadioButtonChecked from '@mui/icons-material/RadioButtonChecked';
+import { getCategory } from '../../../../Functions/streamFunctions/adminStreamFunction'
 
 function MyVideos() {
     const [progress, setProgress] = useState<number>(-1)
@@ -18,12 +21,15 @@ function MyVideos() {
     const [error, setError] = useState("")
     const { user } = useUser();
     const [selectedVideo, setSeletected] = useState("")
+    const [cate, setCateName] = useState([])
+    const [selectedCate, setSelectedCate] = useState("")
 
     const [videoDetails, setVideoDetails] = useState<videoInterface>({
         _id: "", Title: "", Description: "",
         Link: "", shorts: false, Thumbnail: "",
         userId: user?._id || "", Visiblity: true,
-        channelName: user?.channelName || "", Premium: false
+        channelName: user?.channelName || "",
+        Premium: false, Category: ""
     })
 
     const Navigate = useNavigate()
@@ -33,8 +39,18 @@ function MyVideos() {
         getUserVideos(false).then((result) => {
             setVideos(result)
         })
+
         getUserVideos(true).then((Shorts) => {
             setShorts(Shorts)
+        })
+
+        getCategory().then(({ data }) => {
+            if (data) {
+                data = data?.filter((item: categoryInterface) => item.Display);
+                if (data) {
+                    setCateName(data?.map((item: categoryInterface) => item.categoryName));
+                }
+            }
         })
 
     }, [])
@@ -51,7 +67,8 @@ function MyVideos() {
                         Description: videoDetails.Description,
                         shorts: isShorts, Visiblity: true,
                         channelName: user?.channelName || "",
-                        Thumbnail: "", Premium: (await isPremiumUser(user._id || "")).status
+                        Thumbnail: "", Category: selectedCate,
+                        Premium: (await isPremiumUser(user._id || "")).status
                     }
                     uploadVideo(Data, Thumbnail).then((res) => {
                         toast.success(res.status ? "successfully uploaded the video" : "error uploading the video")
@@ -80,14 +97,19 @@ function MyVideos() {
     const validation = () => {
         if (videoDetails.Title.trim() !== "") {
             if (videoDetails.Description.trim() !== "") {
-                if (uploadVideoFile) {
-                    if (Thumbnail) {
-                        return true
+                if (videoDetails.Category.trim() !== "") {
+                    if (uploadVideoFile) {
+                        if (Thumbnail) {
+                            return true
+                        } else {
+                            setError("please select a thumbnail")
+                        }
                     } else {
-                        setError("please select a thumbnail")
+                        setError("Please select a video")
+                        return false
                     }
                 } else {
-                    setError("Please select a video")
+                    setError("Please select a category")
                     return false
                 }
             } else {
@@ -153,6 +175,20 @@ function MyVideos() {
                         <div className="mb-5">
                             <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
                             <textarea id="message" name='Description' onChange={(e) => setVideoDetails((prev) => ({ ...prev, Description: e.target.value }))} rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your descriptiom here..."></textarea>
+                        </div>
+                        <div className="mb-5 flex">
+                            {cate.length > 0 && cate.map((item) => (
+                                <div className="ml-2">
+                                    {selectedCate === item ? <>
+                                        <RadioButtonChecked /><span className="ml-1">{item}</span>
+                                    </> : <>
+                                        <RadioButtonUncheckedIcon name='cate' onClick={() => {
+                                            setSelectedCate(item)
+                                            setVideoDetails((prev) => ({ ...prev, Category: item }))
+                                        }} /><span className="ml-1">{item}</span>
+                                    </>}
+                                </div>
+                            ))}
                         </div>
                         <div className="mb-5">
                             <label htmlFor="Thumbnail" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Thumbnail</label>

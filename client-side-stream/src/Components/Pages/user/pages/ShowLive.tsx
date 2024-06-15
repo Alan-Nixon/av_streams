@@ -42,7 +42,7 @@ const Viewer: React.FC = () => {
         });
 
 
-        getAllVideos(false).then((data) => {
+        getAllVideos(false,"").then((data) => {
             console.log(data);
             setRecomandedVideos(data)
         })

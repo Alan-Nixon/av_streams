@@ -27,7 +27,7 @@ const Shorts = () => {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const response = await getAllVideos(true);
+        const response = await getAllVideos(true,"");
 
         const comments = await Promise.all(response.map(async (item: videoInterface) => {
           return (await getCommentsByLinkId(item._id, "shorts")).data

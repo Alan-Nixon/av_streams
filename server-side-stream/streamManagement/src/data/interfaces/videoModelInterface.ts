@@ -15,6 +15,7 @@ export interface IVideo extends Document {
     likesArray: string[],
     Views: string,
     dislikes: string,
+    Category: string,
     Time: string
 }
 

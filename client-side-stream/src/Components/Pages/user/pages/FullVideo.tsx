@@ -159,7 +159,7 @@ function FullVideo() {
     }
 
 
-    getAllVideos(false).then(({ data }) => {
+    getAllVideos(false,"").then(({ data }) => {
         setRecomandedVideos(data)
     })
 
@@ -194,10 +194,7 @@ function FullVideo() {
                                             <div className="block ml-2 mt-1">
                                                 <p className='text-sm '>{item.channelName}</p>
                                                 <p className='text-xs ml-1 text-white-900/40'>{item.text}</p>
-                                            </div>
-                                            {/* <div className="ml-auto me-4">
-                                                <FavoriteIcon width={10} />
-                                            </div> */}
+                                            </div> 
                                         </div>
                                     ))}
                                 </div>

@@ -273,8 +273,13 @@ const getCurrentLives = (req, res) => __awaiter(void 0, void 0, void 0, function
 exports.getCurrentLives = getCurrentLives;
 const getVideosByUserId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { shorts, userId } = req.query;
-        res.status(200).json(yield video_post_usecase_1.videoPost.getVideosByUserId(shorts, userId));
+        const { shorts, userId } = Object.assign({}, req.query);
+        if (shorts) {
+            res.status(200).json(yield video_post_usecase_1.videoPost.getVideosByUserId(shorts, userId));
+        }
+        else {
+            res.status(200).json({ status: false, message: "error", data: [] });
+        }
     }
     catch (error) {
         console.log(error);

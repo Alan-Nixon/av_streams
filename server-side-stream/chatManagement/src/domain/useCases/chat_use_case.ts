@@ -1,3 +1,5 @@
+import { uploadAudio } from "../../data/adapters/cloudinary";
+import { messageArray } from "../../data/interfaces/chatSchema";
 import { chatRepoLayer } from "../../data/repositaryLayer/chat_repositary";
 import { chat_use_case_interface } from "../interfaces/chat_use_case_interface";
 
@@ -15,14 +17,23 @@ class chat_use_case implements chat_use_case_interface {
     async getChatOfUser(userId: string) {
         try {
             const data = await chatRepoLayer.getChatOfUser(userId)
-            console.log(data);
-            
             return { status: true, message: "success", data }
         } catch (error) {
             return this.errorResponse(error)
         }
     }
 
+    async saveAudio(message: messageArray, audioBuffer: any) {
+        try {
+            const { url } = await uploadAudio(audioBuffer[0], "chat_audio")
+            message.file.Link = url;message.message = "AUDIO_MESSAGE"
+            const data = await chatRepoLayer.addChat(message)
+            return { status: true, message: "success", data:message }
+        } catch (error) {
+            return this.errorResponse(error)
+        }
+    }
+ 
 }
 
-export const chatUseCase: chat_use_case = new chat_use_case()
+export const chatUseCase: chat_use_case_interface = new chat_use_case()

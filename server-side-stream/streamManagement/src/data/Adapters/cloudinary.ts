@@ -18,7 +18,6 @@ export const uploadImage = async (imageData: ImageData, folder: string): Promise
         });
     } catch (error) {
         console.error('Error uploading image to Cloudinary:', error);
-        // throw error;
     }
 }
 

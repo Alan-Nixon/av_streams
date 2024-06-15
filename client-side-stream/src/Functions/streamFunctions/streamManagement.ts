@@ -83,9 +83,15 @@ export const getUserVideos = async (shorts: boolean) => {
     return data.data
 }
 
-export const getAllVideos = async (shorts: boolean) => {
-    const { data } = await axiosApiGateWay.get('/streamManagement/getAllVideos?shorts=' + shorts)
-    return data.data
+export const getAllVideos = async (shorts: boolean, Cate: string) => {
+    const { data } = await axiosApiGateWay.get('/streamManagement/getAllVideos?shorts=' + shorts);
+    if (Cate !== "") {
+        const Data = data.data.filter((item: any) => item?.Category === Cate);
+        console.log(Data);
+        return Data
+    } else {
+        return data.data
+    }
 }
 
 export const getVideosWithId = async (videoId: string) => {

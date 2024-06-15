@@ -2,16 +2,20 @@ import React, { useEffect, useRef, useState } from 'react';
 import { messageArray, singleChatInterfce } from '../../../../Functions/interfaces';
 import { getTimeDifference } from '../../../../Functions/commonFunctions';
 import { useUser } from '../../../../UserContext';
+
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 import DuoIcon from '@mui/icons-material/Duo';
 import KeyboardVoiceIcon from '@mui/icons-material/KeyboardVoice';
 import CloseIcon from '@mui/icons-material/Close';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
 
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
+import { saveAudio } from '../../../../Functions/chatFunctions/chatManagement';
 
 
 
@@ -27,7 +31,7 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
     const messageDivRef = useRef<any>()
     const voiceRef = useRef<any>()
     const audioChunksRef = useRef<any>([]);
-
+    const selectFile = useRef<any>()
 
     messageSocket.on("incoming_message", (Data: any) => {
         console.log(Data);
@@ -96,7 +100,23 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
         setAudioRecord(false);
 
         const combinedBlob = new Blob(audioChunksRef.current, { type: 'audio/webm;codecs=opus' });
-        console.log(combinedBlob, URL.createObjectURL(combinedBlob));
+
+        if (user?._id) {
+
+            const newMessage: messageArray = {
+                file: { fileType: "Audio", Link: "" },
+                message: "", seen: false,
+                sender: user?._id,
+                time: new Date().toString(),
+                to: personDetails.userId
+            }
+            messageSocket.emit('new_message', newMessage)
+
+            saveAudio(combinedBlob, newMessage).then(({ data }) => {
+                console.log(data);
+                setMessages([...messages, data])
+            })
+        }
 
         if (voiceRef.current) {
             voiceRef.current.stop();
@@ -104,10 +124,6 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
         }
 
     }
-
-
-
-
 
     const stopRecording = () => {
         setAudioRecord(false);
@@ -176,21 +192,70 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
                             <div className="flex w-full" key={index}  >
                                 {
                                     item.sender !== personDetails.userId ? <>
-                                        <div className="flex ml-auto p-3">
-                                            <div>
-                                                <div className="bg-indigo-300 p-3 rounded-l-lg rounded-br-lg">
-                                                    <p className="text-sm">{item.message}</p>
+
+                                        {item.file.fileType === "Audio" ? <>
+                                            <div className="flex ml-auto p-3 mb-5" style={{ height: "70px" }}>
+                                                <div style={{ position: 'relative', width: '150px', height: "50px" }}>
+                                                    <video controls style={{ width: '100%', }}>
+                                                        <source src={item.file.Link} type="video/webm" />
+                                                        Your browser does not support the video tag.
+                                                    </video>
+                                                    <div style={{
+                                                        position: 'absolute',
+                                                        top: 0,
+                                                        left: 0,
+                                                        right: 0,
+                                                        bottom: 0,
+                                                        backgroundColor: 'transparent',
+                                                        pointerEvents: 'none'
+                                                    }} />
                                                 </div>
-                                                <span className="text-xs text-gray-500 leading-none">{getTimeDifference(item.time) || "0 minute"} ago</span>
+                                                <div className="flex-shrink-0 h-8 mt-7 w-8 m-1 rounded-full bg-gray-300">
+                                                    <img src={user?.profileImage} className="rounded-full" alt="User profile" />
+                                                </div>
                                             </div>
-                                            <div className="flex-shrink-0 h-8 w-8 m-1 rounded-full bg-gray-300">
-                                                <img src={user?.profileImage} className="rounded-full" alt="" />
+
+
+                                        </> : <>
+                                            <div className="flex ml-auto p-3">
+                                                <div>
+                                                    <div className="bg-indigo-300 p-3 rounded-l-lg rounded-br-lg">
+                                                        <p className="text-sm">{item.message}</p>
+                                                    </div>
+                                                    <span className="text-xs text-gray-500 leading-none">{getTimeDifference(item.time) || "0 minute"} ago</span>
+                                                </div>
+                                                <div className="flex-shrink-0 h-8 w-8 m-1 rounded-full bg-gray-300">
+                                                    <img src={user?.profileImage} className="rounded-full" alt="" />
+                                                </div>
                                             </div>
-                                        </div>
+                                        </>}
+
                                     </>
                                         :
                                         <>
-                                            {item.file.fileType === " " ? <>
+                                            {item.file.fileType === "Audio" ? <>
+                                                <div className="flex p-3 mb-5" style={{ height: "70px" }}>
+                                                    <div className="flex-shrink-0 h-8 mt-7 w-8 m-1 rounded-full bg-gray-300">
+                                                        <img src={personDetails?.profileImage} className="rounded-full" alt="User profile" />
+                                                    </div>
+                                                    <div style={{ position: 'relative', width: '150px', height: "50px" }}>
+                                                        <video controls style={{ width: '100%', }}>
+                                                            <source src={item.file.Link} type="video/webm" />
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                        <div style={{
+                                                            position: 'absolute',
+                                                            top: 0,
+                                                            left: 0,
+                                                            right: 0,
+                                                            bottom: 0,
+                                                            backgroundColor: 'transparent',
+                                                            pointerEvents: 'none'
+                                                        }} />
+                                                    </div>
+
+                                                </div>
+                                            </> : <>
                                                 <div className="flex justify-start w-[75%] p-3  max-w-xs">
                                                     <div className="flex-shrink-0 h-8 w-8 m-1 rounded-full bg-gray-300">
                                                         <img src={personDetails.profileImage} alt="" className='rounded-full' />
@@ -200,16 +265,6 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
                                                             <p className="text-sm">{item.message}</p>
                                                         </div>
                                                         <span className="text-xs text-gray-500 leading-none">{getTimeDifference(item.time) || "0 minute"} ago</span>
-                                                    </div>
-                                                </div>
-                                            </> : <>
-                                                <div className="flex justify-start w-[75%] p-3  max-w-xs">
-                                                    <div className=" h-[45px]">
-                                                        <AudioPlayer className="hidden"
-                                                            style={{ borderRadius: "10px" }}
-                                                            src="http://commondatastorage.googleapis.com/codeskulptor-assets/Collision8-Bit.og"
-                                                        />
-                                                        <video src=""></video>
                                                     </div>
                                                 </div>
                                             </>}
@@ -244,12 +299,16 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
                                 </svg>
                             </button>
                             <input onChange={(e) => setMessage(e.target.value)} value={message} className="flex items-center h-10 w-full rounded px-3 text-sm" type="text" placeholder="Type your message…" />
-                            <button type="button" onClick={() => sendMessage()} className="inline-flex ml-4 justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
-                                <svg className="w-5 h-5 rotate-90 rtl:-rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
-                                    <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z" />
-                                </svg>
-                            </button>
-                            <KeyboardVoiceIcon onClick={() => startRecording()} className='inline-flex mt-1 h-10 justify-center text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600' />
+                            <div className="flex p-1">
+                                <input type="file" ref={selectFile} className="hidden" />
+                                <AttachFileIcon onClick={() => selectFile.current.click()} className='inline-flex mt-1 h-10 justify-center text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600' />
+                                <KeyboardVoiceIcon onClick={() => startRecording()} className='inline-flex mt-1 h-10 justify-center text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600' />
+                                <button type="button" onClick={() => sendMessage()} className="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                                    <svg className="w-5 h-5 rotate-90 rtl:-rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                                        <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z" />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
 
                     </>}

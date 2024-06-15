@@ -30,9 +30,10 @@ class chat_repositary_layer {
                 if (chat) {
                     chat.details.push(message);
                     yield chat.save();
+                    return chat;
                 }
                 else {
-                    yield chat_1.ChatModel.insertMany({
+                    return yield chat_1.ChatModel.insertMany({
                         userId: [message.sender, message.to],
                         archived: false,
                         details: [message]
@@ -41,6 +42,7 @@ class chat_repositary_layer {
             }
             catch (error) {
                 console.log(error);
+                return null;
             }
         });
     }

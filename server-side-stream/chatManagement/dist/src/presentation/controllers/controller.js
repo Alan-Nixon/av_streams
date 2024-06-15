@@ -9,8 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getChatOfUser = void 0;
+exports.saveAudio = exports.getChatOfUser = void 0;
 const chat_use_case_1 = require("../../domain/useCases/chat_use_case");
+const formidable_1 = require("formidable");
 const errorResponse = (error, res) => {
     var _a;
     res.status(200).json({ status: false, message: (_a = error === null || error === void 0 ? void 0 : error.message) !== null && _a !== void 0 ? _a : "some error occured" });
@@ -28,3 +29,35 @@ const getChatOfUser = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.getChatOfUser = getChatOfUser;
+const saveAudio = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const data = yield multipartFormSubmission(req);
+        const message = data.fields.message ? JSON.parse(data.fields.message[0]) : null;
+        const audioBuffer = data.files.audioBuffer;
+        if (message && data.files.audioBuffer) {
+            successResponse(res, yield chat_use_case_1.chatUseCase.saveAudio(message, audioBuffer));
+        }
+        else {
+            errorResponse({ message: "not enough data" }, res);
+        }
+    }
+    catch (error) {
+        console.error(error);
+        errorResponse(error, res);
+    }
+});
+exports.saveAudio = saveAudio;
+function multipartFormSubmission(req) {
+    return new Promise((resolve, reject) => {
+        const form = new formidable_1.IncomingForm();
+        form.parse(req, (err, fields, files) => __awaiter(this, void 0, void 0, function* () {
+            if (err) {
+                console.log(err);
+                reject(err);
+            }
+            else {
+                resolve({ files, fields });
+            }
+        }));
+    });
+}

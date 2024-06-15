@@ -28,4 +28,5 @@ const userauthenticationforavstreams_1 = require("userauthenticationforavstreams
 const controller = __importStar(require("../controllers/controller"));
 const router = (0, express_1.Router)();
 router.get('/getChatOfUser', userauthenticationforavstreams_1.isAuthenticated, controller.getChatOfUser);
+router.post('/saveAudio', userauthenticationforavstreams_1.isAuthenticated, controller.saveAudio);
 exports.default = router;

@@ -17,6 +17,7 @@ const videoSchema: Schema<IVideo> = new Schema({
     likes: { type: String },
     likesArray: { type: [String], default: [] },
     dislikes: { type: String, default: "0" },
+    Category: { type: String, default: "Gaming" },
     Time: { type: String, default: new Date().toDateString() }
 })
 

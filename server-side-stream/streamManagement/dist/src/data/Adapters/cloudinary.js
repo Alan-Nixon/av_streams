@@ -27,7 +27,6 @@ const uploadImage = (imageData, folder) => __awaiter(void 0, void 0, void 0, fun
     }
     catch (error) {
         console.error('Error uploading image to Cloudinary:', error);
-        // throw error;
     }
 });
 exports.uploadImage = uploadImage;

@@ -19,9 +19,10 @@ class chat_repositary_layer implements chat_repo_interface {
             const chat = await ChatModel.findOne({ userId: { $all: [message.sender, message.to] } })
             if (chat) {
                 chat.details.push(message)
-                await chat.save()
+                await chat.save();
+                return chat
             } else {
-                await ChatModel.insertMany({
+               return await ChatModel.insertMany({
                     userId: [message.sender, message.to],
                     archived: false,
                     details: [message]
@@ -30,6 +31,7 @@ class chat_repositary_layer implements chat_repo_interface {
 
         } catch (error) {
             console.log(error);
+            return null
         }
     }
 

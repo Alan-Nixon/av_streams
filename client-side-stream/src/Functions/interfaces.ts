@@ -177,7 +177,8 @@ export interface videoInterface {
     Link: string,
     shorts: boolean,
     Premium: boolean,
-    Thumbnail: string
+    Thumbnail: string,
+    Category:string
 }
 
 export interface postInterface {

@@ -57,9 +57,7 @@ def get_all_comments_grouped(cate):
  
 
 def upload_reply_comment(Data):
-    Comment.update_one(
-        {"_id": ObjectId(Data["commentId"])}, {"$push": {"Replies": Data}}
-    )
+    Comment.update_one({"_id": ObjectId(Data["commentId"])}, {"$push": {"Replies": Data}})
 
 
 def comment_like(data):

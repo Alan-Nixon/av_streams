@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.chatUseCase = void 0;
+const cloudinary_1 = require("../../data/adapters/cloudinary");
 const chat_repositary_1 = require("../../data/repositaryLayer/chat_repositary");
 class chat_use_case {
     errorResponse(error) {
@@ -23,8 +24,21 @@ class chat_use_case {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const data = yield chat_repositary_1.chatRepoLayer.getChatOfUser(userId);
-                console.log(data);
                 return { status: true, message: "success", data };
+            }
+            catch (error) {
+                return this.errorResponse(error);
+            }
+        });
+    }
+    saveAudio(message, audioBuffer) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { url } = yield (0, cloudinary_1.uploadAudio)(audioBuffer[0], "chat_audio");
+                message.file.Link = url;
+                message.message = "AUDIO_MESSAGE";
+                const data = yield chat_repositary_1.chatRepoLayer.addChat(message);
+                return { status: true, message: "success", data: message };
             }
             catch (error) {
                 return this.errorResponse(error);

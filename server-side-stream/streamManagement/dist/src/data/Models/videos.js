@@ -39,6 +39,7 @@ const videoSchema = new mongoose_1.Schema({
     likes: { type: String },
     likesArray: { type: [String], default: [] },
     dislikes: { type: String, default: "0" },
+    Category: { type: String, default: "Gaming" },
     Time: { type: String, default: new Date().toDateString() }
 });
 exports.VideoModel = mongoose_1.default.model('videos', videoSchema);
