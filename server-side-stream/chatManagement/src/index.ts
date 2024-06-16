@@ -17,7 +17,7 @@ const io = new Server(server, {
         origin: process.env.CLIENT_SIDE_URL,
         methods: ["GET", "POST"],
         credentials: true
-    }
+    } 
 })
 
 connectSocket(io)

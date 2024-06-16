@@ -73,7 +73,7 @@ export function generateToken04(
     userId: string,
     secret: string,
     effectiveTimeInSeconds: number,
-    payload?: any
+    payload?: string
 ): string {
     if (!appId || typeof appId !== 'number') {
         throw {
@@ -145,11 +145,3 @@ export function generateToken04(
     // console.log('-----------------');
     return '04' + Buffer.from(dv.buffer).toString('base64');
 }
-
-const appId = 817580044
-
-const userId = "3780";
-const secret = "e70f68377403aa358e08ecbe4cc01bd5"
-const effectiveTimeInSecond = 100000
-
-console.log(generateToken04(appId,userId, secret, effectiveTimeInSecond));

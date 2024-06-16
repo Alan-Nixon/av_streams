@@ -22,8 +22,8 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // Route handling
-app.use('/', router); // Use a specific prefix for API routes
-app.use('/', AdminRouter); // Use a specific prefix for admin routes
+app.use('/', router); 
+app.use('/', AdminRouter);
 
 // 404 Handler
 app.use((req: Request, res: Response) => {

@@ -34,21 +34,22 @@ const Viewer: React.FC = () => {
                 const roomID = "uuidv4"
                 const userID = "3780";
                 const userName = user.userName
-                const token = "04AAAAAGZwOPIAEG55c3NjZGhuamVpYTZpNzAAoFR7SF+Sja5bo/Z+mDg4JWwvzaPg/spRKquMnTeGJLmvZmzbE90KrJ9JYzfeMrf6Os52ZBGHBz0YvymmxXZRJcbe6o/EIdydcOc40x7EetFLyecRT85tI25md7vETDpVgCPIV+46xgbAc7wI6DoxbxFtWR1xzzE7YALvGbBCAH7IssjOUFPHa7tOSJOvjVUotIKPL4KSuJAfRtp+HlP1UQc="
+                const token = "04AAAAAGZwcAsAEG4wdmxtcWY0d24wbGhhbDUAoNuxn34woYFGHXUIw9Nw43g3J8uniCWeUKq17NN6kBZo8AbOWXZKiZttOsUPoC97m+cX2aASNRxwccs77ZJueXgfo9uoDbyEeqbWyUZhYWQGNpRcVACKS3OVCGt+YVNhpxVLfIdgwREw5KCn47Ys0kxin2jYAozzWDKE/hsE6ny4W3iW6xTCpzSQlwamEfItPgKJBeu+pe68YFMlt2VBIpU="
                 const result = await zg.loginRoom(roomID, token, { userID }, { userUpdate: true });
 
-                alert("keri")
                 const streamID = "2520"
                 const remoteStream = await zg.startPlayingStream(streamID);
                 console.log(remoteStream, "this is the stream");
-
-                cameraRef.current.srcObject = remoteStream
-            } else {
-                alert("jkb")
+                if (remoteStream) {
+                    console.log(remoteStream);
+                    
+                    alert(remoteStream)
+                    cameraRef.current.srcObject = remoteStream
+                }
             }
         }
         getLive()
-    }, [zg])
+    }, [zg, user])
 
     useEffect(() => {
 

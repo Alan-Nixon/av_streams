@@ -192,7 +192,7 @@ function StartLive() {
     const remoteRef = useRef<any>();
     const { user } = useUser()
 
-
+// "04AAAAAGZwSoQAEHgwdjhjYWd1b21jNGtkbmgAoPkdxKGL3dYEUHkKne+RMaKu6okUyX4NAFzMpBrIfkOQ6FbgPJDhkwxyLepjrjMx6r+HqDSxgjqdY2o4CPsjpJHztdxNX1YKkFJ2SsdnVtRU6B4eh65JQieLmdVbhCI99oYcwMAyWhV3qKYzRKM6Jylpt7XYLo5Bi+SCS0MiEPO9ZBYwRmFWWiYku1XqaZ6m/gwgNCSdd2c0dto38sfOjBg="
     const startLive = async () => {
         if (zg && videoRef && user) {
             const localStream = await zg.createStream();
@@ -203,7 +203,7 @@ function StartLive() {
             const roomID = "uuidv4"
             const userID = "2520";
             const userName = user.userName
-            const token = "04AAAAAGZwOMAAEDMzdjY2YTQ1M3dtZXhkMGwAoAXbe1FOhvLEs7SRhEOs8IXXmb3lKu7SjeDYRSCU8qWLhXJ8FccXg0kX8Kh65Z52xtglZyDPQ5dbWmDpwMqiefAGBKBNrZxvsjO2e55eTiCxaB7JsncD7KbC1jfKGvIVDGlrjOIzUxyC45nJaThe0PVSVVwwjFbU6YuYj1RGM1fohTPRrPcFnsY7ANdh/dU9CdQN8Sa074PbW7kBo63dLY0="
+            const token ="04AAAAAGZwcIMAEHV3MHlhejd3YjJ3eHVweDIAoD/sF3REbuTfa1R+WTun0ICdtVrKFgOXVkwaMmC3dBor0b8U7YRCqfHINnJEa7Q6QkASS4xVNH8AteOCn0WCjqpm75WzR58xeWcWXXumJqD9p5qJa6Xp9X7nJQoLjLD70+qCfVvnuyFwZbNkorGSyEDOgv0sdu9bVttrykq9Yddv4szacj1JUsEt7swEpLrpN66NrgRO5eOEujVtrBv2Wkk=" 
             const result = await zg.loginRoom(roomID, token, {userID}, { userUpdate: true }); 
 
             zg.startPublishingStream(streamID, localStream)

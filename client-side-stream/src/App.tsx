@@ -15,6 +15,7 @@ import { useUser } from './UserContext';
 import { Toaster } from 'react-hot-toast'
 import { toastFunction } from './Components/messageShowers/ToastFunction';
 import ErrorBoundary from './ErrorBoundry';
+import ReportDialog from './Components/messageShowers/ReportDialog';
 
 const Error = lazy(() => import('./Components/Pages/user/pages/Error'));
 
@@ -39,13 +40,15 @@ const Signup = lazy(() => import('./Components/Pages/user/pages/Signup'))
 const Channel = lazy(() => import('./Components/Pages/user/pages/Channel'))
 const Search = lazy(() => import('./Components/Pages/user/pages/Search'))
 const ShowLive = lazy(() => import('./Components/Pages/user/pages/ShowLive'))
+const Game = lazy(() => import('./Components/Helpers/Game/Game'))
 
 function App() {
-
+  const [isOffline, setIsoffline] = useState(false)
   const [loading, setLoading] = useState(true)
   const dispatch = useDispatch();
   const userAuthenticated = useSelector((state: any) => state?.counter?.userAuthenticated);
   const adminAuthenticated = useSelector((state: any) => state?.counter?.adminAuthenticated)
+
 
   const { user } = useUser();
   const { socket } = useSocket()
@@ -86,6 +89,11 @@ function App() {
     return (<><div className="lds-dual-ring"></div></>)
   }
 
+  if (!navigator.onLine) {
+    return (<Game />)
+  }
+
+
   const SuspenceComponent = ({ children }: ContentProps) => {
     return <Suspense fallback={<><div className="lds-dual-ring"></div></>} >
       <ErrorBoundary onError={() => { }} >
@@ -97,6 +105,7 @@ function App() {
       </ErrorBoundary>
     </Suspense>
   }
+
 
 
   return (
@@ -115,6 +124,7 @@ function App() {
           <Route path='/FullVideo' element={<FullVideo />} />
           <Route path='/channel' element={<Channel />} />
           <Route path='/search' element={<Search />} />
+
 
           <Route path='/subscription' element={userAuthenticated ? <Subscription /> : <Navigate to="/login" />} />
           <Route path='/profile' element={userAuthenticated ? <Profile /> : <Navigate to="/login" />} />

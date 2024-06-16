@@ -59,7 +59,6 @@ function NavBar() {
             const serverSecret = process.env.REACT_APP_ZEGO_SERVER_ID ?? "";
             const roomId = uuidv4()
             const TOKEN = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomId, userID, userName);
-
             const zp = ZegoUIKitPrebuilt.create(TOKEN);
             zp.addPlugins({ ZIM });
             zp.setCallInvitationConfig({
