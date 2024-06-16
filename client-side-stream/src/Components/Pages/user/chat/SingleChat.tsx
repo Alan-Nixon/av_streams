@@ -158,6 +158,7 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
             userName: personDetails.channelName,
             image: personDetails.profileImage,
         };
+        
         zp.sendCallInvitation({
             callees: [targetUser],
             callType: ZegoUIKitPrebuilt.InvitationTypeVideoCall,

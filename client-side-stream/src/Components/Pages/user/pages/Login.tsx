@@ -5,7 +5,7 @@ import { useUser } from '../../../../UserContext'
 import Swal from 'sweetalert2'
 import Google from '../../../socialMediaLogins/Google'
 import Linkedin from '../../../socialMediaLogins/Linkedin'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 export default function Login() {
@@ -126,7 +126,9 @@ export default function Login() {
                                 </li>
                             </ul>
                         </div>
-                        <a href='/Signup' style={{ color: "blue", textAlign: "center", float: "right", margin: "auto", marginTop: "3%" }}>Dont have an account ? Register</a>
+                        <div className="flex">
+                            <Link to='/Signup' style={{ color: "blue", textAlign: "center", float: "right", margin: "auto", marginTop: "3%" }}>Dont have an account ? Register</Link>
+                        </div>
                     </form></>
                     : <ForgetPassword setShowModal={setShowModal} />}
 
