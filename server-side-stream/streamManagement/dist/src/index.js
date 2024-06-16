@@ -60,6 +60,12 @@ app.use((0, express_session_1.default)({
 app.use(express.json());
 app.use((0, morgan_1.default)('dev'));
 (0, socketConn_1.connectToSocket)(io);
+const appId = 817580044;
+const userId = "2520";
+const secret = "e70f68377403aa358e08ecbe4cc01bd5";
+const effectiveTimeInSecond = 100000;
+const payload = { userId: "2520" };
+// console.log(generateToken04(appId,userId, secret, effectiveTimeInSecond,payload));
 app.use('/', streamRoutes_1.default);
 server.listen(3001, () => {
     console.log('server started on port 3001');

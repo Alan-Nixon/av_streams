@@ -7,17 +7,18 @@ import './Components/css/responsive.css';
 
 import { UserProvider } from './UserContext';
 import { Provider } from 'react-redux';
-import SocketContext from './Functions/realtime/socketContext'; 
+import SocketContext from './Functions/realtime/socketContext';
+import { LiveProvider } from './LiveZegoProvider';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
     <Provider store={store} >
-        {/* <SocketContext> */}
-            <UserProvider>
+        <UserProvider>
+            <LiveProvider>
                 <App />
-            </UserProvider>
-        {/* </SocketContext> */}
+            </LiveProvider>
+        </UserProvider>
     </Provider>
 );

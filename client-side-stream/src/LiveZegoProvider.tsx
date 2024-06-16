@@ -17,22 +17,18 @@ export const LiveProvider = ({ children }: ContentProps) => {
 
     const [zg, setZg] = useState<any>(null);
     const { user } = useUser()
-
     useEffect(() => {
-        const initZego = async () => {
+        console.log(user, "this is the user");
 
+        const initZego = async () => {
             if (user && user._id) {
 
                 const appID = Number(process.env.REACT_APP_ZEGO_STREAM_APP_ID)
                 const server = process.env.REACT_APP_ZEGO_STREAM_SERVER_ID ?? ""
                 const zg = new ZegoExpressEngine(appID, server);
-                const roomID = uuidv4();
-                const userID = "2520";
-                const userName = user.userName
-                const token = "04AAAAAGZwDGwAEGtsaGkzZmMxamUyOGdjcmsAoAHc3B4GRjZZVq8aC4XtPMLwJCr2ieqkx+pttDp5xdgAeNbdq6TGr9vYrnddoG5fvvXA4Cdyhvjni55QYQ2cgnZI+h/yWIaHlTYoyu3qV0M/vuBqabbEQL8VpuJfyaripO+BopR/nOmf/Sw3c1xJadXX5FU4CeWDmXQOCs2/d3hGsn3SBpEs6fVsUtVgyE+di4GIo8P8VmQzclbgdQRoBZo="
-                const result = await zg.loginRoom(roomID, token, { userID, userName }, { userUpdate: true });
+                
                 setZg(zg)
-
+                
                 zg.on('roomStateUpdate', (roomID, state, errorCode, extendedData) => {
                     if (state == 'DISCONNECTED') {
                         alert("disconnecteed")
@@ -63,7 +59,8 @@ export const LiveProvider = ({ children }: ContentProps) => {
         }
         initZego()
 
-    }, []);
+    }, [user]);
+
 
 
 

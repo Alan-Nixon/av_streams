@@ -13,6 +13,7 @@ import '../config/Database'
 import './presentation/Grpc/stream_user'
 import './presentation/Rabbitmq/consumer'
 import { connectToSocket } from './data/Socket/socketConn';
+import { generateToken04 } from './data/Adapters/createTokenLive';
 
 const app = express.default();
 const server = http.createServer(app);
@@ -42,6 +43,15 @@ app.use(morgan('dev'));
 
 connectToSocket(io);
 
+
+const appId = 817580044
+
+const userId = "2520";
+const secret = "e70f68377403aa358e08ecbe4cc01bd5"
+const effectiveTimeInSecond = 100000
+const payload = { userId: "2520" }
+
+// console.log(generateToken04(appId,userId, secret, effectiveTimeInSecond,payload));
 
 
 app.use('/', router);

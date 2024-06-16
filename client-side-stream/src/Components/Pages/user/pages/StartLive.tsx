@@ -181,82 +181,40 @@
 
 
 import { useEffect, useRef, useState } from 'react';
-import { ZegoExpressEngine } from 'zego-express-engine-webrtc'
 import { v4 as uuidv4 } from 'uuid';
 import { useUser } from '../../../../UserContext';
+import { useZego } from '../../../../LiveZegoProvider';
 
 function StartLive() {
 
-    const { user } = useUser();
-    const [zg, setZg] = useState<any>()
+    const { zg } = useZego()
     const videoRef = useRef<any>()
-    const remoteRef = useRef<any>()
+    const remoteRef = useRef<any>();
+    const { user } = useUser()
 
-    // useEffect(() => {
-
-    //     const initZego = async () => {
-
-    //         if (user && user._id) {
-
-    //             const appID = Number(process.env.REACT_APP_ZEGO_STREAM_APP_ID)
-    //             const server = process.env.REACT_APP_ZEGO_STREAM_SERVER_ID ?? ""
-    //             const zg = new ZegoExpressEngine(appID, server);
-    //             const roomID = uuidv4();
-    //             const userID = "2520";
-    //             const userName = user.userName
-    //             const token = "04AAAAAGZwDGwAEGtsaGkzZmMxamUyOGdjcmsAoAHc3B4GRjZZVq8aC4XtPMLwJCr2ieqkx+pttDp5xdgAeNbdq6TGr9vYrnddoG5fvvXA4Cdyhvjni55QYQ2cgnZI+h/yWIaHlTYoyu3qV0M/vuBqabbEQL8VpuJfyaripO+BopR/nOmf/Sw3c1xJadXX5FU4CeWDmXQOCs2/d3hGsn3SBpEs6fVsUtVgyE+di4GIo8P8VmQzclbgdQRoBZo="
-    //             const result = await zg.loginRoom(roomID, token, { userID, userName }, { userUpdate: true });
-    //             setZg(zg)
-
-    //             zg.on('roomStateUpdate', (roomID, state, errorCode, extendedData) => {
-    //                 if (state == 'DISCONNECTED') {
-    //                     alert("disconnecteed")
-    //                 }
-
-    //                 if (state == 'CONNECTING') {
-    //                 }
-
-    //                 if (state == 'CONNECTED') {
-    //                 }
-    //             })
-
-    //             zg.on('roomUserUpdate', (roomID, updateType, userList) => {
-    //                 console.warn(
-    //                     `roomUserUpdate: room ${roomID}, user ${updateType === 'ADD' ? 'added' : 'left'} `,
-    //                     JSON.stringify(userList),
-    //                 );
-    //             });
-
-    //             zg.on('roomStreamUpdate', async (roomID, updateType, streamList, extendedData) => {
-    //                 if (updateType == 'ADD') {
-    //                 } else if (updateType == 'DELETE') {
-    //                 }
-    //             });
-
-    //         }
-
-    //     }
-    //     initZego()
-
-    // }, [])
 
     const startLive = async () => {
-        if (zg && videoRef) {
+        if (zg && videoRef && user) {
             const localStream = await zg.createStream();
             console.log(localStream, "this si the local stream");
             videoRef.current.srcObject = localStream
-            const streamID = "1234"
+            const streamID = "2520"
+
+            const roomID = "uuidv4"
+            const userID = "2520";
+            const userName = user.userName
+            const token = "04AAAAAGZwOMAAEDMzdjY2YTQ1M3dtZXhkMGwAoAXbe1FOhvLEs7SRhEOs8IXXmb3lKu7SjeDYRSCU8qWLhXJ8FccXg0kX8Kh65Z52xtglZyDPQ5dbWmDpwMqiefAGBKBNrZxvsjO2e55eTiCxaB7JsncD7KbC1jfKGvIVDGlrjOIzUxyC45nJaThe0PVSVVwwjFbU6YuYj1RGM1fohTPRrPcFnsY7ANdh/dU9CdQN8Sa074PbW7kBo63dLY0="
+            const result = await zg.loginRoom(roomID, token, {userID}, { userUpdate: true }); 
+
             zg.startPublishingStream(streamID, localStream)
 
-        } else {
-            alert("no zg")
         }
     }
 
     const show = () => {
         const getLive = async () => {
             if (zg && remoteRef.current) {
-                const streamID = "1234"
+                const streamID = "2520"
                 const remoteStream = await zg.startPlayingStream(streamID);
                 remoteRef.current.srcObject = remoteStream
             }
