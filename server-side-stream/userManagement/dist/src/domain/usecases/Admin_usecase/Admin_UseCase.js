@@ -174,12 +174,16 @@ class Admin_useCase {
                 else if (Data.section === "Weekly Subscription") {
                     refund = time * 28;
                 }
+                else {
+                    refund = refund * 0;
+                }
                 const wallet = yield Authentication_Repositary_1.user_authentication_layer.getWalletDetails(Data.userId);
                 const Transactions = {
                     amount: refund, createdTime: new Date().toString(),
                     credited: true, transactionId: "BY ADMIN", userId: Data.userId,
                     walletId: wallet === null || wallet === void 0 ? void 0 : wallet._id
                 };
+                console.log(Data.userId);
                 yield ChangeUserDetails_Repositary_1.changeUserRepositaryLayer.addMoneyToWallet(Transactions);
                 return yield Admin_Repositary_1.adminRepositaryLayer.cancelSubscription(Data.userId);
             }

@@ -18,7 +18,8 @@ function OfferManagement() {
   const confirmCancelSubscription = () => {
     toast.dismiss()
     cancelSubscription(subscription).then(() => {
-      toast.success("successfully canceled subscription")
+      getPremiumUsers().then(({ data }) => setPremiumUsers(data))
+      setTimeout(() => toast.success("successfully canceled subscription"))
     })
   }
 

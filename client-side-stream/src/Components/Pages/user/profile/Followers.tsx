@@ -7,9 +7,8 @@ import { useNavigate } from "react-router-dom"
 export default function Followers() {
     const [selected, setSelected] = useState("Followers")
     const [loading, setLoading] = useState<boolean>(true)
-    const [data, setData] = useState<[FollowersDetailsArray[], FollowersDetailsArray[]] | null>(null)
+    const [data, setData] = useState<FollowersDetailsArray[]>([])
     const [followers, setFollowers] = useState<FollowFollowersTypeData | null>(null)
-    const [following, setFollowing] = useState<FollowFollowersTypeData | null>(null)
 
     const { user } = useUser()
 
@@ -23,14 +22,8 @@ export default function Followers() {
                     data: data.Followers,
                     action: "BLOCK"
                 }
-                setFollowers(followersData)
-                const followingData = {
-                    title: "Following",
-                    data: [],
-                    action: "UNFOLLOW"
-                }
-                setFollowing(followingData)
-                setData([followersData.data, followingData.data])
+                setFollowers(followersData);
+                setData(followersData.data)
             })
             setLoading(false)
         }
@@ -44,14 +37,13 @@ export default function Followers() {
 
     const findFollowers = (e: changeEvent) => {
         const value = e.target.value;
-        if (followers && following && data) {
-            const filteredData = serachFromArray(selected === "Followers" ? data[0] : data[1], value)
-            const Data: FollowFollowersTypeData = {
-                title: selected === "Followers" ? "Followers" : "Following",
-                data: value.trim() === "" ? (selected === "Followers" ? data[0] : data[1]) : filteredData,
-                action: selected === "Followers" ? "BLOCK" : "UNFOLLOW"
-            };
-            selected === "Followers" ? setFollowers(Data) : setFollowing(Data)
+        if (followers && data) {
+            const filteredData = serachFromArray(data, value)
+            setFollowers({
+                title: "Followers",
+                data: value.trim() === "" ? data : filteredData,
+                action: "BLOCK"
+            })
         }
     }
 
@@ -64,10 +56,6 @@ export default function Followers() {
                 <p className='ml-12 cursor-pointer' onClick={() => setSelected("Followers")} style={{ color: selected === "Followers" ? "blue" : "" }} >Followers
                     {selected === "Followers" && <div style={{ backgroundColor: "blue" }} className="h-1 w-full"></div>}
                 </p>
-                {/* <p className='ml-12 cursor-pointer' onClick={() => setSelected("Following")} style={{ color: selected === "Following" ? "blue" : "" }}>Following
-                    {selected === "Following" && <div style={{ backgroundColor: "blue" }} className="bg-blue-400 h-1 w-full"></div>}
-                </p> */}
-
 
                 <div className="ml-auto" style={{ marginRight: "10%" }}>
                     <form className="max-w-lg me-auto">
@@ -81,7 +69,6 @@ export default function Followers() {
 
             </div>
             {selected === "Followers" && followers && <FollowerSection section={followers} />}
-            {/* {selected === "Following" && following && <FollowerSection section={following} />} */}
 
         </div>
     </>}
@@ -89,6 +76,8 @@ export default function Followers() {
     </>)
 
     function FollowerSection({ section }: any) {
+        console.log(section);
+        
         const Navigate = useNavigate()
         return (<>
             <div className="flex">
@@ -118,9 +107,6 @@ export default function Followers() {
                                                     <p className="text-sm text-gray-500 truncate dark:text-gray-400">
                                                         {fol?.Email}
                                                     </p>
-                                                </div>
-                                                <div className="inline-flex cursor-pointer hover:text-blue-500 items-center text-base font-semibold text-gray-900 dark:text-white">
-                                                    <p className="text-xs">message</p>
                                                 </div>
                                             </div>
                                         </li>

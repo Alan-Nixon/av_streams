@@ -92,7 +92,7 @@ class admin_repositary_layer {
                 expires: "", paymentId: "",
                 section: "", userId: ""
             };
-            yield channel_1.ChannelModel.findOneAndUpdate({ userId }, { subscription: obj });
+            const data = yield channel_1.ChannelModel.findOneAndUpdate({ userId }, { subscription: obj, premiumCustomer: false });
             return { status: true, message: "success" };
         });
     }

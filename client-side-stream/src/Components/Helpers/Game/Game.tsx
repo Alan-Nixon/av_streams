@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import '../../css/Game.css'
 
 
 function Game() {
@@ -11,14 +10,20 @@ function Game() {
     inProgress: 3,
   };
 
+  const PLAYER_X = "X";
+  const PLAYER_O = "O";
+
+  const [tiles, setTiles] = useState<any>(Array(9).fill(null));
+  const [playerTurn, setPlayerTurn] = useState<any>(PLAYER_X);
+  const [strikeClass, setStrikeClass] = useState<any>();
+  const [gameState, setGameState] = useState<any>(GameState.inProgress);
+
   const gameOverSound = new Audio("/voice/game_over.wav");
   const clickSound = new Audio("/voice/click.wav");
   gameOverSound.volume = 0.2;
   clickSound.volume = 0.5;
 
 
-  const PLAYER_X = "X";
-  const PLAYER_O = "O";
 
   const winningCombinations = [
     { combo: [0, 1, 2], strikeClass: "strike-row-1" },
@@ -33,36 +38,18 @@ function Game() {
     { combo: [2, 4, 6], strikeClass: "strike-diagonal-2" },
   ];
 
-  function checkWinner(tiles: any, setStrikeClass: any, setGameState: any) {
-
-
-  }
-
-
-
-
-  const [tiles, setTiles] = useState<any>(Array(9).fill(null));
-  const [playerTurn, setPlayerTurn] = useState<any>(PLAYER_X);
-  const [strikeClass, setStrikeClass] = useState<any>();
-  const [gameState, setGameState] = useState<any>(GameState.inProgress);
 
   const handleTileClick = (index: number) => {
-    if (gameState !== GameState.inProgress) {
-      return;
-    }
 
-    if (tiles[index] !== null) {
-      return;
-    }
-
+    if (gameState !== GameState.inProgress) { return }
+    if (tiles[index] !== null) { return }
+    
     const newTiles = [...tiles];
     newTiles[index] = playerTurn;
     setTiles(newTiles);
-    if (playerTurn === PLAYER_X) {
-      setPlayerTurn(PLAYER_O);
-    } else {
-      setPlayerTurn(PLAYER_X);
-    }
+
+    setPlayerTurn(playerTurn === PLAYER_X ? PLAYER_O : PLAYER_X);
+
   };
 
   const handleReset = () => {
@@ -80,30 +67,22 @@ function Game() {
 
       if (tileValue1 && tileValue1 === tileValue2 && tileValue1 === tileValue3) {
         setStrikeClass(strikeClass);
-        if (tileValue1 === PLAYER_X) {
-          setGameState(GameState.playerXWins);
-        } else {
-          setGameState(GameState.playerOWins);
-        }
+        setGameState(tileValue1 === PLAYER_X ? GameState.playerXWins : GameState.playerOWins);
         return;
       }
+
     }
 
-    const areAllTilesFilledIn = tiles.every((tile: any) => tile !== null);
 
-    if (areAllTilesFilledIn) { setGameState(GameState.draw); }
-  }, [tiles]);
+    if (tiles.every((tile: any) => tile !== null)) { setGameState(GameState.draw) }
+    if (tiles.some((tile: any) => tile !== null)) { clickSound.play() }
+
+  }, [tiles]); 
 
   useEffect(() => {
-    if (tiles.some((tile: any) => tile !== null)) {
-      clickSound.play();
-    }
-  }, [tiles]);
 
-  useEffect(() => {
-    if (gameState !== GameState.inProgress) {
-      gameOverSound.play();
-    }
+    if (gameState !== GameState.inProgress) { gameOverSound.play(); }
+
   }, [gameState]);
 
   const tileClassNames = [

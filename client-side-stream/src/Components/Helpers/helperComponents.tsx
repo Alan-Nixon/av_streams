@@ -30,18 +30,17 @@ export const toastifyHelperData = {
     progress: undefined,
 }
 
- const ConfirmationToast = ({ onConfirm, onCancel }: confirmToastInterface) => (
+const ConfirmationToast = ({ onConfirm, onCancel, text }: confirmToastInterface) => (
     <div>
-        <p>Are you sure you want to proceed?</p>
+        <p>{text ? text : "Are you sure you want to proceed?"}</p>
         <button onClick={onConfirm}>Yes</button>
         <button className='ml-3' onClick={onCancel}>No</button>
     </div>
 );
 
-export const showConfirmationToast = (onConfirm: any) => {
+export const showConfirmationToast = (onConfirm: any, text?: string) => {
     const onCancel = () => toast.dismiss();
-    const toastOptions: ToastOptions = {
-        autoClose: false
+    const toastOptions: ToastOptions = { autoClose: false
     };
-    toast(<ConfirmationToast onConfirm={onConfirm} onCancel={onCancel} />, toastOptions);
+    toast(<ConfirmationToast onConfirm={onConfirm} onCancel={onCancel} text={text ?? ""} />, toastOptions);
 };

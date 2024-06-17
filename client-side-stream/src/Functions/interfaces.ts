@@ -62,8 +62,8 @@ export interface captchaPropsInterface {
 
 export interface BannerInterfaceHome {
     bigBanner: string,
-    mainBanner: { _id: string, Thumbnail: string },
-    subBanners: subBannerInterface[]
+    mainBanner: videoInterface,
+    subBanners: videoInterface[]
 }
 
 export interface linkedInComponenetProps {
@@ -178,7 +178,7 @@ export interface videoInterface {
     shorts: boolean,
     Premium: boolean,
     Thumbnail: string,
-    Category:string
+    Category: string
 }
 
 export interface postInterface {
@@ -318,7 +318,8 @@ export type messageArray = {
 
 export interface confirmToastInterface {
     onConfirm: () => void,
-    onCancel: () => void
+    onCancel: () => void,
+    text?: string
 }
 
 export interface showConfirmationToastInterface {

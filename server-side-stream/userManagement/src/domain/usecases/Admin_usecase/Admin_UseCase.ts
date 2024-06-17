@@ -141,14 +141,15 @@ class Admin_useCase implements Admin_Usecase_Interface {
             if (Data.section === "Yearly Subscription") { refund = time * 7 }
             else if (Data.section === "Monthly Subscription") { refund = time * 17 }
             else if (Data.section === "Weekly Subscription") { refund = time * 28 }
-
+            else { refund = refund * 0}
             const wallet = await user_authentication_layer.getWalletDetails(Data.userId)
             const Transactions: walletDataInterface = {
                 amount: refund, createdTime: new Date().toString(),
                 credited: true, transactionId: "BY ADMIN", userId: Data.userId,
                 walletId: wallet?._id
             }
-
+            console.log(Data.userId);
+            
             await changeUserRepositaryLayer.addMoneyToWallet(Transactions)
             return await adminRepositaryLayer.cancelSubscription(Data.userId)
         } catch (error: any) {

@@ -73,14 +73,16 @@ class admin_repositary_layer implements admin_repositary_interface {
     async cancelSubscription(userId: string) {
         const obj: SubscriptionInterface = {
             amount: 0, email: "",
-            expires: "", paymentId: "",
+            expires: "", paymentId: "", 
             section: "", userId: ""
         }
-        await ChannelModel.findOneAndUpdate({ userId }, { subscription: obj })
+        const data = await ChannelModel.findOneAndUpdate({ userId }, { subscription: obj, premiumCustomer: false });
+    
         return { status: true, message: "success" }
     }
 
-  
+
 }
 
 export const adminRepositaryLayer: admin_repositary_interface = new admin_repositary_layer()
+

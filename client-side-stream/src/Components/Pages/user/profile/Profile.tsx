@@ -8,7 +8,7 @@ import Mystreams from './Mystreams';
 import MyVideos from './Myvideos';
 import MyPosts from './MyPosts';
 import WalletSection from './Wallet';
-import Followers from '../pages/Followers';
+import Followers from './Followers';
 import WatchHistory from './WatchHistory';
 import { toast } from 'react-toastify';
 

@@ -1,5 +1,5 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import { isUserAuthenticated } from './Functions/userFunctions/userManagement';
 import { isAdminAuthenticated } from './Functions/userFunctions/adminManagement';
 import { ContentProps } from './Functions/interfaces';
@@ -8,17 +8,17 @@ import { setAdminAuthenticated, setUserAuthenticated } from './Redux/authenticat
 import StartLive from './Components/Pages/user/pages/StartLive';
 import Subscription from './Components/Pages/user/pages/Subscription';
 import ReportManagement from './Components/Pages/admin/ReportManagement';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './Components/css/Game.css'
 import { useSocket } from './Functions/realtime/socketContext';
 import { useUser } from './UserContext';
 import { Toaster } from 'react-hot-toast'
 import { toastFunction } from './Components/messageShowers/ToastFunction';
 import ErrorBoundary from './ErrorBoundry';
-import ReportDialog from './Components/messageShowers/ReportDialog';
+import { showConfirmationToast } from './Components/Helpers/helperComponents';
 
 const Error = lazy(() => import('./Components/Pages/user/pages/Error'));
-
 
 const CategoryManagement = lazy(() => import('./Components/Pages/admin/CategoryManagement'));
 const AdminDashboard = lazy(() => import('./Components/Pages/admin/AdminDashboard'));
@@ -43,25 +43,22 @@ const ShowLive = lazy(() => import('./Components/Pages/user/pages/ShowLive'))
 const Game = lazy(() => import('./Components/Helpers/Game/Game'))
 
 function App() {
-  const [isOffline, setIsoffline] = useState(false)
+  const [gameLoaded, setGameLoaded] = useState(false)
   const [loading, setLoading] = useState(true)
   const dispatch = useDispatch();
   const userAuthenticated = useSelector((state: any) => state?.counter?.userAuthenticated);
   const adminAuthenticated = useSelector((state: any) => state?.counter?.adminAuthenticated)
 
-
   const { user } = useUser();
-  const { socket } = useSocket()
+  const { socket } = useSocket();
 
   useEffect(() => {
     if (user && socket) {
-
       socket.emit('join', user._id)
 
       socket.on('showFollowMessage', (data: any) => {
         toastFunction(data)
       })
-
     }
   }, [user, socket])
 
@@ -71,11 +68,9 @@ function App() {
         const userAuth: boolean = await isUserAuthenticated();
         dispatch(setUserAuthenticated(userAuth) as any)
 
-
         const adminAuth = await isAdminAuthenticated();
         dispatch(setAdminAuthenticated(adminAuth) as any)
         setLoading(false)
-
 
       } catch (error) {
         console.error('Error checking authentication:', error);
@@ -85,14 +80,14 @@ function App() {
     checkAuthentication();
   }, []);
 
-  if (loading) {
-    return (<><div className="lds-dual-ring"></div></>)
+  if (!navigator.onLine && !gameLoaded) {
+    showConfirmationToast(() => {
+      setGameLoaded(true)
+      setTimeout(() => window.location.href = '/game', 0)
+    },"you are not connected to internet do you wanna play a game ? ")
+  } else {
+    if (loading) { return (<div className="lds-dual-ring" />) }
   }
-
-  if (!navigator.onLine) {
-    return (<Game />)
-  }
-
 
   const SuspenceComponent = ({ children }: ContentProps) => {
     return <Suspense fallback={<><div className="lds-dual-ring"></div></>} >
@@ -106,15 +101,10 @@ function App() {
     </Suspense>
   }
 
-
-
   return (
     <Router>
-
-
       <SuspenceComponent>
         <Routes>
-
           <Route path="/" element={<Home />} />
           <Route path='/forgetPassword' element={<ForgetPassword />} />
           <Route path='/LiveNow' element={<LiveNow />} />
@@ -124,7 +114,7 @@ function App() {
           <Route path='/FullVideo' element={<FullVideo />} />
           <Route path='/channel' element={<Channel />} />
           <Route path='/search' element={<Search />} />
-
+          <Route path='/game' element={<Game />} />
 
           <Route path='/subscription' element={userAuthenticated ? <Subscription /> : <Navigate to="/login" />} />
           <Route path='/profile' element={userAuthenticated ? <Profile /> : <Navigate to="/login" />} />
@@ -142,13 +132,10 @@ function App() {
           <Route path='/admin/offerManagement' element={adminAuthenticated ? <OfferManagement /> : <Navigate to="/admin/adminLogin" />} />
 
           <Route path='*' element={<Error />} />
-
         </Routes>
       </SuspenceComponent>
     </Router>
   );
-
 }
-
 
 export default App;
