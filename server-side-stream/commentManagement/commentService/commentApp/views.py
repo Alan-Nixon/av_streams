@@ -68,8 +68,7 @@ def get_comment_by_linkid(request):
     try:
         if request.method == "GET":
             query = request.GET
-            data = list(reversed(models.get_all_comments_grouped(query.get("cate"))))
-
+            data = list(reversed(models.get_all_comments_grouped(query['cate'])))
             filtered_comments = [
                 comment
                 for comment in data

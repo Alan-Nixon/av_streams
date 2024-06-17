@@ -46,6 +46,7 @@ router.get('/getVideosByUserId', controller.getVideosByUserId);
 router.post('/uploadPost', userauthenticationforavstreams_1.isAuthenticated, controller.uploadPost);
 router.post('/uploadVideo', userauthenticationforavstreams_1.isAuthenticated, controller.uploadVideo);
 router.post('/addReportSubmit', userauthenticationforavstreams_1.isAuthenticated, controller.addReportSubmit);
+router.post('/videoLike', userauthenticationforavstreams_1.isAuthenticated, controller.videoLike);
 router.patch('/likePost', userauthenticationforavstreams_1.isAuthenticated, controller.likePost);
 router.delete('/deletePostFromCloudinary', userauthenticationforavstreams_1.isAuthenticated, controller.deletePostFromCloudinary);
 // admin routes

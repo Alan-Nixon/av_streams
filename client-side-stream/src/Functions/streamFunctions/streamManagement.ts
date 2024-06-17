@@ -130,3 +130,9 @@ export const getVideosByUserId = async (userId: string, shorts: boolean) => {
     const { data } = await axiosApiGateWay.get('/streamManagement/getVideosByUserId?shorts=' + shorts + '&userId=' + userId)
     return data
 }
+
+
+export const videoLike = async (videoId: string, userId: string) => {
+    const { data } = await axiosApiGateWay.post('/streamManagement/videoLike', { videoId, userId })
+    return data
+}

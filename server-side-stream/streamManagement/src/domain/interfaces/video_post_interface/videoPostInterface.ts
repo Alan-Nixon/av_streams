@@ -57,4 +57,5 @@ export interface videoPostInterface {
     getPostDongnutData(userCount: number): Promise<responseObject>;
     getCurrentLives(): Promise<responseObject>;
     getVideosByUserId(shorts: string,userId:string): Promise<responseObject>;
+    videoLike(videoId:string,userId:string): Promise<responseObject>;
 } 

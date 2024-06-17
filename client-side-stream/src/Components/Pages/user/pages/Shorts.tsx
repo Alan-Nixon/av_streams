@@ -2,16 +2,17 @@ import React, { useEffect, useState } from 'react';
 import NavBar from '../layout/NavBar';
 import SideBar from '../layout/SideBar';
 import Content from '../helpers/Content';
-import { addReportSubmit, getAllVideos } from '../../../../Functions/streamFunctions/streamManagement';
+import { addReportSubmit, getAllVideos, videoLike } from '../../../../Functions/streamFunctions/streamManagement';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import SendIcon from '@mui/icons-material/Send';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ReportDialog from '../../../messageShowers/ReportDialog';
 import { VideoData, commentInterface, videoInterface } from '../../../../Functions/interfaces';
-import { getCommentsByLinkId } from '../../../../Functions/streamFunctions/commentManagement';
+import { getCommentsByLinkId, uploadCommentFunc } from '../../../../Functions/streamFunctions/commentManagement';
 import { toast } from 'react-toastify';
 import { useUser } from '../../../../UserContext';
+import { getChannelByUserId } from '../../../../Functions/userFunctions/userManagement';
 
 
 const Shorts = () => {
@@ -23,15 +24,23 @@ const Shorts = () => {
   const [linkAndLinkId, setLinkAndLinkId] = useState({ Link: "", LinkId: "" })
   const [showReportModal, setShowReportModal] = useState(false)
   const [comment, setComments] = useState<commentInterface[][]>([])
+  const [textComment, setTextComment] = useState("")
   const { user } = useUser()
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const response = await getAllVideos(true,"");
+        const response = await getAllVideos(true, "");
 
         const comments = await Promise.all(response.map(async (item: videoInterface) => {
-          return (await getCommentsByLinkId(item._id, "shorts")).data
+          const data: any = await getCommentsByLinkId(item._id, "shorts")
+          const channData = await Promise.all(data.map(async (item: any) => {
+            item.userName = (await getChannelByUserId(item.userId)).channelName;
+            return item
+          }));
+
+          return channData
         }))
+        console.log(comments);
 
         setComments(comments)
         setShorts(response);
@@ -81,6 +90,29 @@ const Shorts = () => {
     }
   }
 
+  const likeShorts = (videoId: string) => {
+    if (user && user?._id) {
+      videoLike(videoId, user._id).then(() => {
+        const data = shorts.map((item) => {
+          if (item._id === videoId) {
+
+            const isLiked = item.likesArray.includes(user._id + "");
+            const updatedLikesArray = isLiked
+
+              ? item.likesArray.filter(id => id !== user?._id)
+              : [...item.likesArray, user._id + ""];
+
+            return { ...item, likesArray: updatedLikesArray };
+          }
+          return item;
+        }).filter(Boolean);
+
+        setShorts(data);
+      });
+
+    }
+  }
+
   return (
     <>
       <NavBar />
@@ -123,14 +155,63 @@ const Shorts = () => {
                               No comment's yet
                             </div>
                           </div> : <>
-                            {comment[index].map((item)=>{
-                              
-                            })}
+                            <div className="ml-3 overflow-y-auto max-h-[320px]">
+
+                              {comment[index].map((comm, idx) => {
+                                return (<>
+
+                                  <li className="py-2" key={idx}>
+                                    <div className="flex items-center space-x-3 rtl:space-x-reverse">
+                                      <div className="flex-shrink-0">
+                                        <img className="w-9 h-9 rounded-full" src={comm?.profileImage} alt="Neil image" />
+                                      </div>
+                                      <div className="flex-1 min-w-0">
+                                        <p className="text-sm font-semibold text-gray-900 truncate dark:text-white">
+                                          {comm.userName}
+                                        </p>
+                                        <p className="text-sm text-gray-500 truncate dark:text-gray-400">
+                                          {comm.Comment}
+                                        </p>
+                                      </div>
+
+
+                                    </div>
+                                  </li>
+
+                                </>)
+                              })}
+                            </div>
                           </>}
                         </div>
                         <div className="flex ">
-                          <input type="text" placeholder="Your comments here...." name="Email" id="floating_email" className="ml-3 w-[95%] bottom-0 block py-1 px-0 text-sm text-white-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-graye dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
-                          <button type="button" className="inline-flex ml-4 justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                          <input type="text" value={textComment} onChange={(e) => setTextComment(e.target.value)} placeholder="Your comments here...." name="Email" id="floating_email" className="ml-3 w-[95%] bottom-0 block py-1 px-0 text-sm text-white-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-graye dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
+                          <button type="button" onClick={() => {
+
+                            const newCommentData = {
+                              userName: user?.userName || "Anonymous",
+                              Comment: textComment,
+                              LinkId: data._id,
+                              profileImage: user?.profileImage || "default_image_url",
+                              Section: "shorts",
+                              userId: user?._id || "unknown_user_id",
+                              likedUsers: [],
+                              isUserLiked: false
+                            };
+
+                            uploadCommentFunc(newCommentData);
+                            setTextComment("");
+
+                            setComments((prevComments: any) => {
+                              const updatedComments = prevComments.map((commentList: any, i: number) => {
+                                if (i === index) {
+                                  return [...commentList, newCommentData];
+                                }
+                                return commentList;
+                              });
+                              return updatedComments;
+                            });
+                          }
+                          } className="inline-flex ml-4 justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
                             <svg className="w-5 h-5 rotate-90 rtl:-rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
                               <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z" />
                             </svg>
@@ -139,7 +220,7 @@ const Shorts = () => {
                       </div>
                     ) : (
                       <div className="ml-2" style={{ marginTop: '45%', color: '#0a0a0a' }}>
-                        <div className="flex-col flex">
+                        <div className="flex-col flex" onClick={() => likeShorts(data._id)} >
                           <ThumbUpIcon className="text-white" />
                           <span className="font-mono font-light not-italic text-white/65" style={{ marginLeft: data?.likesArray?.length?.toString()?.length < 2 ? "7px" : "0px" }}>{data.likesArray.length ?? 0}</span>
                         </div>

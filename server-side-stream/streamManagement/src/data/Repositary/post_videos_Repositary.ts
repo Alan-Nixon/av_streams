@@ -185,9 +185,25 @@ class postVideosRepositary implements post_video_repo_interface {
 
     async getVideosByUserId(shorts: string, userId: string) {
         try {
-            console.log(Boolean(shorts),shorts);
-
             return { status: true, message: "success", data: await VideoModel.find({ userId }) }
+        } catch (error: any) {
+            return this.returnErrorCatch(error.message)
+        }
+    }
+
+    async videoLike(videoId: string, userId: string) {
+        try {
+            const video = await VideoModel.findById(videoId)
+            if (video) {
+                if (video.likesArray.includes(userId)) {
+                    const arr = [...video.likesArray]
+                    video.likesArray = arr.filter(item => item !== userId);
+                } else {
+                    video.likesArray.push(userId);
+                }
+                await video.save()
+            }
+            return { status: true, message: "success" }
         } catch (error: any) {
             return this.returnErrorCatch(error.message)
         }

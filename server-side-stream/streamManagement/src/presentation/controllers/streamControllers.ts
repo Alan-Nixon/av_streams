@@ -262,6 +262,16 @@ export const getVideosByUserId = async (req: Request, res: Response) => {
 }
 
 
+export const videoLike = async (req: Request, res: Response) => {
+    try {
+        const { videoId, userId }: any = req.body
+        res.status(200).json(await videoPost.videoLike(videoId, userId))
+    } catch (error: any) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" })
+    }
+}
+
 
 function multipartFormSubmission(req: Request): Promise<{ files: Files; fields: Fields }> {
     return new Promise((resolve, reject) => {

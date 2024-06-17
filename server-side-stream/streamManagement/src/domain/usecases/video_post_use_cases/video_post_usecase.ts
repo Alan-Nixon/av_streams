@@ -229,6 +229,10 @@ class videoPostUseCase implements videoPostInterface {
         return await postVideosRepo.getVideosByUserId(shorts,userId)
     }
 
+    async videoLike(videoId:string,userId:string) {
+        return await postVideosRepo.videoLike(videoId,userId)
+    }
+
 }
 
 export const videoPost: videoPostInterface = new videoPostUseCase()

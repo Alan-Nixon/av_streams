@@ -24,6 +24,7 @@ router.get('/getVideosByUserId', controller.getVideosByUserId)
 router.post('/uploadPost', isAuthenticated, controller.uploadPost)
 router.post('/uploadVideo', isAuthenticated, controller.uploadVideo)
 router.post('/addReportSubmit', isAuthenticated, controller.addReportSubmit)
+router.post('/videoLike', isAuthenticated, controller.videoLike)
 
 router.patch('/likePost', isAuthenticated, controller.likePost)
 

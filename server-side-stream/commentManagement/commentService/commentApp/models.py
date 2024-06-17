@@ -47,7 +47,7 @@ def get_all_comments_grouped(cate):
             "Invalid category. Must be one of 'shorts', 'video', or 'post'."
         )
     objects = list(Comment.find())
-    grouped_objects = {}
+    grouped_objects = {} 
     for obj in objects:
         if obj["Section"] not in grouped_objects:
             grouped_objects[obj["Section"]] = []

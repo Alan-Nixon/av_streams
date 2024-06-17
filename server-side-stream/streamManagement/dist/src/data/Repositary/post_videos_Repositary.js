@@ -224,8 +224,28 @@ class postVideosRepositary {
     getVideosByUserId(shorts, userId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log(Boolean(shorts), shorts);
                 return { status: true, message: "success", data: yield videos_1.VideoModel.find({ userId }) };
+            }
+            catch (error) {
+                return this.returnErrorCatch(error.message);
+            }
+        });
+    }
+    videoLike(videoId, userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const video = yield videos_1.VideoModel.findById(videoId);
+                if (video) {
+                    if (video.likesArray.includes(userId)) {
+                        const arr = [...video.likesArray];
+                        video.likesArray = arr.filter(item => item !== userId);
+                    }
+                    else {
+                        video.likesArray.push(userId);
+                    }
+                    yield video.save();
+                }
+                return { status: true, message: "success" };
             }
             catch (error) {
                 return this.returnErrorCatch(error.message);
