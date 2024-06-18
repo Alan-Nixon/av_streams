@@ -5,7 +5,7 @@ import { generateName } from './streamFunctions/streamManagement';
 
 
 const s3ClientConfig: S3ClientConfig = {
-    region: 'eu-north-1',
+    region: process.env.REACT_APP_AWS_REGION,
     credentials: {
         accessKeyId: process.env.REACT_APP_AWSCLIENTID || "your acc id",
         secretAccessKey: process.env.REACT_APP_AWSCLIENTSECRET || "your secret okay"
@@ -19,19 +19,17 @@ const s3Client = new S3Client(s3ClientConfig);
 
 export const uploadToS3Bucket = async (data: File, onProgress: any) => {
     try {
-        console.log("call vannu")
+
         const name = await generateName();
-        console.log(name)
         const params = {
-            Bucket: 'avstreams',
+            Bucket: process.env.REACT_APP_AWS_BUCKET,
             Key: name || Date.now().toString(),
             Body: data
         };
 
         const upload = new Upload({
             client: s3Client,
-            params,
-            queueSize: 3,
+            params, queueSize: 3,
             leavePartsOnError: false,
         });
 
@@ -45,10 +43,10 @@ export const uploadToS3Bucket = async (data: File, onProgress: any) => {
         await upload.done();
 
         const objectKey = params.Key;
-        const region = 'eu-north-1';
+        const region = process.env.REACT_APP_AWS_REGION;
         const url = `https://${params.Bucket}.s3.${region}.amazonaws.com/${objectKey}`;
-
         return url;
+
     } catch (err) {
         console.error('Error uploading video to S3:', err);
         throw err;

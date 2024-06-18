@@ -95,7 +95,7 @@ const userDetails = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
             const blocked = yield (0, exports.isBlocked)(req, res, next, userId);
             console.log(blocked);
             if (blocked !== true) {
-                res.status(201).json({ status: false, message: blocked });
+                res.status(401).json({ status: false, message: blocked });
             }
             else {
                 const userDetails = JSON.parse(JSON.stringify(req.user));

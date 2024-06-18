@@ -89,7 +89,7 @@ export const userDetails = async (req: Request, res: Response, next: NextFunctio
             const blocked = await isBlocked(req, res, next, userId)
             console.log(blocked);
             if (blocked !== true) {
-                res.status(201).json({ status: false, message: blocked })
+                res.status(401).json({ status: false, message: blocked })
             } else {
                 const userDetails: payloadInterface = JSON.parse(JSON.stringify(req.user))
                 const userData = await userDetailsInstance.getUserDetails(userDetails)
