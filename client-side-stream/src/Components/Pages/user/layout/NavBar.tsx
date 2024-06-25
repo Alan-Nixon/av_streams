@@ -3,7 +3,7 @@ import { useUser } from '../../../../UserContext';
 import { getUserById, logout } from '../../../../Functions/userFunctions/userManagement';
 
 
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ChatHome from '../chat/chatHome';
 import { Popup } from 'reactjs-popup'
 import SingleChat from '../chat/SingleChat';
@@ -14,6 +14,7 @@ import { toastFunction } from '../../../messageShowers/ToastFunction';
 import { ZIM } from "zego-zim-web";
 import { v4 as uuidv4 } from 'uuid';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
+import { useSelector } from 'react-redux';
 
 
 
@@ -28,8 +29,11 @@ function NavBar() {
     const [chatWindow, setChatwindow] = useState<boolean>(false)
     const [search, setSearch] = useState<string>('');
     const { user } = useUser();
-    const location = useLocation()
+    // const location = useLocation()
     const Navigate = useNavigate()
+
+    const width = useSelector((state: any) => state?.sideBarRedux?.width);
+    
 
     if (messageSocket) {
         messageSocket.on('incoming_message', (messReponse: any) => {
@@ -111,17 +115,17 @@ function NavBar() {
                     </div>
 
                 </div>
-                <div className="profileTagInNavbar block" id="navbar-default">
+                {width > 590 && <div className="profileTagInNavbar block" id="navbar-default">
                     <ul className="font-medium flex flex-col pl-3 pr-3 border rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0  bg-gray-800 md:bg-gray-900 border-gray-700">
                         {user ? (
                             <>
                                 <div className="flex items-center space-x-3">
-                                    {location.pathname !== '/startLive' && <div onClick={() => window.location.href = "/startLive"} className="flex p-2 bg-transparent-500 hover:bg-gray-500 cursor-pointer">
+                                    {/* {location.pathname !== '/startLive' && <div onClick={() => window.location.href = "/startLive"} className="flex p-2 bg-transparent-500 hover:bg-gray-500 cursor-pointer">
                                         <svg fill='#ffffff' width={25} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
                                             <path d="M0 128C0 92.7 28.7 64 64 64H320c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128zM559.1 99.8c10.4 5.6 16.9 16.4 16.9 28.2V384c0 11.8-6.5 22.6-16.9 28.2s-23 5-32.9-1.6l-96-64L416 337.1V320 192 174.9l14.2-9.5 96-64c9.8-6.5 22.4-7.2 32.9-1.6z" />
                                         </svg>
                                         <p className='ml-2'>start live now</p>
-                                    </div>}
+                                    </div>} */}
                                     <img src={user.profileImage} className='w-6 h-6 rounded-lg' alt="" />
                                     <strong> <a href="/profile" className="block py-2 rounded  md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent">
                                         {user.userName}
@@ -148,7 +152,7 @@ function NavBar() {
                             </>
                         )}
                     </ul>
-                </div>
+                </div>}
             </div >
 
 

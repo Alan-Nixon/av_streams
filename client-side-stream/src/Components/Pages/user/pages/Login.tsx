@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { PostLogin, forgetPasswordOtpSend } from '../../../../Functions/userFunctions/userManagement'
 import Cookies from 'js-cookie'
 import { useUser } from '../../../../UserContext'
-import Swal from 'sweetalert2'
 import Google from '../../../socialMediaLogins/Google'
 import Linkedin from '../../../socialMediaLogins/Linkedin'
 import { Link, useNavigate } from 'react-router-dom'
@@ -78,8 +77,8 @@ export default function Login() {
     }
 
     return (<>
-        <div className='flex'>
-            <img style={{ width: "50%", height: "660px" }} src="https://res.cloudinary.com/dyh7c1wtm/image/upload/c_pad,b_auto:predominant,fl_preserve_transparency/v1711092799/Pasted_image_isdtca.jpg?_s=public-apps" alt="" />
+        <div className='flex h-screen'>
+            <img className='h-screen w-[50%] overflow-y-hidden' src="/images/imageTestLogin.jpg" alt="" />
             <div className="m-auto" style={{ width: "80%" }}>
                 {showModal ? <>
                     <h2 className='text-3xl' style={{ textAlign: "center" }} ><strong>Login</strong></h2>

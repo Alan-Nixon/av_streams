@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import counterReducer from './authenticationRedux';
+import sideBarRedux from './sideBarRedux';
 
 const store = configureStore({
   reducer: {
     counter: counterReducer,
+    sideBarRedux
   },
 });
 
