@@ -17,6 +17,7 @@ import { Toaster } from 'react-hot-toast'
 import { toastFunction } from './Components/messageShowers/ToastFunction';
 import ErrorBoundary from './ErrorBoundry';
 import { showConfirmationToast } from './Components/Helpers/helperComponents';
+import { setScreenHeight, setSceenWidth } from './Redux/sideBarRedux';
 
 const Error = lazy(() => import('./Components/Pages/user/pages/Error'));
 
@@ -80,11 +81,22 @@ function App() {
     checkAuthentication();
   }, []);
 
+  useEffect(() => {
+    const updateSize = () => {
+      dispatch(setSceenWidth(window.innerWidth))
+      dispatch(setScreenHeight(window.innerHeight))
+    };
+
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+
   if (!navigator.onLine && !gameLoaded) {
     showConfirmationToast(() => {
       setGameLoaded(true)
       setTimeout(() => window.location.href = '/game', 0)
-    },"you are not connected to internet do you wanna play a game ? ")
+    }, "you are not connected to internet do you wanna play a game ? ")
   } else {
     if (loading) { return (<div className="lds-dual-ring" />) }
   }

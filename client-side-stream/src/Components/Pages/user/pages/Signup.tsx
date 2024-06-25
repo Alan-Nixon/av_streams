@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import Google from "../../../socialMediaLogins/Google";
 import Linkedin from "../../../socialMediaLogins/Linkedin";
 import Recaptcha from "../../../socialMediaLogins/Recaptcha";
+import { useSelector } from "react-redux";
 
 
 
@@ -13,6 +14,8 @@ function Signup() {
     const [modal, showModal] = useState<string>("signup")
     const [GlobalRegister, setGlobalRegister] = useState<Data>()
     const [sentedOtp, setSentedOtp] = useState("")
+    const width = useSelector((state: any) => state?.sideBarRedux?.width);
+
     const props = {
         showModal,
         sentedOtp,
@@ -22,12 +25,21 @@ function Signup() {
     }
 
     return (<>
-        <div className='flex'>
-            <img style={{ width: "50%", height: "660px" }} src="https://res.cloudinary.com/dyh7c1wtm/image/upload/c_pad,b_auto:predominant,fl_preserve_transparency/v1711092799/Pasted_image_isdtca.jpg?_s=public-apps" alt="" />
-            <div className="m-auto" style={{ width: "80%" }}>
-                {modal === "signup" ? <SignupForm props={props} /> : <Otp props={props} />}
+        <div style={{
+            background: width < 1000 ? `url(/images/imageTestLogin.jpg) no-repeat center center / cover` : "",
+            backgroundPosition: 'center',
+            backgroundSize: 'cover',
+            width: '100%',
+            height: '100%'
+        }}>
+            <div className='flex overflow-y-hidden'>
+                {width >= 1000 && <img className='h-[660px] w-[50%] overflow-y-hidden' src="/images/imageTestLogin.jpg" alt="" />}
+                <div className="m-auto overflow-hidden" style={{ width: "80%" }}>
+                    {modal === "signup" ? <SignupForm props={props} /> : <Otp props={props} />}
+                </div>
             </div>
         </div>
+
     </>)
 }
 
@@ -96,7 +108,7 @@ function SignupForm({ props }: any) {
     };
 
     const googleSignup = (userData: any) => {
-        
+
         const Data = {
             userName: userData.given_name,
             FullName: userData.name,
