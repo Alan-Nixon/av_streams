@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import NavBar from '../layout/NavBar';
 import SideBar from '../layout/SideBar';
 import Content from '../helpers/Content';
@@ -25,7 +25,31 @@ const Shorts = () => {
   const [showReportModal, setShowReportModal] = useState(false)
   const [comment, setComments] = useState<commentInterface[][]>([])
   const [textComment, setTextComment] = useState("")
-  const { user } = useUser()
+  const { user } = useUser();
+  const commentsRef = useRef<any>(null)
+  const videoContainerRef = useRef<any>(null);
+
+  const handleKeyDown = (e: any) => {
+    if (e.code === 'ArrowDown' || e.code === 'ArrowUp') {
+      e.preventDefault();
+      const currentScrollPosition = videoContainerRef.current.scrollTop;
+      const containerHeight = videoContainerRef.current.clientHeight;
+
+      if (e.code === 'ArrowDown') {
+        videoContainerRef.current.scrollTo({
+          top: currentScrollPosition + containerHeight,
+          behavior: 'smooth'
+        });
+      } else if (e.code === 'ArrowUp') {
+        videoContainerRef.current.scrollTo({
+          top: currentScrollPosition - containerHeight,
+          behavior: 'smooth'
+        });
+      }
+    }
+  };
+
+
   useEffect(() => {
     const fetchVideos = async () => {
       try {
@@ -118,139 +142,142 @@ const Shorts = () => {
       <NavBar />
       <SideBar />
       <Content>
-        {loading ? (
-          <div className="lds-dual-ring" />
-        ) : (
-          <div className="w-full" onClick={() => unToggleComment()}>
-            <div className="flex">
-              <div className="m-auto containerYT">
-                {shorts.map((data, index) => (
-                  <div key={index} className="section flex">
-                    <div
-                      style={{
-                        height: '520px',
-                        marginTop: '38px',
-                        minWidth: '350px',
-                        position: 'relative',
-                        backgroundColor: 'black',
-                        borderRadius: '2%',
-                      }} >
-                      <video
-                        poster={data.Thumbnail}
-                        controls
-                        autoPlay
-                        muted
-                        className="absolute"
-                        style={{ top: '50%', height: '520px', left: '50%', transform: 'translate(-50%, -50%)' }}
-                      >
-                        <source src={data.Link} />
-                      </video>
+        <div onClick={unToggleComment}
+          ref={videoContainerRef}
+          tabIndex={0}
+          className="flex flex-col h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth mt-2 mb-2"
+          onKeyDown={handleKeyDown}
+        >
+
+          {shorts.map((data, index) => (
+            <div key={index} className="section flex mx-auto mt-4 mb-8">
+              <div className="flex items-center justify-center h-screen snap-start bg-black">
+                <div
+                  style={{
+                    height: '520px',
+                    minWidth: '350px',
+                    position: 'relative',
+                    backgroundColor: 'black',
+                    borderRadius: '2%',
+                  }} >
+
+                  <video
+                    poster={data.Thumbnail}
+                    controls
+                    autoPlay
+                    muted
+                    className="absolute"
+                    style={{ top: '50%', left: '50%', marginBottom: "5%", transform: 'translate(-50%, -50%)' }}
+                  >
+                    <source src={data.Link} />
+                  </video>
+
+                </div>
+              </div>
+              <div className="">
+
+                {data.clicked ? (
+                  <div onClick={(e) => e.stopPropagation()} className="bg-gray-800 h-full mb-[10px] w-[350px] ml-2" style={{ borderTopRightRadius: '2%' }}>
+                    <p className="text-xl m-3">Comments</p> <br />
+
+                    <div className="h-[65%]">
+                      {comment[index].length < 1 ? <div className='flex'>
+                        <div className="text-center m-auto">
+                          No comment's yet
+                        </div>
+                      </div> : <>
+                        <div className="ml-3 overflow-y-auto max-h-full list-none" ref={commentsRef}>
+                          {comment[index].map((comm, idx) => {
+                            return (
+                              <li className="py-2 list-none" key={idx}>
+                                <div className="flex items-center space-x-3 rtl:space-x-reverse">
+                                  <div className="flex-shrink-0">
+                                    <img className="w-9 h-9 rounded-full" src={comm?.profileImage} alt="Profile" />
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <p className="text-sm font-semibold text-gray-900 truncate dark:text-white">
+                                      {comm.userName}
+                                    </p>
+                                    <p className="text-sm text-gray-500 truncate dark:text-gray-400">
+                                      {comm.Comment}
+                                    </p>
+                                  </div>
+                                </div>
+                              </li>
+                            );
+                          })}
+                        </div>
+
+                      </>}
                     </div>
-                    {data.clicked ? (
-                      <div onClick={(e) => e.stopPropagation()} className="bg-gray-800 h-[520px] mt-[38px] w-[350px] ml-2" style={{ borderTopRightRadius: '2%' }}>
-                        <p className="text-xl m-3">Comments</p> <br />
-                        <div className="h-[380px]">
-                          {comment[index].length < 1 ? <div className='flex'>
-                            <div className="text-center m-auto">
-                              No comment's yet
-                            </div>
-                          </div> : <>
-                            <div className="ml-3 overflow-y-auto max-h-[320px]">
+                    <div className="flex">
+                      <input type="text" value={textComment} onChange={(e) => setTextComment(e.target.value)} placeholder="Your comments here...." name="Email" id="floating_email" className="ml-3 w-[95%] bottom-0 block py-1 px-0 text-sm text-white-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-graye dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
+                      <button type="button" onClick={() => {
+                        if (commentsRef.current) {
+                          commentsRef.current.scrollTop = commentsRef.current.scrollHeight;
+                        }
+                        const newCommentData = {
+                          userName: user?.userName || "Anonymous",
+                          Comment: textComment,
+                          LinkId: data._id,
+                          profileImage: user?.profileImage || "default_image_url",
+                          Section: "shorts",
+                          userId: user?._id || "unknown_user_id",
+                          likedUsers: [],
+                          isUserLiked: false
+                        };
 
-                              {comment[index].map((comm, idx) => {
-                                return (<>
+                        uploadCommentFunc(newCommentData);
+                        setTextComment("");
 
-                                  <li className="py-2" key={idx}>
-                                    <div className="flex items-center space-x-3 rtl:space-x-reverse">
-                                      <div className="flex-shrink-0">
-                                        <img className="w-9 h-9 rounded-full" src={comm?.profileImage} alt="Neil image" />
-                                      </div>
-                                      <div className="flex-1 min-w-0">
-                                        <p className="text-sm font-semibold text-gray-900 truncate dark:text-white">
-                                          {comm.userName}
-                                        </p>
-                                        <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                                          {comm.Comment}
-                                        </p>
-                                      </div>
-
-
-                                    </div>
-                                  </li>
-
-                                </>)
-                              })}
-                            </div>
-                          </>}
-                        </div>
-                        <div className="flex ">
-                          <input type="text" value={textComment} onChange={(e) => setTextComment(e.target.value)} placeholder="Your comments here...." name="Email" id="floating_email" className="ml-3 w-[95%] bottom-0 block py-1 px-0 text-sm text-white-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-graye dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
-                          <button type="button" onClick={() => {
-
-                            const newCommentData = {
-                              userName: user?.userName || "Anonymous",
-                              Comment: textComment,
-                              LinkId: data._id,
-                              profileImage: user?.profileImage || "default_image_url",
-                              Section: "shorts",
-                              userId: user?._id || "unknown_user_id",
-                              likedUsers: [],
-                              isUserLiked: false
-                            };
-
-                            uploadCommentFunc(newCommentData);
-                            setTextComment("");
-
-                            setComments((prevComments: any) => {
-                              const updatedComments = prevComments.map((commentList: any, i: number) => {
-                                if (i === index) {
-                                  return [...commentList, newCommentData];
-                                }
-                                return commentList;
-                              });
-                              return updatedComments;
-                            });
-                          }
-                          } className="inline-flex ml-4 justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
-                            <svg className="w-5 h-5 rotate-90 rtl:-rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
-                              <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z" />
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="ml-2" style={{ marginTop: '45%', color: '#0a0a0a' }}>
-                        <div className="flex-col flex" onClick={() => likeShorts(data._id)} >
-                          <ThumbUpIcon className="text-white" />
-                          <span className="font-mono font-light not-italic text-white/65" style={{ marginLeft: data?.likesArray?.length?.toString()?.length < 2 ? "7px" : "0px" }}>{data.likesArray.length ?? 0}</span>
-                        </div>
-                        <div className="flex mt-3 flex-col" onClick={() => toggleComment(index)} >
-                          <InsertCommentIcon className="text-white" />
-                          <span className="font-mono font-light not-italic text-white/65" style={{ marginLeft: (data?.likesArray?.length) < 2 ? "7px" : "0px" }} >{comment[index]?.length || 0}</span>
-                        </div>
-                        <div className="flex mt-3 ">
-                          <SendIcon className="text-white transform scale-[1]" />
-                        </div>
-                        <div className="flex mt-3  ">
-                          {showReportModal && <ReportDialog submitReport={submitReport} closeFunc={setShowReportModal} />}
-                          <MoreVertIcon onClick={() => {
-                            if (user) {
-                              setLinkAndLinkId({
-                                Link: data.Link,
-                                LinkId: data._id
-                              })
-                              setShowReportModal(true)
+                        setComments((prevComments: any) => {
+                          const updatedComments = prevComments.map((commentList: any, i: number) => {
+                            if (i === index) {
+                              return [...commentList, newCommentData];
                             }
-                          }} className="w-14 text-white transform scale-[1]" />
-                        </div>
-                      </div>
-                    )}
+                            return commentList;
+                          });
+                          return updatedComments;
+                        });
+                      }
+                      } className="inline-flex ml-4 justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                        <svg className="w-5 h-5 rotate-90 rtl:-rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                          <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z" />
+                        </svg>
+                      </button>
+                    </div>
                   </div>
-                ))}
+                ) : (
+                  <div className="ml-2 mt-48" style={{ color: '#0a0a0a' }}>
+                    <div className="flex-col flex" onClick={() => likeShorts(data._id)} >
+                      <ThumbUpIcon className="text-white" />
+                      <span className="font-mono font-light not-italic text-white/65" style={{ marginLeft: data?.likesArray?.length?.toString()?.length < 2 ? "7px" : "0px" }}>{data.likesArray.length ?? 0}</span>
+                    </div>
+                    <div className="flex mt-3 flex-col" onClick={() => toggleComment(index)} >
+                      <InsertCommentIcon className="text-white" />
+                      <span className="font-mono font-light not-italic text-white/65" style={{ marginLeft: (comment[index]?.length) < 2 ? "9px" : "4px" }} >{comment[index]?.length || 0}</span>
+                    </div>
+                    <div className="flex mt-3 ">
+                      <SendIcon className="text-white transform scale-[1]" />
+                    </div>
+                    <div className="flex mt-3  ">
+                      {showReportModal && <ReportDialog submitReport={submitReport} closeFunc={setShowReportModal} />}
+                      <MoreVertIcon onClick={() => {
+                        if (user) {
+                          setLinkAndLinkId({
+                            Link: data.Link,
+                            LinkId: data._id
+                          })
+                          setShowReportModal(true)
+                        }
+                      }} className="w-14 text-white transform scale-[1]" />
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-          </div>
-        )}
+          ))}
+        </div>
       </Content>
     </>
   );

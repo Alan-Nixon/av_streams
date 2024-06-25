@@ -72,8 +72,7 @@ export default function SideBar() {
                         <span className="flex ms-3 whitespace-nowrap" style={{ marginLeft: "30%", letterSpacing: "1px" }}><strong>Recomanded</strong></span>
                     </ul>
                     <ul style={{ marginLeft: "3%", marginTop: "5%" }}>
-                        {
-                            currentLives.map((item, index) =>
+                        {currentLives.map((item, index) =>
                                 <Link to={`/channel?userId=${item._id}`}>
 
                                     <li className="hover:bg-gray-600 p-1 mt-1" key={index} style={{ display: "flex", borderRadius: "20%" }}>

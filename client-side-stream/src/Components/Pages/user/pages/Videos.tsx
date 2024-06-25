@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import NavBar from '../layout/NavBar'
 import SideBar from '../layout/SideBar'
 import Content from '../helpers/Content'
-import { ModalInterfaceStateSetState, carouselInterface, videoInterface } from '../../../../Functions/interfaces'
+import { carouselInterface, videoInterface } from '../../../../Functions/interfaces'
 import { useNavigate } from 'react-router-dom'
 import { isPremiumUser } from '../../../../Functions/userFunctions/userManagement'
 import { useUser } from '../../../../UserContext'
@@ -70,10 +70,10 @@ function Videos() {
 
                 <div className="m-3">
                     <div id="default-carousel" className="relative" data-carousel="slide">
-                        <div className="relative overflow-hidden rounded-lg" style={{ height: "500px" }}>
+                        <div className="relative overflow-hidden rounded-lg h-[500px]">
                             {carousel && carousel?.length > 0 && carousel.map((item, idx) => {
                                 return (<div key={idx} className={`${currentCarousel === idx ? "" : 'hidden'} duration-700 ease-in-out`} data-carousel-item>
-                                    <img src={item?.imgUrl} className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="..." />
+                                    <img src={item?.imgUrl} className="absolute h-[500px] block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="..." />
                                 </div>)
                             })}
                         </div>
@@ -104,8 +104,8 @@ function Videos() {
                 </div>
 
 
-                <div className="m-3">
-                    <h1 className="text-xl font-bold">Premium Version</h1>
+                <div className="m-1">
+                    <h1 className="text-xl font-bold ml-5">Premium Version</h1>
                 </div>
                 <div className="m-3 flex flex-wrap">
                     {premiumVideos && premiumVideos?.length !== 0 && premiumVideos.map((item, index) => {

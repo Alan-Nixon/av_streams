@@ -19,7 +19,6 @@ app.use((0, cors_1.default)({
     optionsSuccessStatus: 200
 }));
 app.use((0, morgan_1.default)('dev'));
-console.log(process.env.CHATMANAGEMENT);
 const proxyConfig = {
     '/chatManagement': {
         target: process.env.CHATMANAGEMENT || '',

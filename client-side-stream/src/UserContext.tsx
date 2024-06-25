@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { ContentProps, Data, UserContextValue } from './Functions/interfaces';
 import { getUser } from './Functions/commonFunctions';
 import Cookies from 'js-cookie';

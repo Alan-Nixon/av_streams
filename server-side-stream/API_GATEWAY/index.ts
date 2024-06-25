@@ -34,7 +34,6 @@ export type ProxyConfig = {
     };
 }
 
-console.log(process.env.CHATMANAGEMENT);
 
 
 const proxyConfig: ProxyConfig = {
