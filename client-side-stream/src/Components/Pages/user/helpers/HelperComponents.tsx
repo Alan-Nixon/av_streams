@@ -80,7 +80,7 @@ export const ShowPosts = ({ Data }: any) => {
                                 <img src={data.profileLink} className="w-8 h-8 rounded-full" alt="Neil image" />
                             </div>
                             <div className="flex-1 min-w-0">
-                                <p className="text-md font-semibold text-gray-900 truncate dark:text-white">
+                                <p className="text-md font-semibold truncate text-white">
                                     {data.channelName}
                                 </p>
                             </div>

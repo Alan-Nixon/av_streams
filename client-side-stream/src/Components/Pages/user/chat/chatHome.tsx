@@ -4,7 +4,7 @@ import { useUser } from '../../../../UserContext'
 import { getChatOfUser } from '../../../../Functions/chatFunctions/chatManagement'
 import { useNavigate } from 'react-router-dom'
 import { getPersonDetailsChat, getTimeDifference } from '../../../../Functions/commonFunctions'
-import { getNewChats, getfollowersByUserId } from '../../../../Functions/userFunctions/userManagement'
+import { getNewChats } from '../../../../Functions/userFunctions/userManagement'
 
 
 function ChatHome({ singleChatopen, userDetails }: chatHomeIterface) {
@@ -43,11 +43,11 @@ function ChatHome({ singleChatopen, userDetails }: chatHomeIterface) {
 
     if (loading) {
         return (<>
-            <section className="flex w-[450px] fixed top-5 flex-col rounded-md justify-center antialiased dark:bg-gray-800 text-gray-600 min-h-[95vh] max-h-[620px] p-4">
+            <section className="flex w-[450px] fixed top-5 flex-col rounded-md justify-center antialiased bg-gray-800 text-gray-600 min-h-[95vh] max-h-[620px] p-4">
 
-                <div role="status" className="flex min-h-[95vh] max-h-[720px] w-[450px] p-4 items-center justify-center bg-gray-300 rounded-lg  dark:bg-gray-700">
+                <div role="status" className="flex min-h-[95vh] max-h-[720px] w-[450px] p-4 items-center justify-center rounded-lg  bg-gray-700">
                     chats
-                    <svg className="w-10 h-10 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
+                    <svg className="w-10 h-10 text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
                         <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z" />
                         <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM9 13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2Zm4 .382a1 1 0 0 1-1.447.894L10 13v-2l1.553-1.276a1 1 0 0 1 1.447.894v2.764Z" />
                     </svg>
@@ -59,7 +59,7 @@ function ChatHome({ singleChatopen, userDetails }: chatHomeIterface) {
 
     return (
         <div>
-            <section className="flex w-[450px] fixed top-5 flex-col rounded-md justify-center antialiased dark:bg-gray-800 text-gray-600 min-h-[95vh] max-h-[720px] p-4">
+            <section className="flex w-[450px] fixed top-5 flex-col rounded-md justify-center antialiased bg-gray-800 text-gray-600 min-h-[95vh] max-h-[720px] p-4">
                 <div className="h-auto">
                     <div className='w-full bg-white rounded-lg'>
                         <header className="pt-6 pb-4 px-5 border-b border-gray-200">

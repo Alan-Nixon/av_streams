@@ -168,7 +168,7 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
     }
 
     return (
-        <div className="min-h-[95vh] max-h-[600px] h-[500px]  p-4 flex top-5 fixed flex-col items-center justify-center w-[450px]  dark:bg-gray-900 text-gray-800 rounded-md mr-4">
+        <div className="min-h-[95vh] max-h-[600px] h-[500px]  p-4 flex top-5 fixed flex-col items-center justify-center w-[450px]  bg-gray-900 text-gray-800 rounded-md mr-4">
 
             <div className="right-0 top-0 flex flex-col flex-grow w-[100%] bg-white shadow-xl rounded-lg overflow-hidden">
                 <div className="flex p-1 mt-1">

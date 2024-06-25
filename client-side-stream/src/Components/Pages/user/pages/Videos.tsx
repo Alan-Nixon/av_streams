@@ -115,7 +115,7 @@ function Videos() {
                                     <img className="rounded-t-lg w-full" src={item.Thumbnail} alt="" />
                                 </p>
                                 <div className="p-5">
-                                    <p> <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{item.Title}</h5></p>
+                                    <p> <h5 className="mb-2 text-xl font-bold tracking-tight text-white">{item.Title}</h5></p>
                                     <p className="text-yellow-700 font-bold">Premium</p>
                                 </div>
                             </div>
