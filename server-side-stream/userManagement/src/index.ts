@@ -10,7 +10,7 @@ import './presentation/RabbitMq/producer';
 
 const app: Application = express();
 const port = process.env.PORT || 8000;
- 
+  
 
 app.use(cors({
     origin: process.env.CLIENT_SIDE_URL,

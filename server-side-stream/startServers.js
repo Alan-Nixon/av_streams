@@ -5,6 +5,8 @@ const { join } = require('path');
 const chatManagement = join(__dirname, 'chatManagement')
 const api_gateway = join(__dirname, 'API_GATEWAY')
 const commentManagement = join(__dirname, 'commentManagement/commentService')
+const userManagement = join(__dirname, 'userManagement')
+const streamManagement = join(__dirname, 'streamManagement')
 
 function startServer(command, directory) {
     return new Promise((resolve, reject) => {
@@ -28,10 +30,12 @@ function startServer(command, directory) {
 async function startServers() {
     try {
 
-        startServer("npm start", chatManagement);
+        // startServer("npm start", chatManagement);
         startServer("npm start", api_gateway)
         startServer("python manage.py runserver 8005", commentManagement);
-        
+        startServer("npm start", userManagement)
+        startServer("npm start", streamManagement)
+
         console.log('Both servers started successfully.');
 
     } catch (error) {
@@ -40,3 +44,4 @@ async function startServers() {
 }
 
 startServers();
+

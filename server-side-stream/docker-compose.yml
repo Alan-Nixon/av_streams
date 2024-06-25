@@ -8,6 +8,22 @@ services:
     networks:
       - microservices-network
 
+  chat_management:
+    build: ./chatManagement
+    image: chat_management_image
+    ports:
+      - "8004:8004"
+    networks:
+      - microservices-network
+
+  comment_management:
+    build: ./commentManagement/commentService
+    image: comment_service_image
+    ports:
+      - "8005:8005"
+    networks:
+      - microservices-network
+
   stream_management:
     build: ./streamManagement
     image: stream_management_image
@@ -34,15 +50,7 @@ services:
     networks:
       - microservices-network
 
-  comment_service:
-    build:
-      context: ./commentManagement/commentService
-    image: comment_service_image
-    ports:
-      - "8005:8005"
-    networks:
-      - microservices-network
-
+  
 networks:
   microservices-network:
     driver: bridge

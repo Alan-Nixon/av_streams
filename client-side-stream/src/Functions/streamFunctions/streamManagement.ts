@@ -111,7 +111,7 @@ export const getPremiumVideos = async () => {
 
 export const searchVideosAndProfile = async (search: string) => {
     const { data } = await axiosApiGateWay.get('/streamManagement/searchVideosAndProfile?search=' + search)
-    return data
+    return data ?? []
 }
 
 export const addReportSubmit = async (Data: reportType) => {

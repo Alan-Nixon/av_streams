@@ -14,7 +14,8 @@ export const getTokenCookie = () => {
 export const axiosApiGateWay = axios.create({
     baseURL: process.env.REACT_APP_API_GATEWAY, headers: {
         "Content-Type": "application/json",
-        'Authorization': getTokenCookie()
+        'Authorization': getTokenCookie(),
+        "Access-Control-Allow-Origin": "*",
     }
 })
 

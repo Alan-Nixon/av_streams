@@ -81,7 +81,7 @@ function NavBar() {
     }
 
     return (
-        <nav style={{ zIndex: "999" }} className="fixed top-0 left-0 right-0 bg-white  dark:bg-gray-900   border-white border-b-[1px] z-10">
+        <nav style={{ zIndex: "999" }} className="fixed top-0 left-0 right-0 bg-gray-900   border-white border-b-[1px] z-10">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
                 <div className="flex  space-x-3 ml-10">
                     <button data-collapse-toggle="navbar-default" onClick={() => setShowHideSideBar(!showHideSideBar)} type="button" className="hamburgerButtonDiv ml-auto flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">
@@ -91,28 +91,28 @@ function NavBar() {
                     </button>
                     <a href="/" className="flex items-center space-x-1 rtl:space-x-reverse">
                         <img src="https://s3.ap-south-1.amazonaws.com/assets.ynos.in/startup-logos/YNOS427860.jpg" style={{ borderRadius: "100px" }} className="h-10" alt="Av Logo" />
-                        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">AV streams</span>
+                        <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">AV streams</span>
                     </a>
 
                     <div className="searchContainerHome relative flex left-5 ">
                         <div className="flex items-center">
                             <div className="absolute items-center pl-3 pointer-events-none">
-                                <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <svg className="w-4 h-4 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                 </svg>
                             </div>
 
                             <input style={{ minWidth: "300px" }} type="search" onChange={e => setSearch(e.target.value)} id="default-search"
-                                className="flex h-10 p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50  focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 " placeholder="Search Streams, Videos..." required />
+                                className="flex h-10 p-4 pl-10 text-sm border rounded-lg bg-gray-900 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500 " placeholder="Search Streams, Videos..." required />
 
 
                         </div>
-                        <button onClick={() => searchNow()} type="button" className="top-1 text-white absolute right-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-1.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+                        <button onClick={() => searchNow()} type="button" className="top-1 text-white absolute right-2.5 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-1.5 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800">Search</button>
                     </div>
 
                 </div>
                 <div className="profileTagInNavbar block" id="navbar-default">
-                    <ul className="font-medium flex flex-col pl-3 pr-3 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                    <ul className="font-medium flex flex-col pl-3 pr-3 border rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0  bg-gray-800 md:bg-gray-900 border-gray-700">
                         {user ? (
                             <>
                                 <div className="flex items-center space-x-3">
@@ -123,7 +123,7 @@ function NavBar() {
                                         <p className='ml-2'>start live now</p>
                                     </div>}
                                     <img src={user.profileImage} className='w-6 h-6 rounded-lg' alt="" />
-                                    <strong> <a href="/profile" className="block py-2 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                                    <strong> <a href="/profile" className="block py-2 rounded  md:border-0 md:p-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white md:hover:bg-transparent">
                                         {user.userName}
                                     </a></strong>
                                     <p onClick={() => logout().then(() => window.location.href = '/')} style={{ cursor: "pointer" }}>Logout</p>
@@ -133,12 +133,12 @@ function NavBar() {
                             <>
                                 <div className="flex space-x-2">
                                     <button onClick={() => window.location.href = '/Login'} className="relative inline-flex mt-1 items-center justify-center p-0.5 mb-1 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
-                                        <span className="relative px-5 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                        <span className="relative px-5 py-1 transition-all ease-in duration-75 text-white bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                             Login
                                         </span>
                                     </button>
                                     <button onClick={() => window.location.href = "/Signup"} className="relative inline-flex mt-1 items-center justify-center p-0.5 mb-1 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
-                                        <span className="relative px-5 py-1 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                        <span className="relative px-5 py-1 transition-all ease-in duration-75 text-white bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                             Register
                                         </span>
                                     </button>

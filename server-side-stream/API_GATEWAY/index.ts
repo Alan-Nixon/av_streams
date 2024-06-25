@@ -24,7 +24,7 @@ app.use(morgan('dev'));
 
 
 
-export type ProxyConfig = { 
+export type ProxyConfig = {
     [key: string]: {
         target: string;
         changeOrigin: boolean;
@@ -33,7 +33,9 @@ export type ProxyConfig = {
         pathRewrite?: { [key: string]: string };
     };
 }
- 
+
+console.log(process.env.CHATMANAGEMENT);
+
 
 const proxyConfig: ProxyConfig = {
     '/chatManagement': {
@@ -76,7 +78,7 @@ const server = http.createServer(app);
 
 
 const io = new Server(server, {
-    cors: { 
+    cors: {
         origin: process.env.CLIENT_SIDE_URL,
         methods: ["GET", "POST", "PATCH", "DELETE", "PUT"],
         credentials: true
@@ -96,6 +98,8 @@ io.on('connection', (socket: Socket) => {
     });
 });
 
+
+app.use('*', (req, res) => res.status(200).json({ status: false, message: "service not specified" }))
 
 const PORT: string = process.env.PORT || "8000";
 server.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));

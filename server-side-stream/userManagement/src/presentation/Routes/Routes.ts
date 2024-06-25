@@ -14,7 +14,7 @@ router.get('/followChannel', isAuthenticated, controller.followChannel)
 router.get('/getChannelById', isAuthenticated, controller.getChannelById)
 router.get('/getChannelByUserId', isAuthenticated, controller.getChannelByUserId)
 router.get('/getfollowersByUserId', isAuthenticated, controller.getfollowersByUserId)
-router.get('/getUserById', isAuthenticated, controller.getUserById)
+router.get('/getUserById', isAuthenticated, controller.getUserById);
 
 router.get('/sendOtp', controller.sendOtp)
 router.get('/isUserAuth', controller.authenticated)

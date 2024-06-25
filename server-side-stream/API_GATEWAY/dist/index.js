@@ -19,6 +19,7 @@ app.use((0, cors_1.default)({
     optionsSuccessStatus: 200
 }));
 app.use((0, morgan_1.default)('dev'));
+console.log(process.env.CHATMANAGEMENT);
 const proxyConfig = {
     '/chatManagement': {
         target: process.env.CHATMANAGEMENT || '',
@@ -69,6 +70,7 @@ io.on('connection', (socket) => {
         io.to(userId).emit('showFollowMessage', data);
     });
 });
+app.use('*', (req, res) => res.status(200).json({ status: false, message: "service not specified" }));
 const PORT = process.env.PORT || "8000";
 server.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
 exports.default = app;

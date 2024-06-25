@@ -52,13 +52,6 @@ server.listen(3001, () => {
 });
 
 
-// const appID = Number(process.env.ZEGO_STREAM_APP_ID);
-// const serverSecret = process.env.ZEGO_STREAM_SERVER_ID + "";
-// const userId = '2520'; 
-// const effectiveTimeInSeconds = 36000;
-// const payload = '';
-// console.log(appID, userId, serverSecret, effectiveTimeInSeconds, payload);
 
-// const token = generateToken04(appID, userId, serverSecret, effectiveTimeInSeconds, payload);
-// console.log('token:', token);
+
  

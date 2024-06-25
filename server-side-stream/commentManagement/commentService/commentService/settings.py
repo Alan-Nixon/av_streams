@@ -9,9 +9,10 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-  
+
 from pathlib import Path
 from dotenv import load_dotenv  # type: ignore
+
 load_dotenv()
 import os
 
@@ -28,9 +29,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-iu8v@8da!q1ed5)6j)%meyf)o0(17l)tte=zcrh)h3$!hn!p7p"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -57,7 +58,7 @@ MIDDLEWARE = [
 ]
 
 
-CORS_ALLOWED_ORIGINS = [os.getenv('CLIENT_SIDE_URL')]
+CORS_ALLOWED_ORIGINS = [os.getenv("CLIENT_SIDE_URL")]
 
 CORS_ALLOW_ALL_ORIGINS = True
 
