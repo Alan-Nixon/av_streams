@@ -194,5 +194,9 @@ class change_user_repositary_layer implements changeUser_ReposatryInterface {
     async getPopularChannels() {
         return { status: true, message: "success", data: await ChannelModel.find() }
     }
+
+    async getSubscriptionDetails(userId: string) {
+        return { status: true, message: "success", data: await ChannelModel.findOne({ userId }) }
+    }
 }
 export const changeUserRepositaryLayer: changeUser_ReposatryInterface = new change_user_repositary_layer();

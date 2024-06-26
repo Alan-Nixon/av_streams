@@ -13,7 +13,7 @@ import { getDate } from '../../../../Functions/commonFunctions'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-function Subscription() {
+function Subscription({ showSideBar }: { showSideBar: boolean }) {
     const [subscription, setSubscription] = useState<subscriptionInterface>({ section: "", price: -1 })
     const [wallet, setWallet] = useState<WalletDetails>()
     const [error, setError] = useState("")
@@ -62,7 +62,7 @@ function Subscription() {
                                 Balance: prevWallet.Balance - subscription.price
                             }
                         });
-                        // deductMoneyFromWallet(user?._id, subscribeToPremium)
+                        deductMoneyFromWallet(user?._id, subscription.price)
                     }
                 }
             })
@@ -90,9 +90,7 @@ function Subscription() {
             })
             toast.success("Payment successfull")
             setTimeout(() => Navigate('/profile'), 3000)
-        } else {
-            Navigate('/login')
-        }
+        } 
     }
 
     const errorPayment = (error: any) => {
@@ -101,8 +99,18 @@ function Subscription() {
 
     return (<>
         <NavBar />
-        <SideBar />
-        <Content>
+        {showSideBar ? <>
+            <SideBar />
+            <Content>
+                <Subs />
+            </Content>
+        </> : <>
+            <Subs />
+        </>}
+    </>)
+
+    function Subs() {
+        return (<>
             {error && <Alert severity="error" onClose={() => setError("")} style={{ margin: "1%" }}>{error}</Alert>}
             <div className="m-5">
                 <h1 className="text-xl font-bold">SUBSCRIPTION</h1>
@@ -204,8 +212,8 @@ function Subscription() {
                     </div>}
                 </div>
             </div>
-        </Content>
-    </>)
+        </>)
+    }
 }
 
 export default React.memo(Subscription)

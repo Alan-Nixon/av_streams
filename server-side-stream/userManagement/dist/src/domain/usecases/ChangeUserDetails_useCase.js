@@ -180,11 +180,21 @@ class changeUserDetails_usecase {
     getUserById(userId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log(userId);
                 return { status: true, message: "success", data: yield ChangeUserDetails_Repositary_1.changeUserRepositaryLayer.getChannelByUserId(userId) };
             }
             catch (error) {
                 return { status: false, message: "failed", data: [] };
+            }
+        });
+    }
+    getSubscriptionDetails(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            try {
+                return yield ChangeUserDetails_Repositary_1.changeUserRepositaryLayer.getSubscriptionDetails(userId);
+            }
+            catch (error) {
+                return { status: false, message: (_a = error.message) !== null && _a !== void 0 ? _a : "failed", data: [] };
             }
         });
     }

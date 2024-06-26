@@ -37,7 +37,7 @@ export const isBlocked = async (req: Request, res: Response, next: NextFunction,
             }
         }
         return true
- 
+
     } catch (error) {
         console.log(error);
         return "error occured in the block middleware"
@@ -338,9 +338,17 @@ export const getNewChats = async (req: Request, res: Response) => {
 export const getUserById = async (req: Request, res: Response) => {
     try {
         const userId: any = req.query.userId
-        console.log(userId);
-
         res.status(200).json(await change_user_usecase.getUserById(userId))
+    } catch (error: any) {
+        console.error(error);
+        res.status(500).json({ status: false, message: error?.message || "internal server error" })
+    }
+}
+
+export const getSubscriptionDetails = async (req: Request, res: Response) => {
+    try {
+        const userId: any = req.query.userId
+        res.status(200).json(await change_user_usecase.getSubscriptionDetails(userId))
     } catch (error: any) {
         console.error(error);
         res.status(500).json({ status: false, message: error?.message || "internal server error" })

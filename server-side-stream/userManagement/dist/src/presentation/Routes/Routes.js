@@ -40,6 +40,7 @@ router.get('/getChannelById', userauthenticationforavstreams_1.isAuthenticated, 
 router.get('/getChannelByUserId', userauthenticationforavstreams_1.isAuthenticated, controller.getChannelByUserId);
 router.get('/getfollowersByUserId', userauthenticationforavstreams_1.isAuthenticated, controller.getfollowersByUserId);
 router.get('/getUserById', userauthenticationforavstreams_1.isAuthenticated, controller.getUserById);
+router.get('/getSubscriptionDetails', userauthenticationforavstreams_1.isAuthenticated, controller.getSubscriptionDetails);
 router.get('/sendOtp', controller.sendOtp);
 router.get('/isUserAuth', controller.authenticated);
 router.get('/forgetPasswordOtpSend', controller.forgetPasswordOtpSend);

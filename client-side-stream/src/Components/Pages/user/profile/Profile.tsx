@@ -9,7 +9,7 @@ import MyVideos from './Myvideos';
 import MyPosts from './MyPosts';
 import WalletSection from './Wallet';
 import Followers from './Followers';
-import WatchHistory from './WatchHistory';
+import PremiumDetails from './PremiumDetails';
 import { toast } from 'react-toastify';
 
 
@@ -60,7 +60,7 @@ function Profile() {
                 </p>
                 <p className='error' style={{ marginLeft: "12%" }}>{nameErr}</p>
                 <div className="headingsProfileSection block" style={{ marginTop: "2%", marginLeft: "5%" }}>
-                    {["Profile", "Wallet", "Watch History", "Followers", "My streams", "My Videos", "My Posts"].map((item) => (
+                    {["Profile", "Wallet", "Premium Details", "Followers", "My streams", "My Videos", "My Posts"].map((item) => (
                         <span key={item} className={`profileHeadings font-bold text-xl ml-20 ${section === item ? "text-blue-500" : ""}`} onClick={() => {
                             localStorage.setItem('section', item || "Profile")
                             setSection(item);
@@ -72,7 +72,7 @@ function Profile() {
 
                 {section === "Profile" && <ProfileSection />}
                 {section === "Wallet" && <WalletSection />}
-                {section === "Watch History" && <WatchHistory />}
+                {section === "Premium Details" && <PremiumDetails />}
                 <div className="flex ml-8 mt-6 ">
                     {section === "Followers" && <Followers />}
                     {section === "My streams" && <Mystreams />}

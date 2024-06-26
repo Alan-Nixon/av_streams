@@ -23,5 +23,5 @@ export interface changeUser_ReposatryInterface {
     getUserData(userId: string): Promise<IUser | null>;
     getProfilesBySearch(search:string):Promise <string>;
     getPopularChannels(): Promise<responseInterface>;
-
+    getSubscriptionDetails(userId:string): Promise<responseInterface>;
 }

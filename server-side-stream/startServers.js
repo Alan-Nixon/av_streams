@@ -28,15 +28,14 @@ function startServer(command, directory) {
 }
 
 async function startServers() {
-    try {
-
-        // startServer("npm start", chatManagement);
+    try { 
         startServer("npm start", api_gateway)
-        startServer("python manage.py runserver 8005", commentManagement);
         startServer("npm start", userManagement)
         startServer("npm start", streamManagement)
         startServer("npm start", chatManagement)
-        console.log('Both servers started successfully.');
+        startServer("python manage.py runserver 8005", commentManagement);
+        
+        console.log('All servers started successfully.');
 
     } catch (error) {
         console.error('Error starting servers:', error);

@@ -33,22 +33,34 @@ function NavBar() {
     const Navigate = useNavigate()
 
     const width = useSelector((state: any) => state?.sideBarRedux?.width);
-    
 
-    if (messageSocket) {
-        messageSocket.on('incoming_message', (messReponse: any) => {
-            getUserById(messReponse.sender).then(({ data }) => {
-                if (data) {
-                    toastFunction({
-                        Link: data.profileImage,
-                        SenderId: data.channelName,
-                        Message: messReponse.message
-                    })
 
-                }
-            })
-        })
-    }
+    const [isToastActive, setIsToastActive] = useState(false);
+
+    useEffect(() => {
+        const handleMessage = async (messResponse: { sender: string; message: any; }) => {
+            const { data } = await getUserById(messResponse.sender);
+            if (data && !isToastActive) {
+                setIsToastActive(true);
+                toastFunction({
+                    Link: data.profileImage,
+                    SenderId: data.channelName,
+                    Message: messResponse.message,
+                    onClose: () => setIsToastActive(false),
+                });
+            }
+        };
+
+        if (messageSocket) {
+            messageSocket.on('incoming_message', handleMessage);
+        }
+
+        return () => {
+            if (messageSocket)
+                messageSocket.off('incoming_message', handleMessage);
+        };
+    }, [isToastActive, messageSocket, getUserById]);
+
 
     useEffect(() => {
         if (user && user?._id) {

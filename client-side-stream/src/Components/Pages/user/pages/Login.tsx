@@ -55,7 +55,6 @@ export default function Login() {
             Email: response.email,
             Password: response.sub
         }
-        console.log(obj);
 
         PostLogin(obj, setUserData).then((result) => {
             if (result.status) {

@@ -29,7 +29,7 @@ export type ProxyConfig = {
         target: string;
         changeOrigin: boolean;
         timeout: number,
-        proxyTimeout: number,
+        proxyTimeout: number, 
         pathRewrite?: { [key: string]: string };
     };
 }

@@ -128,7 +128,7 @@ function App() {
           <Route path='/search' element={<Search />} />
           <Route path='/game' element={<Game />} />
 
-          <Route path='/subscription' element={userAuthenticated ? <Subscription /> : <Navigate to="/login" />} />
+          <Route path='/subscription' element={userAuthenticated ? <Subscription showSideBar /> : <Navigate to="/login" />} />
           <Route path='/profile' element={userAuthenticated ? <Profile /> : <Navigate to="/login" />} />
           <Route path='/Login' element={userAuthenticated ? <Navigate to='/' /> : <Login />} />
           <Route path='/Signup' element={userAuthenticated ? <Navigate to='/' /> : <Signup />} />

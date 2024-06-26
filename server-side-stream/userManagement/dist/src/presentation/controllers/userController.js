@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserById = exports.getNewChats = exports.getTrendingChannels = exports.getPopularChannels = exports.getfollowersByUserId = exports.getChannelByUserId = exports.getChannelById = exports.followChannel = exports.isFollowing = exports.isPremiumUser = exports.subscribeToPremium = exports.withDrawMoneyToWallet = exports.addMoneyToWallet = exports.changeChannelName = exports.changeProfileData = exports.changePassword = exports.forgetPasswordOtpSend = exports.authenticated = exports.changeProfileImage = exports.getWalletDetails = exports.regenerateToken = exports.userDetails = exports.sendOtp = exports.postLogin = exports.isBlocked = exports.postSignup = void 0;
+exports.getSubscriptionDetails = exports.getUserById = exports.getNewChats = exports.getTrendingChannels = exports.getPopularChannels = exports.getfollowersByUserId = exports.getChannelByUserId = exports.getChannelById = exports.followChannel = exports.isFollowing = exports.isPremiumUser = exports.subscribeToPremium = exports.withDrawMoneyToWallet = exports.addMoneyToWallet = exports.changeChannelName = exports.changeProfileData = exports.changePassword = exports.forgetPasswordOtpSend = exports.authenticated = exports.changeProfileImage = exports.getWalletDetails = exports.regenerateToken = exports.userDetails = exports.sendOtp = exports.postLogin = exports.isBlocked = exports.postSignup = void 0;
 const formidable_1 = require("formidable");
 //usecase
 const Authentication_1 = require("../../domain/usecases/Authentication");
@@ -346,7 +346,6 @@ exports.getNewChats = getNewChats;
 const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userId = req.query.userId;
-        console.log(userId);
         res.status(200).json(yield ChangeUserDetails_useCase_1.change_user_usecase.getUserById(userId));
     }
     catch (error) {
@@ -355,6 +354,17 @@ const getUserById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getUserById = getUserById;
+const getSubscriptionDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userId = req.query.userId;
+        res.status(200).json(yield ChangeUserDetails_useCase_1.change_user_usecase.getSubscriptionDetails(userId));
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ status: false, message: (error === null || error === void 0 ? void 0 : error.message) || "internal server error" });
+    }
+});
+exports.getSubscriptionDetails = getSubscriptionDetails;
 function multipartFormSubmission(req) {
     return new Promise((resolve, reject) => {
         const form = new formidable_1.IncomingForm();

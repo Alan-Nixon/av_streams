@@ -18,7 +18,7 @@ router.post('/createUser', isAdminAuthenticated, adminController.createUser)
 router.post('/updateBanner', isAdminAuthenticated, adminController.updateBanner)
 
 
-router.patch('/cancelSubscription', isAdminAuthenticated, adminController.cancelSubscription)
+router.patch('/cancelSubscription', adminController.cancelSubscription)
 
 
 export default router

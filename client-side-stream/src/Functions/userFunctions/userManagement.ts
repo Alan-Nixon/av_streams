@@ -173,3 +173,13 @@ export const getUserById = async (userId: string) => {
     const { data } = await axiosApiGateWay.get('/userManagement/getUserById?userId=' + userId)
     return data
 }
+
+export const getSubscriptionDetails = async (userId: string) => {
+    const { data } = await axiosApiGateWay.get('/userManagement/getSubscriptionDetails?userId=' + userId)
+    return data
+}
+
+export const deductMoneyFromWallet = async (userId:string,amount:number) => { 
+    const { data } = await axiosApiGateWay.get('/userManagement/getSubscriptionDetails?userId=' + userId)
+    return data
+}

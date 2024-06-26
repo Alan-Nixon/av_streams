@@ -153,14 +153,19 @@ class changeUserDetails_usecase implements changeUserDetails_usecase_interface {
 
     async getUserById(userId: string) {
         try {
-            console.log(userId);
-
             return { status: true, message: "success", data: await changeUserRepositaryLayer.getChannelByUserId(userId) }
         } catch (error: any) {
             return { status: false, message: "failed", data: [] }
         }
     }
 
+    async getSubscriptionDetails(userId:string) {
+        try {
+            return await changeUserRepositaryLayer.getSubscriptionDetails(userId)
+        } catch (error:any) {
+            return { status: false, message: error.message ?? "failed", data: [] }
+        }
+    }
 
 }
 

@@ -41,5 +41,5 @@ router.post('/addbanner', userauthenticationforavstreams_1.isAdminAuthenticated,
 router.post('/adminPostLogin', adminController.adminPostLogin);
 router.post('/createUser', userauthenticationforavstreams_1.isAdminAuthenticated, adminController.createUser);
 router.post('/updateBanner', userauthenticationforavstreams_1.isAdminAuthenticated, adminController.updateBanner);
-router.patch('/cancelSubscription', userauthenticationforavstreams_1.isAdminAuthenticated, adminController.cancelSubscription);
+router.patch('/cancelSubscription', adminController.cancelSubscription);
 exports.default = router;

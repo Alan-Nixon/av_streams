@@ -158,7 +158,7 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
             userName: personDetails.channelName,
             image: personDetails.profileImage,
         };
-        
+
         zp.sendCallInvitation({
             callees: [targetUser],
             callType: ZegoUIKitPrebuilt.InvitationTypeVideoCall,
@@ -223,7 +223,7 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
                                                     <div className="bg-indigo-300 p-3 rounded-l-lg rounded-br-lg">
                                                         <p className="text-sm">{item.message}</p>
                                                     </div>
-                                                    <span className="text-xs text-gray-500 leading-none">{getTimeDifference(item.time) || "0 minute"} ago</span>
+                                                    <span className="text-xs text-gray-500 leading-none">{getTimeDifference(item.time) ? getTimeDifference(item.time) + " ago" : "Now"} </span>
                                                 </div>
                                                 <div className="flex-shrink-0 h-8 w-8 m-1 rounded-full bg-gray-300">
                                                     <img src={user?.profileImage} className="rounded-full" alt="" />
@@ -265,7 +265,7 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
                                                         <div className="bg-gray-300 p-3 ml-1 rounded-r-lg rounded-bl-lg">
                                                             <p className="text-sm">{item.message}</p>
                                                         </div>
-                                                        <span className="text-xs text-gray-500 leading-none">{getTimeDifference(item.time) || "0 minute"} ago</span>
+                                                        <span className="text-xs text-gray-500 leading-none">{getTimeDifference(item.time) ? getTimeDifference(item.time) + " ago" : "Now"}</span>
                                                     </div>
                                                 </div>
                                             </>}
