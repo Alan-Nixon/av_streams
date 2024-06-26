@@ -24,4 +24,6 @@ export interface changeUser_ReposatryInterface {
     getProfilesBySearch(search:string):Promise <string>;
     getPopularChannels(): Promise<responseInterface>;
     getSubscriptionDetails(userId:string): Promise<responseInterface>;
+    deductMoneyFromWallet(userId: string, amount: string): Promise<responseInterface>;
+
 }

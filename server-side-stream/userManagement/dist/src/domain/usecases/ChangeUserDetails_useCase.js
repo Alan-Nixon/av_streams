@@ -119,7 +119,7 @@ class changeUserDetails_usecase {
         return __awaiter(this, void 0, void 0, function* () {
             const response = JSON.parse(JSON.stringify(yield ChangeUserDetails_Repositary_1.changeUserRepositaryLayer.getfollowersByUserId(userId)));
             const followersDetails = yield Promise.all(response.data.Followers.map((item) => __awaiter(this, void 0, void 0, function* () {
-                var _a, _b;
+                var _a;
                 const userDetails = yield ChangeUserDetails_Repositary_1.changeUserRepositaryLayer.getUserData(item);
                 const channel = yield this.getChannelByUserId((_a = userDetails === null || userDetails === void 0 ? void 0 : userDetails._id.toString()) !== null && _a !== void 0 ? _a : "");
                 return {
@@ -128,7 +128,7 @@ class changeUserDetails_usecase {
                     userName: userDetails === null || userDetails === void 0 ? void 0 : userDetails.userName,
                     Email: userDetails === null || userDetails === void 0 ? void 0 : userDetails.Email,
                     FullName: userDetails === null || userDetails === void 0 ? void 0 : userDetails.FullName,
-                    profileImage: (_b = (yield this.getChannelByUserId(userId))) === null || _b === void 0 ? void 0 : _b.profileImage
+                    profileImage: channel.profileImage
                 };
             })));
             response.data.Followers = followersDetails;
@@ -192,6 +192,17 @@ class changeUserDetails_usecase {
             var _a;
             try {
                 return yield ChangeUserDetails_Repositary_1.changeUserRepositaryLayer.getSubscriptionDetails(userId);
+            }
+            catch (error) {
+                return { status: false, message: (_a = error.message) !== null && _a !== void 0 ? _a : "failed", data: [] };
+            }
+        });
+    }
+    deductMoneyFromWallet(userId, amount) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            try {
+                return yield ChangeUserDetails_Repositary_1.changeUserRepositaryLayer.deductMoneyFromWallet(userId, amount);
             }
             catch (error) {
                 return { status: false, message: (_a = error.message) !== null && _a !== void 0 ? _a : "failed", data: [] };

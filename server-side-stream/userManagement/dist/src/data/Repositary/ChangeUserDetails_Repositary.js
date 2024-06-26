@@ -244,5 +244,26 @@ class change_user_repositary_layer {
             return { status: true, message: "success", data: yield channel_1.ChannelModel.findOne({ userId }) };
         });
     }
+    deductMoneyFromWallet(userId, amount) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            try {
+                const wallet = yield wallet_1.default.findOne({ userId });
+                if (wallet) {
+                    wallet.Balance = wallet.Balance - Number(amount);
+                    wallet.Transactions.push({
+                        amount: Number(amount),
+                        createdTime: new Date().toString(),
+                        credited: false
+                    });
+                    yield wallet.save();
+                }
+                return { status: true, message: "success" };
+            }
+            catch (error) {
+                return { status: false, message: (_a = error.message) !== null && _a !== void 0 ? _a : "failed", data: [] };
+            }
+        });
+    }
 }
 exports.changeUserRepositaryLayer = new change_user_repositary_layer();

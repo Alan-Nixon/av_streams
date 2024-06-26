@@ -3,7 +3,7 @@ import NavBar from '../layout/NavBar'
 import SideBar from '../layout/SideBar'
 import Content from '../helpers/Content'
 import { WalletDetails, subscriptionInterface } from '../../../../Functions/interfaces'
-import { getWalletDetails, isPremiumUser, subscribeToPremium } from '../../../../Functions/userFunctions/userManagement'
+import { deductMoneyFromWallet, getWalletDetails, isPremiumUser, subscribeToPremium } from '../../../../Functions/userFunctions/userManagement'
 import Alert from '@mui/material/Alert';
 import { useUser } from '../../../../UserContext'
 import Swal from 'sweetalert2'

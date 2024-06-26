@@ -103,7 +103,7 @@ class changeUserDetails_usecase implements changeUserDetails_usecase_interface {
                 userName: userDetails?.userName,
                 Email: userDetails?.Email,
                 FullName: userDetails?.FullName,
-                profileImage: (await this.getChannelByUserId(userId))?.profileImage
+                profileImage: channel.profileImage
             }
         }))
 
@@ -162,6 +162,14 @@ class changeUserDetails_usecase implements changeUserDetails_usecase_interface {
     async getSubscriptionDetails(userId:string) {
         try {
             return await changeUserRepositaryLayer.getSubscriptionDetails(userId)
+        } catch (error:any) {
+            return { status: false, message: error.message ?? "failed", data: [] }
+        }
+    }
+
+    async deductMoneyFromWallet(userId: string, amount: string) {
+        try {
+            return await changeUserRepositaryLayer.deductMoneyFromWallet(userId,amount)
         } catch (error:any) {
             return { status: false, message: error.message ?? "failed", data: [] }
         }

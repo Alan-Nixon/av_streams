@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSubscriptionDetails = exports.getUserById = exports.getNewChats = exports.getTrendingChannels = exports.getPopularChannels = exports.getfollowersByUserId = exports.getChannelByUserId = exports.getChannelById = exports.followChannel = exports.isFollowing = exports.isPremiumUser = exports.subscribeToPremium = exports.withDrawMoneyToWallet = exports.addMoneyToWallet = exports.changeChannelName = exports.changeProfileData = exports.changePassword = exports.forgetPasswordOtpSend = exports.authenticated = exports.changeProfileImage = exports.getWalletDetails = exports.regenerateToken = exports.userDetails = exports.sendOtp = exports.postLogin = exports.isBlocked = exports.postSignup = void 0;
+exports.deductMoneyFromWallet = exports.getSubscriptionDetails = exports.getUserById = exports.getNewChats = exports.getTrendingChannels = exports.getPopularChannels = exports.getfollowersByUserId = exports.getChannelByUserId = exports.getChannelById = exports.followChannel = exports.isFollowing = exports.isPremiumUser = exports.subscribeToPremium = exports.withDrawMoneyToWallet = exports.addMoneyToWallet = exports.changeChannelName = exports.changeProfileData = exports.changePassword = exports.forgetPasswordOtpSend = exports.authenticated = exports.changeProfileImage = exports.getWalletDetails = exports.regenerateToken = exports.userDetails = exports.sendOtp = exports.postLogin = exports.isBlocked = exports.postSignup = void 0;
 const formidable_1 = require("formidable");
 //usecase
 const Authentication_1 = require("../../domain/usecases/Authentication");
@@ -365,6 +365,18 @@ const getSubscriptionDetails = (req, res) => __awaiter(void 0, void 0, void 0, f
     }
 });
 exports.getSubscriptionDetails = getSubscriptionDetails;
+const deductMoneyFromWallet = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userId = req.query.userId;
+        const amount = req.query.amount;
+        res.status(200).json(yield ChangeUserDetails_useCase_1.change_user_usecase.deductMoneyFromWallet(userId, amount));
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ status: false, message: (error === null || error === void 0 ? void 0 : error.message) || "internal server error" });
+    }
+});
+exports.deductMoneyFromWallet = deductMoneyFromWallet;
 function multipartFormSubmission(req) {
     return new Promise((resolve, reject) => {
         const form = new formidable_1.IncomingForm();

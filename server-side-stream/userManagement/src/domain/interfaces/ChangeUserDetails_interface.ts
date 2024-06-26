@@ -34,5 +34,6 @@ export interface changeUserDetails_usecase_interface {
     getTrendingChannels(limit: number): Promise<responseInterface>;
     getNewChats(notIn: string[], userId: string): Promise<responseInterface>;
     getUserById(userId: string): Promise<responseInterface>;
-    getSubscriptionDetails(userId:string): Promise<responseInterface>;
+    getSubscriptionDetails(userId: string): Promise<responseInterface>;
+    deductMoneyFromWallet(userId: string, amount: string): Promise<responseInterface>;
 } 

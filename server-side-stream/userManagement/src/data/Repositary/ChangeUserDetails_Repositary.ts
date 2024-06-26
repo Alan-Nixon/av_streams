@@ -198,5 +198,23 @@ class change_user_repositary_layer implements changeUser_ReposatryInterface {
     async getSubscriptionDetails(userId: string) {
         return { status: true, message: "success", data: await ChannelModel.findOne({ userId }) }
     }
+
+    async deductMoneyFromWallet(userId: string, amount: string) {
+        try {
+            const wallet = await WalletModel.findOne({ userId });
+            if (wallet) {
+                wallet.Balance = wallet.Balance - Number(amount);
+                wallet.Transactions.push({
+                    amount: Number(amount),
+                    createdTime: new Date().toString(),
+                    credited: false
+                })
+                await wallet.save()
+            }
+            return { status: true, message: "success" }
+        } catch (error: any) {
+            return { status: false, message: error.message ?? "failed", data: [] }
+        }
+    }
 }
 export const changeUserRepositaryLayer: changeUser_ReposatryInterface = new change_user_repositary_layer();

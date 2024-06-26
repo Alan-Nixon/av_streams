@@ -16,6 +16,7 @@ router.get('/getChannelByUserId', isAuthenticated, controller.getChannelByUserId
 router.get('/getfollowersByUserId', isAuthenticated, controller.getfollowersByUserId)
 router.get('/getUserById', isAuthenticated, controller.getUserById);
 router.get('/getSubscriptionDetails', isAuthenticated, controller.getSubscriptionDetails)
+router.get('/deductMoneyFromWallet', isAuthenticated, controller.deductMoneyFromWallet)
 
 router.get('/sendOtp', controller.sendOtp)
 router.get('/isUserAuth', controller.authenticated)

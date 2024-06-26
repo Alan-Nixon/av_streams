@@ -355,6 +355,17 @@ export const getSubscriptionDetails = async (req: Request, res: Response) => {
     }
 }
 
+export const deductMoneyFromWallet = async (req: Request, res: Response) => {
+    try {
+        const userId: any = req.query.userId
+        const amount: any = req.query.amount
+        res.status(200).json(await change_user_usecase.deductMoneyFromWallet(userId,amount))
+    } catch (error: any) {
+        console.error(error);
+        res.status(500).json({ status: false, message: error?.message || "internal server error" })
+    }
+}
+
 
 function multipartFormSubmission(req: Request): Promise<{ files: Files; fields: Fields }> {
     return new Promise((resolve, reject) => {

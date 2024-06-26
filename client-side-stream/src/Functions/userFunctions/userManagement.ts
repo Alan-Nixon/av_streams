@@ -4,7 +4,7 @@ import axios from 'axios'
 import { axiosApiGateWay, getTokenCookie } from "../commonFunctions";
 
 
-export const PostLogin = async (userData: loginData,setUserData:any) => {
+export const PostLogin = async (userData: loginData, setUserData: any) => {
     const { data } = await axiosApiGateWay.post('/userManagement/postLogin', userData)
     if (data.status === 200) {
         setUserData(data.userData)
@@ -56,7 +56,7 @@ export const forgetPasswordPost = async (userData: object) => {
     const { data } = await axiosApiGateWay.patch('/userManagement/changePassword', userData)
     return data
 }
- 
+
 
 export const isUserAuthenticated = async () => {
     const token = getTokenCookie()
@@ -179,7 +179,7 @@ export const getSubscriptionDetails = async (userId: string) => {
     return data
 }
 
-export const deductMoneyFromWallet = async (userId:string,amount:number) => { 
-    const { data } = await axiosApiGateWay.get('/userManagement/getSubscriptionDetails?userId=' + userId)
+export const deductMoneyFromWallet = async (userId: string, amount: number) => {
+    const { data } = await axiosApiGateWay.get('/userManagement/deductMoneyFromWallet?userId=' + userId + '&amount=' + amount)
     return data
 }

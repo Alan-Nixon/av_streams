@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import RazorpayPayment from '../../paymentIntegrations/Razorpay';
 import { WalletDetails, changeEvent } from '../../../../Functions/interfaces';
 import { Pagination } from '../helpers/HelperComponents';
+import { useSelector } from 'react-redux';
 
 export default function WalletSection() {
     const { user } = useUser()
@@ -15,7 +16,10 @@ export default function WalletSection() {
     const [showAddWithdraw, setShowAddWithdraw] = useState<string>("")
     const [walletDetails, setWalletDetails] = useState<WalletDetails | null>(null)
     const [loading, setLoading] = useState<boolean>(true)
-    const [pagination, setPagination] = useState<number>(5)
+    const [pagination, setPagination] = useState<number>(5);
+
+    const width = useSelector((state: any) => state?.sideBarRedux?.width)
+
 
     useEffect(() => {
         if (user && user._id) {
@@ -120,15 +124,16 @@ export default function WalletSection() {
     return (<>{loading ? <>
         <div className="lds-dual-ring"></div>
     </> : <>
-        <div className="flex ml-8 mt-6 ">
-            <div className="w-1/4 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" style={{ maxHeight: "284px", marginTop: "5%" }}>
+        <div className={width < 900 ? "ml-14 block" : "ml-8 mt-6 flex"}>
+
+            <div className={`w-${width >= 900 ? "1/4" : "full"} max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700`} style={{ maxHeight: "284px", marginTop: "5%" }}>
                 <div className="flex flex-col items-center pb-10 mt-5">
                     <img className="w-24 h-24 mb-3 rounded-full shadow-lg" src={user?.profileImage} alt="Bonnie image" />
                     <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">{user?.FullName}</h5>
                     <span className="text-sm text-gray-500 dark:text-gray-400">Wallet balance : {walletDetails?.Balance}</span>
-                    <div className="flex mt-4 md:mt-6">
+                    <div className="sm:flex-wrap md:flex mt-4 md:mt-6">
                         <p onClick={() => setShowAddWithdraw("Add Money")} className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add Money</p>
-                        <p onClick={() => setShowAddWithdraw("Withdraw")} className="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 tracking-wide">Withdraw</p>
+                        <p onClick={() => setShowAddWithdraw("Withdraw")} className="py-2 px-4 sm:mt-2 md:mt-0 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 tracking-wide">Withdraw</p>
                     </div>
                 </div>
 
@@ -152,26 +157,26 @@ export default function WalletSection() {
 
             </div>
 
-            <div className="w-3/4 mt-8 ml-12" >
+            <div className={!showAddWithdraw ? "w-3/4 mt-8 ml-12" : "w-3/4 ml-2 " +(width < 900 ? "mt-80" : "mt-5")} >
                 {walletDetails?.Transactions && walletDetails?.Transactions.length !== 0 && <>
                     <div className="flex">
-                        <h2 className='text-3xl'>Transactions</h2>
+                        <h2 className={width < 570 ? "hidden" : 'text-3xl'}>Transactions</h2>
                         <h2 className='text-2xl' style={{ marginLeft: "auto", marginRight: "3%" }}>Wallet Balance : {walletDetails?.Balance}</h2>
                     </div>
                 </>}
-                <div className="transactions">
+                <div className="transaction">
                     {walletDetails?.Transactions && walletDetails?.Transactions.length !== 0 ? walletDetails?.Transactions.map((trans, index) => {
                         return (<>{(index + 1 <= pagination && index >= pagination - 5) ? <>
-                            <div className="mb-5 mt-2  pl-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" style={{ width: "98%" }}>
+                            <div className="mb-5 mr-5 mt-2  pl-6 border  rounded-lg shadow bg-gray-800 border-gray-700">
                                 <div className="flex mt-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill={trans.credited ? "#23b505" : "red"} className='w-7 h-7 text-gray-500 dark:text-gray-400' viewBox="0 0 640 512">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill={trans.credited ? "#23b505" : "red"} className='w-7 h-7 text-gray-400' viewBox="0 0 640 512">
                                         <path d="M96 96V320c0 35.3 28.7 64 64 64H576c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H160c-35.3 0-64 28.7-64 64zm64 160c35.3 0 64 28.7 64 64H160V256zM224 96c0 35.3-28.7 64-64 64V96h64zM576 256v64H512c0-35.3 28.7-64 64-64zM512 96h64v64c-35.3 0-64-28.7-64-64zM288 208a80 80 0 1 1 160 0 80 80 0 1 1 -160 0zM48 120c0-13.3-10.7-24-24-24S0 106.7 0 120V360c0 66.3 53.7 120 120 120H520c13.3 0 24-10.7 24-24s-10.7-24-24-24H120c-39.8 0-72-32.2-72-72V120z" />
                                     </svg>&nbsp;&nbsp; {trans.credited ? "+" : "-"}&nbsp;{trans.amount}
                                 </div>
-                                <a href="#">
-                                    <h5 className="mb-2 text-xl font-semibold tracking-tight text-gray-900 dark:text-white">Money {trans.credited ? "Credited" : "Debited"} To Your Wallet</h5>
-                                </a>
-                                <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">Date : {trans.createdTime}</p>
+                                <p>
+                                    <h5 className="mb-2 text-xl font-semibold tracking-tight text-white">Money {trans.credited ? "Credited" : "Debited"} To Your Wallet</h5>
+                                </p>
+                                <p className="mb-3 font-normal text-gray-400">Date : {trans.createdTime}</p>
                             </div></> : <></>}
                         </>)
                     })

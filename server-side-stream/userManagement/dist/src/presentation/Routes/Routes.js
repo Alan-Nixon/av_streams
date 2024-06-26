@@ -41,6 +41,7 @@ router.get('/getChannelByUserId', userauthenticationforavstreams_1.isAuthenticat
 router.get('/getfollowersByUserId', userauthenticationforavstreams_1.isAuthenticated, controller.getfollowersByUserId);
 router.get('/getUserById', userauthenticationforavstreams_1.isAuthenticated, controller.getUserById);
 router.get('/getSubscriptionDetails', userauthenticationforavstreams_1.isAuthenticated, controller.getSubscriptionDetails);
+router.get('/deductMoneyFromWallet', userauthenticationforavstreams_1.isAuthenticated, controller.deductMoneyFromWallet);
 router.get('/sendOtp', controller.sendOtp);
 router.get('/isUserAuth', controller.authenticated);
 router.get('/forgetPasswordOtpSend', controller.forgetPasswordOtpSend);
