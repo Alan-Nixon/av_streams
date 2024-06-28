@@ -273,6 +273,30 @@ export const videoLike = async (req: Request, res: Response) => {
 }
 
 
+export const editVideoDetails = async (req: Request, res: Response) => {
+    try {
+        let obj: any = req.body
+        if (req.headers["content-type"]?.split(';')[0] === "multipart/form-data") {
+            const { files, fields } = await multipartFormSubmission(req);
+            if (fields && fields._id && fields.Title && fields.Description && fields.Category && files.Thumbnail) {
+                obj = {
+                    _id: fields._id[0],
+                    Title: fields.Title[0],
+                    Description:fields.Description[0],
+                    Category:fields.Category[0],
+                    Thumbnail:files.Thumbnail[0]
+                }
+            }
+        }
+        console.log(obj);
+
+        res.status(200).json(await videoPost.editVideoDetails(obj))
+    } catch (error: any) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" })
+    }
+}
+
 function multipartFormSubmission(req: Request): Promise<{ files: Files; fields: Fields }> {
     return new Promise((resolve, reject) => {
         const form = new IncomingForm();

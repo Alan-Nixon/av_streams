@@ -26,14 +26,22 @@ class chat_use_case implements chat_use_case_interface {
     async saveAudio(message: messageArray, audioBuffer: any) {
         try {
             const { url } = await uploadAudio(audioBuffer[0], "chat_audio")
-            message.file.Link = url;message.message = "AUDIO_MESSAGE"
+            message.file.Link = url; message.message = "AUDIO_MESSAGE"
             const data = await chatRepoLayer.addChat(message)
-            return { status: true, message: "success", data:message }
+            return { status: true, message: "success", data: message }
         } catch (error) {
             return this.errorResponse(error)
         }
     }
- 
+
+    async setAllMessageSeen(userId: string, personId: string) {
+        try {
+            return await chatRepoLayer.setAllMessageSeen(userId, personId)
+        } catch (error) {
+            return this.errorResponse(error)
+        }
+    }
+
 }
 
 export const chatUseCase: chat_use_case_interface = new chat_use_case()

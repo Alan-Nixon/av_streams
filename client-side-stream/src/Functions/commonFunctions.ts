@@ -45,7 +45,6 @@ axiosApiGateWay.interceptors.response.use(
                     window.location.href = '/login';
                 }
             } else if (status === 504){
-                console.log(":service ");
                 return toast.error("service not available")
             }
         } else {

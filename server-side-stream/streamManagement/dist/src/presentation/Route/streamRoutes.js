@@ -43,6 +43,7 @@ router.get('/getPremiumVideos', controller.getPremiumVideos);
 router.get('/getAllVideos', controller.getAllVideos);
 router.get('/getCurrentLives', controller.getCurrentLives);
 router.get('/getVideosByUserId', controller.getVideosByUserId);
+router.post('/editVideoDetails', userauthenticationforavstreams_1.isAuthenticated, controller.editVideoDetails);
 router.post('/uploadPost', userauthenticationforavstreams_1.isAuthenticated, controller.uploadPost);
 router.post('/uploadVideo', userauthenticationforavstreams_1.isAuthenticated, controller.uploadVideo);
 router.post('/addReportSubmit', userauthenticationforavstreams_1.isAuthenticated, controller.addReportSubmit);

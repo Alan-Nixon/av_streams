@@ -36,3 +36,4 @@ app.use('/', routes_1.default);
 exports.server.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
 });
+module.exports = app;

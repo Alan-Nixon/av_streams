@@ -20,7 +20,7 @@ adminAxiosApiGateWay.interceptors.response.use(
         console.log(error, "this is the error");
 
         const { response } = error;
-        
+
         return response
     }
 );
@@ -68,7 +68,7 @@ export const adminCreateUser = async (userData: createUser) => {
 
 export const getBannerByLocation = async (location: string) => {
     const { data } = await adminAxiosApiGateWay.get('/userManagement/getBannerByLocation?location=' + location)
-    return data
+    return data ?? { data: [] }
 }
 
 export const addBannerImageAdmin = async (file: Object) => {

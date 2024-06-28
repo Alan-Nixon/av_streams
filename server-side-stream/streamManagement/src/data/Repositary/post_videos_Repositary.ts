@@ -6,7 +6,7 @@ import { PostModel } from "../Models/posts";
 import { ReportModel } from "../Models/report";
 import { VideoModel } from "../Models/videos";
 import { postDataRepoInterface, post_video_repo_interface } from "../interfaces/postVideosInterface";
-import { IReport } from "../interfaces/videoModelInterface";
+import { IReport, IVideo } from "../interfaces/videoModelInterface";
 
 
 class postVideosRepositary implements post_video_repo_interface {
@@ -204,6 +204,22 @@ class postVideosRepositary implements post_video_repo_interface {
                 await video.save()
             }
             return { status: true, message: "success" }
+        } catch (error: any) {
+            return this.returnErrorCatch(error.message)
+        }
+    }
+
+    async editVideoDetails(updateDetails: IVideo) {
+        try {
+            return {
+                status: true, message: "successfully edited the video",
+                data: await VideoModel.findByIdAndUpdate(updateDetails._id, {
+                    Title: updateDetails.Title,
+                    Description: updateDetails.Description,
+                    Category: updateDetails.Category,
+                    Thumbnail: updateDetails.Thumbnail
+                })
+            }
         } catch (error: any) {
             return this.returnErrorCatch(error.message)
         }

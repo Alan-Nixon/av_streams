@@ -252,5 +252,23 @@ class postVideosRepositary {
             }
         });
     }
+    editVideoDetails(updateDetails) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return {
+                    status: true, message: "successfully edited the video",
+                    data: yield videos_1.VideoModel.findByIdAndUpdate(updateDetails._id, {
+                        Title: updateDetails.Title,
+                        Description: updateDetails.Description,
+                        Category: updateDetails.Category,
+                        Thumbnail: updateDetails.Thumbnail
+                    })
+                };
+            }
+            catch (error) {
+                return this.returnErrorCatch(error.message);
+            }
+        });
+    }
 }
 exports.postVideosRepo = new postVideosRepositary();

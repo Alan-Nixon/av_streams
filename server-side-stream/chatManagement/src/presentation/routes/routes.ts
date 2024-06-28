@@ -5,6 +5,7 @@ const router = Router()
 
 
 router.get('/getChatOfUser', isAuthenticated, controller.getChatOfUser)
+router.get('/setAllMessageSeen', isAuthenticated, controller.setAllMessageSeen)
 
 router.post('/saveAudio', isAuthenticated, controller.saveAudio)
 

@@ -1,5 +1,5 @@
 import { Request } from 'express'
-import { IReport } from '../../../data/interfaces/videoModelInterface'
+import { IReport, IVideo } from '../../../data/interfaces/videoModelInterface'
 
 
 export interface postFilesnFeilds {
@@ -58,4 +58,5 @@ export interface videoPostInterface {
     getCurrentLives(): Promise<responseObject>;
     getVideosByUserId(shorts: string,userId:string): Promise<responseObject>;
     videoLike(videoId:string,userId:string): Promise<responseObject>;
+    editVideoDetails(videoDetails:Object):Promise<responseObject>;
 } 

@@ -82,10 +82,12 @@ export default function Login() {
             backgroundPosition: 'center',
             backgroundSize: 'cover',
             width: '100%',
-            height: '100%'
+            bottom: "0",
+            overflow: "hidden",
+            height: '105%'
         }}>
             <div className='flex overflow-y-hidden'>
-                {width >= 1000 && <img className='h-[660px] w-[50%] overflow-y-hidden' src="/images/imageTestLogin.jpg" alt="" />}
+                {width >= 1000 && <img className='h-[700px] w-[50%] overflow-hidden bottom-0' src="/images/imageTestLogin.jpg" alt="" />}
                 <div className="m-auto overflow-hidden" style={{ width: "80%" }}>
                     <div className="m-auto " style={{ width: "80%" }}>
                         {showModal ? <>

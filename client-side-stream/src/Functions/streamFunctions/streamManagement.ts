@@ -1,5 +1,5 @@
 import { axiosApiGateWay, calculateProgress, getTokenCookie } from "../commonFunctions";
-import { SetProgressFunction, postInterfaceUpload, reportType } from "../interfaces";
+import { SetProgressFunction, postInterfaceUpload, reportType, videoInterface } from "../interfaces";
 
 
 export const sendStopRequest = async () => {
@@ -75,22 +75,21 @@ export const getPostFromUser = async (userId: string) => {
 
 export const generateName = async () => {
     const { data } = await axiosApiGateWay.get('/streamManagement/getName')
-    return data.data
+    return data.data ?? "NONAME " + Date.now()
 }
 
 export const getUserVideos = async (shorts: boolean) => {
     const { data } = await axiosApiGateWay.get('/streamManagement/getUserVideos?shorts=' + shorts)
-    return data.data
+    return data?.data ?? []
 }
 
 export const getAllVideos = async (shorts: boolean, Cate: string) => {
     const { data } = await axiosApiGateWay.get('/streamManagement/getAllVideos?shorts=' + shorts);
-    if (Cate !== "") {
+    if (Cate !== "" && data?.data.length > 0) {
         const Data = data.data.filter((item: any) => item?.Category === Cate);
-        console.log(Data);
         return Data
     } else {
-        return data.data
+        return data?.data ?? []
     }
 }
 
@@ -106,7 +105,7 @@ export const getMostWatchedVideoUser = async (userId: string) => {
 
 export const getPremiumVideos = async () => {
     const { data } = await axiosApiGateWay.get('/streamManagement/getPremiumVideos')
-    return data
+    return data ?? { data: [] }
 }
 
 export const searchVideosAndProfile = async (search: string) => {
@@ -122,7 +121,7 @@ export const addReportSubmit = async (Data: reportType) => {
 
 export const getCurrentLives = async () => {
     const { data } = await axiosApiGateWay.get('/streamManagement/getCurrentLives')
-    return data
+    return data ?? { data: [] }
 }
 
 
@@ -134,5 +133,14 @@ export const getVideosByUserId = async (userId: string, shorts: boolean) => {
 
 export const videoLike = async (videoId: string, userId: string) => {
     const { data } = await axiosApiGateWay.post('/streamManagement/videoLike', { videoId, userId })
+    return data
+}
+
+export const editVideoDetails = async (videoDetails: videoInterface) => {
+    const { data } = await axiosApiGateWay.post('/streamManagement/editVideoDetails', videoDetails, {
+        headers: {
+            "Content-Type": typeof videoDetails.Thumbnail === "string" ? "application/json" : "multipart/form-data"
+        }
+    })
     return data
 }

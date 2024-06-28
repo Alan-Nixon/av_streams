@@ -6,7 +6,7 @@ import { payload, postDataInterface, postFilesnFeilds, videoPostInterface } from
 import { Request } from 'express'
 import { getProfileLink, uploadVideoGRPC } from "../../../presentation/Grpc/stream_user";
 import { VideoModel } from "../../../data/Models/videos";
-import { IReport } from "../../../data/interfaces/videoModelInterface";
+import { IReport, IVideo } from "../../../data/interfaces/videoModelInterface";
 
 class videoPostUseCase implements videoPostInterface {
     async uploadPost(Data: any, user: payload) {
@@ -221,16 +221,26 @@ class videoPostUseCase implements videoPostInterface {
         return { status: true, message: "success", data }
     }
 
-    async getCurrentLives() { 
-        return await  postVideosRepo.getCurrentLives()
+    async getCurrentLives() {
+        return await postVideosRepo.getCurrentLives()
     }
 
-    async getVideosByUserId(shorts:string,userId:string) {
-        return await postVideosRepo.getVideosByUserId(shorts,userId)
+    async getVideosByUserId(shorts: string, userId: string) {
+        return await postVideosRepo.getVideosByUserId(shorts, userId)
     }
 
-    async videoLike(videoId:string,userId:string) {
-        return await postVideosRepo.videoLike(videoId,userId)
+    async videoLike(videoId: string, userId: string) {
+        return await postVideosRepo.videoLike(videoId, userId)
+    }
+
+    async editVideoDetails(videoDetails: any) {
+        if (typeof videoDetails.Thumbnail !== "string") {
+            const { url } = await uploadImage(videoDetails.Thumbnail, 'avstreamThumbnail')
+            videoDetails.Thumbnail = url;
+            console.log("Image uploaded successfully");
+        }
+        console.log(videoDetails);
+        return await postVideosRepo.editVideoDetails(videoDetails)
     }
 
 }

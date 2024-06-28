@@ -11,4 +11,5 @@ export type chat_use_case_interface = {
     successResponse(data: any): responseInterface;
     getChatOfUser(userId: string): Promise<responseInterface>;
     saveAudio(message: messageArray, audioBuffer: any): Promise<responseInterface>;
+    setAllMessageSeen(userId: string, personId: string): Promise<responseInterface>;
 }

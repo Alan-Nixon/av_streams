@@ -14,7 +14,16 @@ export const connectSocket = (io: any) => {
             chatRepoLayer.addChat(Data)
         })
 
+        socket.on("online", (data: any) => {
+            io.to(data.personId).emit("online", data)
+        })
+
+        socket.on("custom_message", (data: any) => {
+            console.log("custom message found");
+            
+            io.to(data.personId).emit("custom_message", data)
+        })
+
     });
 
 }
- 

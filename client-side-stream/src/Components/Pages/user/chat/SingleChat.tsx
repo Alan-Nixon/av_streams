@@ -10,12 +10,8 @@ import KeyboardVoiceIcon from '@mui/icons-material/KeyboardVoice';
 import CloseIcon from '@mui/icons-material/Close';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 
-import AudioPlayer from 'react-h5-audio-player';
-import 'react-h5-audio-player/lib/styles.css';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
-
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
-import { saveAudio } from '../../../../Functions/chatFunctions/chatManagement';
+import { saveAudio, setAllMessageSeen } from '../../../../Functions/chatFunctions/chatManagement';
 
 
 
@@ -27,16 +23,44 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
     const [startTimer, setStartTimer] = useState(false)
     const [time, setTime] = useState("0:00")
     const [message, setMessage] = useState("")
+
+    const [isTyping, setIsTyping] = useState(false);
+    const [typingTimeout, setTypingTimeout] = useState<any>(null);
+    const [status, setStatus] = useState("@" + personDetails.userName)
     const emojiPickerRef = useRef<HTMLDivElement>(null);
     const messageDivRef = useRef<any>()
     const voiceRef = useRef<any>()
     const audioChunksRef = useRef<any>([]);
     const selectFile = useRef<any>()
 
+
     messageSocket.on("incoming_message", (Data: any) => {
-        console.log(Data);
+        Data.seen = true
         setMessages([...messages, Data])
+        setStatus("online")
     })
+
+    messageSocket.on("online", () => {
+        setStatus("online")
+    })
+
+    messageSocket.on("custom_message", ({ message }: { message: string }) => {
+        setStatus(message)
+    })
+
+    useEffect(() => {
+        if (!isTyping) {
+            setStatus("online")
+        }
+    }, [isTyping])
+
+
+    const customSocketMessage = (data: string) => {
+        messageSocket.emit("custom_message", {
+            personId: personDetails.userId,
+            message: data
+        })
+    }
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -50,6 +74,12 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
         };
     }, []);
 
+    useEffect(() => {
+        if (user && user._id) {
+            setAllMessageSeen(user._id, personDetails.userId)
+            messageSocket.emit("online", { personId: personDetails.userId })
+        }
+    }, [])
 
 
 
@@ -110,12 +140,14 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
                 time: new Date().toString(),
                 to: personDetails.userId
             }
+
             messageSocket.emit('new_message', newMessage)
 
             saveAudio(combinedBlob, newMessage).then(({ data }) => {
                 console.log(data);
                 setMessages([...messages, data])
             })
+
         }
 
         if (voiceRef.current) {
@@ -147,7 +179,7 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
 
             messageSocket.emit('new_message', newMessage)
             setMessages([...messages, newMessage])
-            setMessage("")
+            setMessage(""); setStatus("online")
         }
     }
 
@@ -167,6 +199,19 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
 
     }
 
+    const onChangeFunc = (e: any) => {
+        setMessage(e.target.value);
+        if (e.target.value.trim() === "") {
+            setStatus("online")
+        }
+        customSocketMessage("Typing...");
+        if (typingTimeout) { clearTimeout(typingTimeout); }
+        setIsTyping(true);
+        const newTimeout = setTimeout(() => setIsTyping(false), 2000);
+        setTypingTimeout(newTimeout);
+
+    }
+
     return (
         <div className="min-h-[95vh] max-h-[600px] h-[500px]  p-4 flex top-5 fixed flex-col items-center justify-center w-[450px]  bg-gray-900 text-gray-800 rounded-md mr-4">
 
@@ -180,7 +225,7 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
                         <a className="inline-flex text-gray-800 hover:text-gray-900" href="#0">
                             <h2 className="text-xl leading-snug font-bold">{personDetails.channelName}</h2>
                         </a>
-                        <a className="block text-sm font-medium hover:text-indigo-500" href="#0">@{personDetails.userName}</a>
+                        <a className="block text-sm font-medium hover:text-indigo-500" href="#0">{status}</a>
                     </div>
                     <div className="call mx-auto" onClick={() => invite()} >
                         <DuoIcon style={{ fontSize: "40px", cursor: "pointer" }} />
@@ -220,8 +265,14 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
                                         </> : <>
                                             <div className="flex ml-auto p-3">
                                                 <div>
-                                                    <div className="bg-indigo-300 p-3 rounded-l-lg rounded-br-lg">
-                                                        <p className="text-sm">{item.message}</p>
+                                                    <div className="bg-indigo-300 flex p-3 rounded-l-lg rounded-br-lg">
+                                                        <p className="text-sm mr-3">{item.message}</p>
+                                                        {item.seen ? <div className="w-4 ml-auto">
+                                                            <img src="/images/double-check.png" alt="" />
+                                                        </div> :
+                                                            <div className="w-4 ml-auto">
+                                                                <img src="/images/check.png" alt="" />
+                                                            </div>}
                                                     </div>
                                                     <span className="text-xs text-gray-500 leading-none">{getTimeDifference(item.time) ? getTimeDifference(item.time) + " ago" : "Now"} </span>
                                                 </div>
@@ -262,8 +313,14 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
                                                         <img src={personDetails.profileImage} alt="" className='rounded-full' />
                                                     </div>
                                                     <div>
-                                                        <div className="bg-gray-300 p-3 ml-1 rounded-r-lg rounded-bl-lg">
-                                                            <p className="text-sm">{item.message}</p>
+                                                        <div className="bg-gray-300 flex p-3 ml-1 rounded-r-lg rounded-bl-lg">
+                                                            <p className="text-sm  mr-3">{item.message}</p>
+                                                            {item.seen ? <div className="w-4 ml-auto">
+                                                                <img src="/images/double-check.png" alt="" />
+                                                            </div> :
+                                                                <div className="w-4 ml-auto">
+                                                                    <img src="/images/check.png" alt="" />
+                                                                </div>}
                                                         </div>
                                                         <span className="text-xs text-gray-500 leading-none">{getTimeDifference(item.time) ? getTimeDifference(item.time) + " ago" : "Now"}</span>
                                                     </div>
@@ -299,7 +356,7 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.408 7.5h.01m-6.876 0h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM4.6 11a5.5 5.5 0 0 0 10.81 0H4.6Z" />
                                 </svg>
                             </button>
-                            <input onChange={(e) => setMessage(e.target.value)} value={message} className="flex items-center h-10 w-full rounded px-3 text-sm" type="text" placeholder="Type your message…" />
+                            <input onChange={onChangeFunc} value={message} className="flex items-center h-10 w-full rounded px-3 text-sm" type="text" placeholder="Type your message…" />
                             <div className="flex p-1">
                                 <input type="file" ref={selectFile} className="hidden" />
                                 <AttachFileIcon onClick={() => selectFile.current.click()} className='inline-flex mt-1 h-10 justify-center text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600' />

@@ -24,7 +24,9 @@ function ChatHome({ singleChatopen, userDetails }: chatHomeIterface) {
 
                 if (res && res?.data?.length > 0) {
 
-                    const personDetails = await getPersonDetailsChat(res.data, user._id)
+                    const personDetails = await getPersonDetailsChat(res.data, user._id);
+                    personDetails.sort((a, b) => a.details[a.details - 1] - b.details[b.details - 1])
+                    console.log(personDetails);
                     setHomeChats(personDetails);
                     const newChats = await getNewChats(res.data.map((item: any) => item.personDetails.userId))
                     setNewChat(newChats.res?.data)
@@ -77,7 +79,7 @@ function ChatHome({ singleChatopen, userDetails }: chatHomeIterface) {
                                     </div>
                                 </div>
 
-                               
+
                             </div>
 
                         </header>

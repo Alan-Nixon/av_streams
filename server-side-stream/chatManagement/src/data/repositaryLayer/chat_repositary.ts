@@ -22,7 +22,7 @@ class chat_repositary_layer implements chat_repo_interface {
                 await chat.save();
                 return chat
             } else {
-               return await ChatModel.insertMany({
+                return await ChatModel.insertMany({
                     userId: [message.sender, message.to],
                     archived: false,
                     details: [message]
@@ -33,6 +33,18 @@ class chat_repositary_layer implements chat_repo_interface {
             console.log(error);
             return null
         }
+    }
+
+    async setAllMessageSeen(userId: string, personId: string) {
+        const chat = await ChatModel.findOne({ userId: { $all: [userId, personId] } })
+        if (chat) {
+            chat.details = chat.details.map(item => {
+                if (item.to === personId) { item.seen = true }
+                return item
+            })
+            await chat.save()
+        }
+        return { status: true, message: "success", data: chat }
     }
 
 }

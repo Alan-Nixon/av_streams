@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.videoLike = exports.getVideosByUserId = exports.getCurrentLives = exports.getPostDongnutData = exports.addCategory = exports.blockcategory = exports.getCategory = exports.changeVisiblityContent = exports.blockContentVisiblity = exports.getBlockedVideos = exports.getReportsBySection = exports.addReportSubmit = exports.searchVideosAndProfile = exports.getPremiumVideos = exports.getMostWatchedVideoUser = exports.getVideosWithId = exports.getAllVideos = exports.getUserVideos = exports.getName = exports.getPostFromUser = exports.likePost = exports.getAllPosts = exports.deletePostFromCloudinary = exports.getAllpostOfUser = exports.uploadPost = exports.uploadVideo = exports.stopStream = void 0;
+exports.editVideoDetails = exports.videoLike = exports.getVideosByUserId = exports.getCurrentLives = exports.getPostDongnutData = exports.addCategory = exports.blockcategory = exports.getCategory = exports.changeVisiblityContent = exports.blockContentVisiblity = exports.getBlockedVideos = exports.getReportsBySection = exports.addReportSubmit = exports.searchVideosAndProfile = exports.getPremiumVideos = exports.getMostWatchedVideoUser = exports.getVideosWithId = exports.getAllVideos = exports.getUserVideos = exports.getName = exports.getPostFromUser = exports.likePost = exports.getAllPosts = exports.deletePostFromCloudinary = exports.getAllpostOfUser = exports.uploadPost = exports.uploadVideo = exports.stopStream = void 0;
 const video_post_usecase_1 = require("../../domain/usecases/video_post_use_cases/video_post_usecase");
 const userauthenticationforavstreams_1 = require("userauthenticationforavstreams");
 const user_random_name_generator_1 = require("user_random_name_generator");
@@ -298,6 +298,31 @@ const videoLike = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.videoLike = videoLike;
+const editVideoDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    try {
+        let obj = req.body;
+        if (((_a = req.headers["content-type"]) === null || _a === void 0 ? void 0 : _a.split(';')[0]) === "multipart/form-data") {
+            const { files, fields } = yield multipartFormSubmission(req);
+            if (fields && fields._id && fields.Title && fields.Description && fields.Category && files.Thumbnail) {
+                obj = {
+                    _id: fields._id[0],
+                    Title: fields.Title[0],
+                    Description: fields.Description[0],
+                    Category: fields.Category[0],
+                    Thumbnail: files.Thumbnail[0]
+                };
+            }
+        }
+        console.log(obj);
+        res.status(200).json(yield video_post_usecase_1.videoPost.editVideoDetails(obj));
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({ status: false, message: error.message || "internal server error" });
+    }
+});
+exports.editVideoDetails = editVideoDetails;
 function multipartFormSubmission(req) {
     return new Promise((resolve, reject) => {
         const form = new formidable_1.IncomingForm();

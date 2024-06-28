@@ -27,3 +27,13 @@ export const saveAudio = async (audioBlob: Blob, message: messageArray) => {
         return { data: "" }
     }
 }
+
+
+export const setAllMessageSeen = async (userId: string, personId: string) => {
+    try {
+        const { data } = await axiosApiGateWay.get('/chatManagement/setAllMessageSeen?userId=' + userId + '&personId=' + personId)
+        return data
+    } catch (error: any) {
+
+    }
+}

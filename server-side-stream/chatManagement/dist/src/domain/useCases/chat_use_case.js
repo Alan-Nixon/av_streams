@@ -45,5 +45,15 @@ class chat_use_case {
             }
         });
     }
+    setAllMessageSeen(userId, personId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield chat_repositary_1.chatRepoLayer.setAllMessageSeen(userId, personId);
+            }
+            catch (error) {
+                return this.errorResponse(error);
+            }
+        });
+    }
 }
 exports.chatUseCase = new chat_use_case();

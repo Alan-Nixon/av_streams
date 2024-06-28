@@ -1,16 +1,9 @@
 import React, { Component, ReactNode } from 'react';
-import { redirect } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
+interface ErrorBoundaryProps { children: ReactNode }
+interface ErrorBoundaryState { hasError: boolean }
 
-
-interface ErrorBoundaryProps {
-    onError: (error: Error) => void;
-    children: ReactNode;
-}
-
-interface ErrorBoundaryState {
-    hasError: boolean;
-}
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     constructor(props: ErrorBoundaryProps) {
@@ -18,16 +11,18 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
         this.state = { hasError: false };
     }
 
-    componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-        this.setState({ hasError: true });
-        this.props.onError(error); // Pass error to parent component
+    static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+        return { hasError: true };
     }
 
-    render(): ReactNode {
+    componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+        console.error("ErrorBoundary caught an error", error, errorInfo);
+    }
 
+    render() {
         if (this.state.hasError) {
-            redirect('/error')
-            return null; // Return null when an error occurs
+            toast.error("Internal error occurred");
+            return null;
         }
         return this.props.children;
     }

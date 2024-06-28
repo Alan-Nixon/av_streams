@@ -38,4 +38,5 @@ export interface post_video_repo_interface {
     getCurrentLives(): Promise<responseObject>;
     getVideosByUserId(shorts: string,userId:string): Promise<responseObject>;
     videoLike(videoId:string,userId:string): Promise<responseObject>;
+    editVideoDetails(videoDetails:Object):Promise<responseObject>;
 }

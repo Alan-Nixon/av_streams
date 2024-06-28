@@ -21,6 +21,7 @@ router.get('/getAllVideos', controller.getAllVideos)
 router.get('/getCurrentLives', controller.getCurrentLives)
 router.get('/getVideosByUserId', controller.getVideosByUserId)
 
+router.post('/editVideoDetails', isAuthenticated, controller.editVideoDetails)
 router.post('/uploadPost', isAuthenticated, controller.uploadPost)
 router.post('/uploadVideo', isAuthenticated, controller.uploadVideo)
 router.post('/addReportSubmit', isAuthenticated, controller.addReportSubmit)

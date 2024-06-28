@@ -9,7 +9,7 @@ import CardContent from '@mui/material/CardContent';
 import { CardActionArea } from '@mui/material';
 import { numTokandM } from '../../../../Functions/commonFunctions'
 import { carouselInterface, channelInterface, postInterface, videoInterface } from '../../../../Functions/interfaces'
-import { getAllVideos, getMostWatchedVideoUser, getPostFromUser, getUserVideos, getVideosByUserId } from '../../../../Functions/streamFunctions/streamManagement'
+import { getMostWatchedVideoUser, getPostFromUser, getVideosByUserId } from '../../../../Functions/streamFunctions/streamManagement'
 import { followChannel, getChannelById } from '../../../../Functions/userFunctions/userManagement'
 import { useUser } from '../../../../UserContext'
 import ChakraMessage from '../../../messageShowers/ChakraUI'
@@ -34,10 +34,10 @@ function Channel() {
         Videos: [], channelDescription: "", isFollowing: false
     })
     const screen = useSelector((state: any) => state?.sideBarRedux?.width)
-   useEffect(()=>{
+    useEffect(() => {
 
-       setWidth(screen)
-   },[screen])
+        setWidth(screen)
+    }, [screen])
 
     useEffect(() => {
 

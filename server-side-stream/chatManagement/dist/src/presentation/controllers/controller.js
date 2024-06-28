@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.saveAudio = exports.getChatOfUser = void 0;
+exports.setAllMessageSeen = exports.saveAudio = exports.getChatOfUser = void 0;
 const chat_use_case_1 = require("../../domain/useCases/chat_use_case");
 const formidable_1 = require("formidable");
 const errorResponse = (error, res) => {
@@ -47,6 +47,17 @@ const saveAudio = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.saveAudio = saveAudio;
+const setAllMessageSeen = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const userId = req.query.userId + "";
+        const personId = req.query.personId + "";
+        successResponse(res, yield chat_use_case_1.chatUseCase.setAllMessageSeen(userId, personId));
+    }
+    catch (error) {
+        errorResponse(error, res);
+    }
+});
+exports.setAllMessageSeen = setAllMessageSeen;
 function multipartFormSubmission(req) {
     return new Promise((resolve, reject) => {
         const form = new formidable_1.IncomingForm();

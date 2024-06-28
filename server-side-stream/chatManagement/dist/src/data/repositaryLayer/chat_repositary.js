@@ -46,5 +46,20 @@ class chat_repositary_layer {
             }
         });
     }
+    setAllMessageSeen(userId, personId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const chat = yield chat_1.ChatModel.findOne({ userId: { $all: [userId, personId] } });
+            if (chat) {
+                chat.details = chat.details.map(item => {
+                    if (item.to === personId) {
+                        item.seen = true;
+                    }
+                    return item;
+                });
+                yield chat.save();
+            }
+            return { status: true, message: "success", data: chat };
+        });
+    }
 }
 exports.chatRepoLayer = new chat_repositary_layer();

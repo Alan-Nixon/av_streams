@@ -36,7 +36,15 @@ export const saveAudio = async (req: Request, res: Response) => {
     }
 }
 
-
+export const setAllMessageSeen = async (req: Request, res: Response) => {
+    try {
+        const userId = req.query.userId + ""
+        const personId = req.query.personId + ""
+        successResponse(res, await chatUseCase.setAllMessageSeen(userId, personId))
+    } catch (error) {
+        errorResponse(error, res)
+    }
+}
 
 
 

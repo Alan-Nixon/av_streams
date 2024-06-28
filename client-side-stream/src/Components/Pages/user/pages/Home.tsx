@@ -102,11 +102,11 @@ function Home() {
                     {selectedCate === "Gaming" && <>
 
                         <div className="flex flex-wrap md:flex-nowrap ml-3">
-                            <div className="w-full md:w-1/2 m-2">
+                            <div className="w-full md:w-1/2 m-2 ">
                                 <img
                                     src={banner?.mainBanner?.Thumbnail}
                                     onClick={() => redirect('/FullVideo?videoId=' + banner?.mainBanner?._id, Boolean(banner?.mainBanner?.Premium))}
-                                    style={{ width: '100%', maxWidth: '540px', cursor: 'pointer' }}
+                                    style={{ width: '100%', height:"100%", cursor: 'pointer' }}
                                     alt="Main Banner"
                                 />
                             </div>

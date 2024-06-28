@@ -27,7 +27,7 @@ const AdminLogin = lazy(() => import('./Components/Pages/admin/AdminLogin'));
 const UserManagement = lazy(() => import('./Components/Pages/admin/UserManagement'));
 const BannerManagement = lazy(() => import('./Components/Pages/admin/BannerManagement'))
 const OfferManagement = lazy(() => import('./Components/Pages/admin/OfferManagement'))
- 
+
 const Profile = lazy(() => import('./Components/Pages/user/profile/Profile'));
 const ForgetPassword = lazy(() => import('./Components/Pages/user/pages/ForgetPassword'));
 const LiveNow = lazy(() => import('./Components/Pages/user/pages/LiveNow'));
@@ -103,7 +103,7 @@ function App() {
 
   const SuspenceComponent = ({ children }: ContentProps) => {
     return <Suspense fallback={<><div className="lds-dual-ring"></div></>} >
-      <ErrorBoundary onError={() => { }} >
+      <ErrorBoundary>
         <>
           <ToastContainer />
           <Toaster />

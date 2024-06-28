@@ -278,5 +278,16 @@ class videoPostUseCase {
             return yield post_videos_Repositary_1.postVideosRepo.videoLike(videoId, userId);
         });
     }
+    editVideoDetails(videoDetails) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (typeof videoDetails.Thumbnail !== "string") {
+                const { url } = yield (0, cloudinary_1.uploadImage)(videoDetails.Thumbnail, 'avstreamThumbnail');
+                videoDetails.Thumbnail = url;
+                console.log("Image uploaded successfully");
+            }
+            console.log(videoDetails);
+            return yield post_videos_Repositary_1.postVideosRepo.editVideoDetails(videoDetails);
+        });
+    }
 }
 exports.videoPost = new videoPostUseCase();

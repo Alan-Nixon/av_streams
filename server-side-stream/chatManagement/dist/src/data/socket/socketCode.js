@@ -10,6 +10,13 @@ const connectSocket = (io) => {
             io.to(Data.to).emit('incoming_message', Data);
             chat_repositary_1.chatRepoLayer.addChat(Data);
         });
+        socket.on("online", (data) => {
+            io.to(data.personId).emit("online", data);
+        });
+        socket.on("custom_message", (data) => {
+            console.log("custom message found");
+            io.to(data.personId).emit("custom_message", data);
+        });
     });
 };
 exports.connectSocket = connectSocket;
