@@ -25,8 +25,13 @@ function ChatHome({ singleChatopen, userDetails }: chatHomeIterface) {
                 if (res && res?.data?.length > 0) {
 
                     const personDetails = await getPersonDetailsChat(res.data, user._id);
-                    personDetails.sort((a, b) => a.details[a.details - 1] - b.details[b.details - 1])
-                    console.log(personDetails);
+                    personDetails.sort((a, b) => {
+                        let timeA = a.details[a.details.length - 1]?.time;
+                        let timeB = b.details[b.details.length - 1]?.time;
+                        let dateA = new Date(timeA).getTime();
+                        let dateB = new Date(timeB).getTime();
+                        return dateB - dateA;
+                    });                    
                     setHomeChats(personDetails);
                     const newChats = await getNewChats(res.data.map((item: any) => item.personDetails.userId))
                     setNewChat(newChats.res?.data)

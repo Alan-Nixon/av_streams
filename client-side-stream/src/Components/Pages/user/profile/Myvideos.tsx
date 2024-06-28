@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { categoryInterface, changeEvent, videoInterface } from '../../../../Functions/interfaces'
 import { Pagination } from '../helpers/HelperComponents'
 import { useUser } from '../../../../UserContext'
@@ -11,7 +11,6 @@ import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import RadioButtonChecked from '@mui/icons-material/RadioButtonChecked';
 import { getCategory } from '../../../../Functions/streamFunctions/adminStreamFunction'
 import { scrollDown } from '../../../../Functions/commonFunctions'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function MyVideos() {
     const [progress, setProgress] = useState<number>(-1)
