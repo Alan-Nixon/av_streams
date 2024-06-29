@@ -214,10 +214,6 @@ export function ChatPopup({ chatWindow, setChatWindow, user, messageSocket, zp }
         setPerson(personDetails.personDetails)
         setChats(personDetails.details)
     }
-    console.log(zp);
-
-
-
 
     return (
         <Popup trigger={<button />} position={'right top'} open={chatWindow} onClose={() => setChatWindow(false)}>
