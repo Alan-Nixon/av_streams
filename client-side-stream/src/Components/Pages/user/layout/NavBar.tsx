@@ -59,7 +59,7 @@ function NavBar() {
             if (messageSocket)
                 messageSocket.off('incoming_message', handleMessage);
         };
-    }, [isToastActive, messageSocket, getUserById]);
+    }, [isToastActive, messageSocket]);
 
 
     useEffect(() => {
