@@ -9,57 +9,57 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 
 const app: Application = express();
 
+const clientSideUrl = process.env.CLIENT_SIDE_URL || 'http://localhost:3000';
+const port = process.env.PORT || '8000';
 
-
+if (!process.env.CHATMANAGEMENT || !process.env.USERMANAGEMENT || !process.env.STREAMMANAGEMENT || !process.env.COMMENTMANAGEMENT) {
+    console.error('Some required environment variables are missing!');
+    process.exit(1);
+}
 
 app.use(cors({
-    origin: process.env.CLIENT_SIDE_URL,
+    origin: clientSideUrl,
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     optionsSuccessStatus: 200
 }));
 
-
 app.use(morgan('dev'));
-
-
 
 export type ProxyConfig = {
     [key: string]: {
         target: string;
         changeOrigin: boolean;
-        timeout: number,
-        proxyTimeout: number, 
+        timeout: number;
+        proxyTimeout: number;
         pathRewrite?: { [key: string]: string };
     };
-}
-
-
+};
 
 const proxyConfig: ProxyConfig = {
     '/chatManagement': {
-        target: process.env.CHATMANAGEMENT || '',
+        target: process.env.CHATMANAGEMENT!,
         changeOrigin: true,
         pathRewrite: { '^/chatManagement': '' },
         timeout: 60000,
         proxyTimeout: 60000
     },
     '/userManagement': {
-        target: process.env.USERMANAGEMENT || '',
+        target: process.env.USERMANAGEMENT!,
         changeOrigin: true,
         pathRewrite: { '^/userManagement': '' },
         timeout: 60000,
         proxyTimeout: 60000
     },
     '/streamManagement': {
-        target: process.env.STREAMANAGEMENT || '',
+        target: process.env.STREAMMANAGEMENT!,
         changeOrigin: true,
-        pathRewrite: { '^/userManagement': '' },
+        pathRewrite: { '^/streamManagement': '' },
         timeout: 60000,
         proxyTimeout: 60000
     },
     '/commentManagement': {
-        target: process.env.COMMENTMANAGEMENT || '',
+        target: process.env.COMMENTMANAGEMENT!,
         changeOrigin: true,
         pathRewrite: { '^/commentManagement': '' },
         timeout: 60000,
@@ -67,23 +67,25 @@ const proxyConfig: ProxyConfig = {
     }
 };
 
-
-Object.keys(proxyConfig).forEach(context => {
-    app.use(context, createProxyMiddleware(proxyConfig[context]));
+Object.keys(proxyConfig).forEach((path) => {
+    app.use(path, createProxyMiddleware({
+        target: proxyConfig[path].target,
+        changeOrigin: proxyConfig[path].changeOrigin,
+        pathRewrite: proxyConfig[path].pathRewrite,
+        timeout: proxyConfig[path].timeout,
+        proxyTimeout: proxyConfig[path].proxyTimeout
+    }));
 });
-
 
 const server = http.createServer(app);
 
-
 const io = new Server(server, {
     cors: {
-        origin: process.env.CLIENT_SIDE_URL,
+        origin: clientSideUrl,
         methods: ["GET", "POST", "PATCH", "DELETE", "PUT"],
         credentials: true
     }
 });
-
 
 io.on('connection', (socket: Socket) => {
     console.log("Socket connected");
@@ -95,12 +97,18 @@ io.on('connection', (socket: Socket) => {
     socket.on('followChannel', ({ data, userId }) => {
         io.to(userId).emit('showFollowMessage', data);
     });
+
+    socket.on('disconnect', () => {
+        console.log('Socket disconnected');
+    });
+
+    socket.on('error', (err) => {
+        console.error('Socket error:', err);
+    });
 });
 
+app.use('*', (req, res) => res.status(404).json({ status: false, message: "Service not specified" }));
 
-app.use('*', (req, res) => res.status(200).json({ status: false, message: "service not specified" }))
-
-const PORT: string = process.env.PORT || "8000";
-server.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
+server.listen(port, () => console.log(`Server is running on http://localhost:${port}`));
 
 export default app;
