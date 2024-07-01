@@ -21,11 +21,11 @@ app.use(cors({
 app.use(express.json());
 app.use(morgan('dev'));
 
-// Route handling
+// Route handling 
 app.use('/', router); 
 app.use('/', AdminRouter);
 
-// 404 Handler 
+// 404 Handler  
 app.use((req: Request, res: Response) => {
     res.status(404).json({ message: 'Resource not found' });
 });

@@ -79,7 +79,7 @@ Object.keys(proxyConfig).forEach((path) => {
 
 const server = http.createServer(app);
 
-const io = new Server(server, {
+const io = new Server(server, { 
     cors: {
         origin: clientSideUrl,
         methods: ["GET", "POST", "PATCH", "DELETE", "PUT"],
@@ -105,6 +105,9 @@ io.on('connection', (socket: Socket) => {
     socket.on('error', (err) => {
         console.error('Socket error:', err);
     });
+
+
+
 });
 
 app.use('*', (req, res) => res.status(404).json({ status: false, message: "Service not specified" }));

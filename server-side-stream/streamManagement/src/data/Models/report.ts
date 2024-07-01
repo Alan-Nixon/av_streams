@@ -13,4 +13,6 @@ const reportSchema: Schema<IReport> = new Schema({
     Blocked: { type: Boolean, default: false },
 })
 
-export const ReportModel = mongoose.model('reports', reportSchema)
+export const ReportModel = mongoose.model('reports', reportSchema);
+
+

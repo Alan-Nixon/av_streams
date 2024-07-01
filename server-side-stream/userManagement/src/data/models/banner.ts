@@ -14,3 +14,5 @@ const bannerSchema: Schema<IBanner> = new Schema<IBanner>({
 
 
 export const BannerModel = mongoose.model<IBanner>('banners', bannerSchema);
+
+

@@ -21,7 +21,7 @@ app.use(cors({
     optionsSuccessStatus: 200
 }));
 
-const io = new Server(server, {
+const io = new Server(server, {  
     cors: {
         origin: process.env.CLIENT_SIDE_URL,
         methods: ["GET", "POST"],
@@ -29,7 +29,7 @@ const io = new Server(server, {
     }
 });
 
-connectSocket(io);
+connectSocket(io); 
 
 const port = process.env.PORT || "3000";
 

@@ -15,4 +15,6 @@ const postSchema: Schema<IPost> = new Schema({
     Time: { type: String }
 })
 
-export const PostModel = mongoose.model('posts', postSchema) 
+export const PostModel = mongoose.model('posts', postSchema);
+
+

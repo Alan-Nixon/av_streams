@@ -21,4 +21,7 @@ const videoSchema: Schema<IVideo> = new Schema({
     Time: { type: String, default: new Date().toDateString() }
 })
 
-export const VideoModel = mongoose.model('videos', videoSchema) 
+export const VideoModel = mongoose.model('videos', videoSchema);
+
+
+

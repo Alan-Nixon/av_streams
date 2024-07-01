@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { IChat,  messageSchema } from "../interfaces/chatSchema";
+import { IChat, messageSchema } from "../interfaces/chatSchema";
 
 
 
@@ -11,4 +11,5 @@ const chatSchema: Schema<IChat> = new Schema<IChat>({
 
 
 
-export const ChatModel = mongoose.model<IChat>('chats', chatSchema)
+export const ChatModel = mongoose.model<IChat>('chats', chatSchema);
+

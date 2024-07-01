@@ -22,10 +22,10 @@ app.use((0, cors_1.default)({
 }));
 app.use(express_1.default.json());
 app.use((0, morgan_1.default)('dev'));
-// Route handling
+// Route handling 
 app.use('/', Routes_1.default);
 app.use('/', AdminRoutes_1.default);
-// 404 Handler 
+// 404 Handler  
 app.use((req, res) => {
     res.status(404).json({ message: 'Resource not found' });
 });

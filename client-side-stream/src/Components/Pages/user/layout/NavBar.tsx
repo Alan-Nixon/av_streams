@@ -64,9 +64,9 @@ function NavBar() {
 
     useEffect(() => {
         if (user && user?._id) {
-            const messageSocket = io(process.env.REACT_APP_CHAT_MANAGEMENT_URL || "")
+            const messageSocket = io("https://avshops.shop")
             setMessageSocket(messageSocket);
-            messageSocket.emit('join', user._id)
+            messageSocket.emit('join', user._id);
 
 
             const userID = user._id;
