@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useUser } from '../../../../UserContext'
 import NavBar from '../layout/NavBar'
-import { changeChannelName, changeProfileData, changeProfileImage, isPremiumUser } from '../../../../Functions/userFunctions/userManagement';
+import { changeChannelName, changeProfileData, changeProfileImage, getChannelByUserId, isPremiumUser } from '../../../../Functions/userFunctions/userManagement';
 import { Data, changeEvent, responseIntefraceImage } from '../../../../Functions/interfaces';
 
 import Mystreams from './Mystreams';
@@ -13,10 +13,13 @@ import PremiumDetails from './PremiumDetails';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 
+import QRCode from "react-qr-code";
+import QrModal from '../../../messageShowers/QrModal';
+
 
 function Profile() {
     const { user } = useUser()
-
+    const [channelId, setChannelId] = useState("")
     const sec = localStorage.getItem('section') || 'Profile'
     const [section, setSection] = useState(sec)
     const [channelName, setChannelName] = useState("")
@@ -38,6 +41,9 @@ function Profile() {
     useEffect(() => {
         if (user && user?._id) {
             isPremiumUser(user?._id).then(({ status }) => setIsPremium(status))
+            getChannelByUserId(user._id).then((data) => {
+                setChannelId(data._id)
+            })
         }
     }, [user])
 
@@ -72,7 +78,7 @@ function Profile() {
                     ))}
                 </div>
 
-                {section === "Profile" && <ProfileSection />}
+                {section === "Profile" && channelId && <ProfileSection channelId={channelId} />}
                 {section === "Wallet" && <WalletSection />}
                 {section === "Premium Details" && <PremiumDetails />}
                 {section === "My Videos" && <MyVideos />}
@@ -86,7 +92,7 @@ function Profile() {
     )
 }
 
-const ProfileSection = () => {
+const ProfileSection = ({ channelId }: { channelId: string }) => {
     const { user, setUserData } = useUser()
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [profileData, setProfileData] = useState({ userId: user?._id, userName: user?.userName, FullName: user?.FullName, Phone: user?.Phone.toString() })
@@ -213,7 +219,19 @@ const ProfileSection = () => {
                     </div>
 
 
-                    <button type="button" onClick={handleSubmit} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                    <div className="flex">
+                        <button type="button" onClick={handleSubmit} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                        <div className="ml-3">
+                            <QrModal Heading='Scan QR code' text='This qr code will redirect to the channel page' >
+                                <QRCode
+                                    size={256}
+                                    style={{ height: "auto",marginTop:"1%", maxWidth: "100%", width: "100%" }}
+                                    value={process.env.REACT_APP_CLIENT_SIDE_URL + "channel?userId=" + channelId}
+                                    viewBox={`0 0 256 256`}
+                                />
+                            </QrModal>
+                        </div>
+                    </div>
                 </form>
 
             </div>
@@ -233,6 +251,7 @@ const ProfileSection = () => {
                             Save
                         </span>
                     </button>}
+
                 </div>
             </div>
         </div>
