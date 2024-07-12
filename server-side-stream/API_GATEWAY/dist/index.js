@@ -86,6 +86,10 @@ io.on('connection', (socket) => {
     socket.on('error', (err) => {
         console.error('Socket error:', err);
     });
+    socket.on("message", (message) => {
+        console.log(message);
+        socket.broadcast.emit("message", message);
+    });
 });
 app.use('*', (req, res) => res.status(404).json({ status: false, message: "Service not specified" }));
 server.listen(port, () => console.log(`Server is running on http://localhost:${port}`));

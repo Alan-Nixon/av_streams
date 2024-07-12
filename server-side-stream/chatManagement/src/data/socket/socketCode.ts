@@ -24,6 +24,8 @@ export const connectSocket = (io: any) => {
             io.to(data.personId).emit("custom_message", data)
         })
 
+     
+
     });
 
 }

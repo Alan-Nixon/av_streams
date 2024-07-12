@@ -79,7 +79,7 @@ Object.keys(proxyConfig).forEach((path) => {
 
 const server = http.createServer(app);
 
-const io = new Server(server, { 
+const io = new Server(server, {
     cors: {
         origin: clientSideUrl,
         methods: ["GET", "POST", "PATCH", "DELETE", "PUT"],
@@ -106,7 +106,11 @@ io.on('connection', (socket: Socket) => {
         console.error('Socket error:', err);
     });
 
-
+    socket.on("message", (message) => {
+        console.log(message);
+        
+        socket.broadcast.emit("message", message)
+    })
 
 });
 

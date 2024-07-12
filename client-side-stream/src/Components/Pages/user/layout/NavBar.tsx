@@ -11,9 +11,9 @@ import { channelInterface, chatInterfaceProps, messageArray } from '../../../../
 import io from 'socket.io-client'
 import { toastFunction } from '../../../messageShowers/ToastFunction';
 
-import { ZIM } from "zego-zim-web";
+// import { ZIM } from "zego-zim-web";
 import { v4 as uuidv4 } from 'uuid';
-import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
+// import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import { useSelector } from 'react-redux';
 
 
@@ -67,26 +67,26 @@ function NavBar() {
             const messageSocket = io(process.env.REACT_APP_API_GATEWAY + "")
             setMessageSocket(messageSocket);
             messageSocket.emit('join', user._id);
-
-
-            const userID = user._id;
-            const userName = user.channelName;
-            const appID = Number(process.env.REACT_APP_ZEGO_APP_ID);
-            const serverSecret = process.env.REACT_APP_ZEGO_SERVER_ID ?? "";
-            const roomId = uuidv4()
-            const TOKEN = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomId, userID, userName);
-            const zp = ZegoUIKitPrebuilt.create(TOKEN);
-            zp.addPlugins({ ZIM });
-            zp.setCallInvitationConfig({
-                ringtoneConfig: {
-                    incomingCallUrl: 'https://res.cloudinary.com/dyh7c1wtm/video/upload/v1717999547/rrr_uixgh2.mp3',
-                    outgoingCallUrl: 'https://res.cloudinary.com/dyh7c1wtm/video/upload/v1718002692/beggin_edited_kgcew8.mp3'
-                }
-            })
-
-            setZP(zp)
-
         }
+
+        //         const userID = user._id;
+        //         const userName = user.channelName;
+        //         const appID = Number(process.env.REACT_APP_ZEGO_APP_ID);
+        //         const serverSecret = process.env.REACT_APP_ZEGO_SERVER_ID ?? "";
+        //         const roomId = uuidv4()
+        //         const TOKEN = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomId, userID, userName);
+        //         const zp = ZegoUIKitPrebuilt.create(TOKEN);
+        //         zp.addPlugins({ ZIM });
+        //         zp.setCallInvitationConfig({
+        //             ringtoneConfig: {
+        //                 incomingCallUrl: 'https://res.cloudinary.com/dyh7c1wtm/video/upload/v1717999547/rrr_uixgh2.mp3',
+        //                 outgoingCallUrl: 'https://res.cloudinary.com/dyh7c1wtm/video/upload/v1718002692/beggin_edited_kgcew8.mp3'
+        //             }
+        //         })
+
+        //         setZP(zp)
+
+        //     }
     }, [])
 
     function searchNow() {
@@ -130,7 +130,7 @@ function NavBar() {
                 {width > 590 && <div className="profileTagInNavbar block" id="navbar-default">
                     <ul className="font-medium flex flex-col pl-3 pr-3 border rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0  bg-gray-800 md:bg-gray-900 border-gray-700">
                         {user ? (
-                            <> 
+                            <>
                                 <div className="flex items-center space-x-3">
                                     {window.location.pathname !== '/startLive' && <div onClick={() => window.location.href = "/startLive"} className="flex p-2 bg-transparent-500 hover:bg-gray-500 cursor-pointer">
                                         <svg fill='#ffffff' width={25} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">

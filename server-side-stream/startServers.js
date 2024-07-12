@@ -30,10 +30,10 @@ function startServer(command, directory) {
 async function startServers() {
     try {
         // test
-        startServer("npm start", api_gateway)
+        // startServer("npm start", api_gateway)
         startServer("npm start", userManagement)
         startServer("npm start", streamManagement)
-        startServer("npm start", chatManagement)
+        // startServer("npm start", chatManagement)
         startServer("python manage.py runserver 8005", commentManagement);
 
         console.log('All servers started successfully.');
