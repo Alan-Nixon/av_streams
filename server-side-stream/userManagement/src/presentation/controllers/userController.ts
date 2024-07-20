@@ -74,7 +74,7 @@ export const postLogin = async (req: Request, res: Response) => {
 export const sendOtp = async (req: Request, res: Response) => {
     try {
         const obj: any = req.query
-        const otp = userDetailsInstance.sendOtp(obj.Email)
+        const otp = userDetailsInstance.sendOtp(obj.email)
         res.status(200).json({ status: true, otp })
     } catch (error) {
         console.error(error)

@@ -79,7 +79,7 @@ exports.postLogin = postLogin;
 const sendOtp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const obj = req.query;
-        const otp = Authentication_1.userDetailsInstance.sendOtp(obj.Email);
+        const otp = Authentication_1.userDetailsInstance.sendOtp(obj.email);
         res.status(200).json({ status: true, otp });
     }
     catch (error) {
