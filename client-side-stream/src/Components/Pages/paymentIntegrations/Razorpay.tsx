@@ -7,7 +7,7 @@ const RazorpayPayment: React.FC<{ Data: RazorpayInterface }> = ({ Data }) => {
 
     const handlePayment = () => {
         const options = {
-            key: process.env.REACT_APP_RAZORPAY_CLIENT,
+            key: process.env.REACT_APP_RAZORPAY_CLIENT+"",
             amount: Amount * 100,
             currency: 'INR',
             name: 'AV streams',

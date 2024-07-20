@@ -120,13 +120,17 @@ export default function WalletSection() {
         return null
     }
 
+    function showTime(date: string) {
+        const data = new Date(date)
+        return data.getDate() + "/" + (data.getMonth() + 1) + "/" + data.getFullYear()
+    }
 
     return (<>{loading ? <>
         <div className="lds-dual-ring"></div>
     </> : <>
         <div className={width < 900 ? "ml-14 block" : "ml-8 mt-6 flex"}>
 
-            <div className={`w-${width >= 900 ? "1/4" : "full"} max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700`} style={{ maxHeight: "284px", marginTop: "5%" }}>
+            <div className={`w-${width >= 900 ? "3/4" : "full"} max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700`} style={{ maxHeight: "284px", marginTop: "5%" }}>
                 <div className="flex flex-col items-center pb-10 mt-5">
                     <img className="w-24 h-24 mb-3 rounded-full shadow-lg" src={user?.profileImage} alt="Bonnie image" />
                     <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">{user?.FullName}</h5>
@@ -148,8 +152,8 @@ export default function WalletSection() {
                                 <input onChange={onChangeFunc} type="text" id="amount" placeholder="ex:1000" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                             </div>
                             {Amount !== 0 && validAmount && <>
-                                <RazorpayPayment Data={{ Amount, successPayment, errorPayment }} />
                                 <Paypal Data={{ Amount, successPayment, errorPayment }} />
+                                <RazorpayPayment Data={{ Amount, successPayment, errorPayment }} />
                             </>}
                         </div>
                     </div>
@@ -157,7 +161,7 @@ export default function WalletSection() {
 
             </div>
 
-            <div className={!showAddWithdraw ? "w-3/4 mt-8 ml-12" : "w-3/4 ml-2 " +(width < 900 ? "mt-80" : "mt-5")} >
+            <div className={!showAddWithdraw ? "w-3/4 mt-8 ml-12" : "w-3/4 ml-2 " + (width < 900 ? "mt-80" : "mt-5")} >
                 {walletDetails?.Transactions && walletDetails?.Transactions.length !== 0 && <>
                     <div className="flex">
                         <h2 className={width < 570 ? "hidden" : 'text-3xl'}>Transactions</h2>
@@ -176,7 +180,7 @@ export default function WalletSection() {
                                 <p>
                                     <h5 className="mb-2 text-xl font-semibold tracking-tight text-white">Money {trans.credited ? "Credited" : "Debited"} To Your Wallet</h5>
                                 </p>
-                                <p className="mb-3 font-normal text-gray-400">Date : {trans.createdTime}</p>
+                                <p className="mb-3 font-normal text-gray-400">Date : {showTime(trans.createdTime)}</p>
                             </div></> : <></>}
                         </>)
                     })

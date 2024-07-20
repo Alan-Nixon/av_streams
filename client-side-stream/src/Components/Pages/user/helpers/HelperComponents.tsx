@@ -90,7 +90,7 @@ export const ShowPosts = ({ Data }: any) => {
                 <div className="ml-8">
                     <p>{data.Title}</p>
                     <p className="text-xs" style={{ maxWidth: "95%" }}>{data.Description}</p>
-                    <img src={data.postLink} style={{ width: "98%" }} className='mt-5' alt='post not found' />
+                    <img src={data.postLink} style={{ width: "98%" }} className='mt-5 max-h-[550px]' alt='post not found' />
                 </div>
                 {!user && <ChakraMessage message={"You need to Login to comment"} />}
                 <div className="flex ml-9 mt-3">

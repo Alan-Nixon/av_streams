@@ -88,9 +88,10 @@ function Subscription({ showSideBar }: { showSideBar: boolean }) {
                 paymentId: response.razorpay_payment_id || 'paypal_transacion_' + Date.now(),
                 section: subscription.section
             })
-            toast.success("Payment successfull")
+            toast.success("Payment successfull");
+            localStorage.setItem('section', "Premium Details")
             setTimeout(() => Navigate('/profile'), 3000)
-        } 
+        }
     }
 
     const errorPayment = (error: any) => {
