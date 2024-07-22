@@ -226,7 +226,7 @@ const ProfileSection = ({ channelId }: { channelId: string }) => {
                                 <QRCode
                                     size={256}
                                     style={{ height: "auto",marginTop:"1%", maxWidth: "100%", width: "100%" }}
-                                    value={process.env.REACT_APP_CLIENT_SIDE_URL + "channel?userId=" + channelId}
+                                    value={"/channel?userId=" + channelId}
                                     viewBox={`0 0 256 256`}
                                 />
                             </QrModal>
