@@ -135,7 +135,7 @@ function App() {
           <Route path='/Signup' element={userAuthenticated ? <Navigate to='/' /> : <Signup />} />
           <Route path='/startLive' element={userAuthenticated ? <StartLive /> : <Navigate to='/' />} />
           <Route path='/showLive/:liveId' element={userAuthenticated ? <ShowLive /> : <Navigate to='/' />} />
-          <Route path="/QrCodeScanner" element={userAuthenticated ? <QrCodeScanner /> : <Navigate to="/login" />} />
+          <Route path="/QrCodeScan" element={userAuthenticated ? <QrCodeScanner /> : <Navigate to="/login" />} />
 
           <Route path='/admin/adminLogin' element={adminAuthenticated ? <Navigate to="/admin" /> : <AdminLogin />} />
           <Route path='/admin' element={adminAuthenticated ? <AdminDashboard /> : <Navigate to="/admin/adminLogin" />} />
