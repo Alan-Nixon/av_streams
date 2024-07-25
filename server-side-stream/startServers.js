@@ -34,7 +34,7 @@ async function startServers() {
         startServer("npm start", userManagement)
         startServer("npm start", streamManagement)
         startServer("npm start", chatManagement)
-        startServer("python manage.py runserver 8005", commentManagement);
+        // startServer("python manage.py runserver 8005", commentManagement);
 
         console.log('All servers started successfully.');
 

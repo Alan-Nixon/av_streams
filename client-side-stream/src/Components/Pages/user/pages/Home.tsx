@@ -43,7 +43,7 @@ function Home() {
             setTrending(videos);
             const Banners: BannerInterfaceHome = {
                 bigBanner: '/images/gtaSeaCar.jpeg',
-                mainBanner: videos[2],
+                mainBanner: videos[0],
                 subBanners: videos.slice(0, 4)
             }
             setBanner(Banners)
