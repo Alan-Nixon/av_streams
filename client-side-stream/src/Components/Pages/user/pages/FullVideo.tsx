@@ -21,7 +21,7 @@ function FullVideo() {
     const [Comments, setComments] = useState<commentInterface[] | []>([])
     const [loading, setLoading] = useState<boolean>(true)
     const [showReportModal, setShowReportModal] = useState(false)
-    const [recomandedVideos, setRecomandedVideos] = useState<videoInterface[]>([])
+    const [recomandedVideos, setRecomandedVideos] = useState<videoInterface[]>([]);
 
     const [videoDetails, setVideoDetails] = useState({
         _id: "", Link: "", channelName: "",
@@ -45,9 +45,8 @@ function FullVideo() {
                 if (Data.Premium) {
                     if (user && user?._id) {
                         isPremiumUser(user?._id).then(({ status }) => { if (!status) { Navigate('/') } })
-                    } else {
-                        // Navigate('/')
                     }
+
                 }
 
                 isFollowing(user?._id || "", Data.userId).then((res) => {
@@ -60,11 +59,9 @@ function FullVideo() {
 
             })
 
-            getCommentsByLinkId(videoId, 'video').then((data) => {
-                console.log(data);
+            getCommentsByLinkId(videoId, 'video').then((data) => setComments(data))
 
-                setComments(data)
-            })
+            getAllVideos(false, "").then((data: any) => setRecomandedVideos(data))
 
         } else {
             Navigate('/')
@@ -72,17 +69,6 @@ function FullVideo() {
 
     }, [user])
 
-
-
-    const superChat = [{
-        channelName: "Hey gamer",
-        profileImage: "/videos/download.jpeg",
-        text: "I liked this ❤️💖😍💘🥰💕💓💞",
-    }].concat(Array(9).fill({
-        channelName: "Hey gamer",
-        profileImage: "/videos/download.jpeg",
-        text: "I liked this ❤️💖😍💘🥰💕💓💞",
-    }))
 
 
     useEffect(() => {
@@ -159,10 +145,7 @@ function FullVideo() {
     }
 
 
-    getAllVideos(false, "").then((data) => {
-        console.log(data, "this is the daaya")
-        setRecomandedVideos(data)
-    })
+
 
 
     if (loading) {
@@ -197,44 +180,66 @@ function FullVideo() {
                             </div>
                         </div>
                     </div>
-                    <div className="flex ml-8">
-                        <div className="flex w-full mt-2 ml-3 " style={{ height: "60px", backgroundColor: "#2e2e2e" }}>
-                            <div className='flex'>
-                                <img src={videoDetails.profileImage} style={{ borderRadius: "100%", width: "40px", height: "40px", marginTop: "5%", marginLeft: "6%" }} alt="" />
-                                <h2 className="text-xl" style={{ width: "150px", height: "30px", marginLeft: "8%", marginTop: "4%" }}><span>{videoDetails.channelName}</span><br />
-                                    <h2 className="text-xs" style={{ width: "150px" }}><span>{videoDetails.count} followers</span></h2></h2>
+                    <div className="flex flex-wrap ml-8">
+                        <div className="flex w-full mt-2 ml-3 bg-gray-800 h-15 sm:h-14">
+                            <div className="flex items-center">
+                                <img
+                                    src={videoDetails.profileImage}
+                                    className="rounded-full w-10 h-10 sm:w-8 sm:h-8 mt-2 ml-6"
+                                    alt=""
+                                />
+                                <div className="ml-6 sm:ml-4 mt-2 sm:mt-1">
+                                    <h2 className="text-xl sm:text-md">
+                                        <span className='w-[70px]'>{videoDetails.channelName}</span>
+                                    </h2>
+                                    <h2 className="text-xs" style={{ width: "150px" }}>
+                                        <span>{videoDetails.count} followers</span>
+                                    </h2>
+                                </div>
                             </div>
-                            <div className="flex ml-auto">
-
-                                {videoDetails.isFollowing ? <>
-                                    <div className='cursor-pointer ml-auto mr-6 mt-3 flex' onClick={() => {
-                                        setVideoDetails((prevDetails) => ({
-                                            ...prevDetails,
-                                            isFollowing: !prevDetails.isFollowing,
-                                        }));
-                                        followChannel(videoDetails.userId)
-                                    }} style={{ float: "right" }}>
-                                        <p className='ml-2 mt-2'>UNFOLLOW</p>   </div>
-                                </> : <>
-                                    <div className='cursor-pointer ml-auto mr-6 mt-3 flex' onClick={() => {
-                                        setVideoDetails((prevDetails) => ({
-                                            ...prevDetails,
-                                            isFollowing: !prevDetails.isFollowing,
-                                        }));
-                                        followChannel(videoDetails.userId)
-                                    }
-                                    } style={{ float: "right" }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width={20} className='mb-2' viewBox="0 0 448 512">
-                                            <path fill="#ffffff" d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
-                                        </svg>
-                                        <p className='ml-2 mt-2'>FOLLOW</p>
+                            <div className="flex ml-auto items-center mr-6">
+                                {videoDetails.isFollowing ? (
+                                    <div
+                                        className="cursor-pointer flex"
+                                        onClick={() => {
+                                            setVideoDetails((prevDetails) => ({
+                                                ...prevDetails,
+                                                isFollowing: !prevDetails.isFollowing,
+                                            }));
+                                            followChannel(videoDetails.userId);
+                                        }}
+                                    >
+                                        <p className="ml-2 mt-2">UNFOLLOW</p>
                                     </div>
-                                </>
-                                }
+                                ) : (
+                                    <div
+                                        className="cursor-pointer flex"
+                                        onClick={() => {
+                                            setVideoDetails((prevDetails) => ({
+                                                ...prevDetails,
+                                                isFollowing: !prevDetails.isFollowing,
+                                            }));
+                                            followChannel(videoDetails.userId);
+                                        }}
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width={20}
+                                            className="mb-2"
+                                            viewBox="0 0 448 512"
+                                        >
+                                            <path
+                                                fill="#ffffff"
+                                                d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
+                                            />
+                                        </svg>
+                                        <p className="ml-2 mt-2">FOLLOW</p>
+                                    </div>
+                                )}
                             </div>
-
                         </div>
                     </div>
+
                     <div ref={commentSectionRef} className="commentSection mt-0   mb-8" style={{ height: "auto" }}>
                         <Comment indexKey='0' Section='video' LinkId={videoDetails._id} CommentsArray={Comments} />
                     </div>
@@ -244,26 +249,26 @@ function FullVideo() {
                     <h2 className="text-xl font-bold text-center">Recommended</h2>
                     {recomandedVideos?.map((video, idx) => {
                         return (
-                            <div 
-                            key={idx} 
-                            onClick={() => Navigate('/FullVideo?videoId=' + video?._id)} 
-                            className="flex mt-5 max-w-md rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out cursor-pointer"
-                          >
-                            <img 
-                              className="object-cover rounded-l-lg w-2/4" 
-                              src={video.Thumbnail} 
-                              alt={video.Title} 
-                            />
-                            <div className="flex flex-col justify-between p-4 w-2/4">
-                              <h5 className="font-semibold text-gray-900 dark:text-white">
-                                {video.Title}
-                              </h5>
-                              <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                                185k views <span className="ml-2">18 hours ago</span>
-                              </p>
+                            <div
+                                key={idx}
+                                onClick={() => Navigate('/FullVideo?videoId=' + video?._id)}
+                                className="flex mt-5 max-w-md rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-200 ease-in-out cursor-pointer"
+                            >
+                                <img
+                                    className="object-cover rounded-l-lg w-2/4"
+                                    src={video.Thumbnail}
+                                    alt={video.Title}
+                                />
+                                <div className="flex flex-col justify-between p-4 w-2/4">
+                                    <h5 className="font-semibold text-gray-900 dark:text-white">
+                                        {video.Title}
+                                    </h5>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                                        185k views <span className="ml-2">18 hours ago</span>
+                                    </p>
+                                </div>
                             </div>
-                          </div>
-                          
+
                         )
                     })}
                 </div>
@@ -273,6 +278,8 @@ function FullVideo() {
 }
 
 export default React.memo(FullVideo)
+
+
 
 
 {/* <div style={{ marginTop: "80px" }} className="">
