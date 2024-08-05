@@ -8,6 +8,7 @@ import './Components/css/responsive.css';
 import { UserProvider } from './UserContext';
 import { Provider } from 'react-redux';
 import SocketContext from './Functions/realtime/socketContext';
+import { register } from './serviceWorker'
 import { LiveProvider } from './LiveZegoProvider';
 
 
@@ -22,3 +23,19 @@ root.render(
         </UserProvider>
     </Provider>
 );
+
+
+const config = {
+    onUpdate: (registration: ServiceWorkerRegistration) => {
+        console.log('Service worker updated');
+        // Handle update logic here
+    },
+    onSuccess: (registration: ServiceWorkerRegistration) => {
+        console.log('Service worker registered successfully');
+        // Handle success logic here
+    },
+};
+
+register(config);
+
+
