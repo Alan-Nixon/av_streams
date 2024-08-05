@@ -7,8 +7,8 @@ import './Components/css/responsive.css';
 
 import { UserProvider } from './UserContext';
 import { Provider } from 'react-redux';
-import SocketContext from './Functions/realtime/socketContext';
-import { register } from './serviceWorker'
+// import SocketContext from './Functions/realtime/socketContext';
+import { register } from './serviceWorkerRegister'
 import { LiveProvider } from './LiveZegoProvider';
 
 

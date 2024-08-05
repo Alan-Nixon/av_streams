@@ -7,8 +7,7 @@ import NavBar from "../layout/NavBar";
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 
 const configuration = { iceServers: [{ urls: ["stun:stun1.l.google.com:19302", "stun:stun2.l.google.com:19302"] }], iceCandidatePoolSize: 10 };
-const socket = io("http://localhost:8006", { transports: ["websocket"] });
-
+const socket = io(process.env.REACT_APP_API_GATEWAY + "", { transports: ["websocket"] });
 
 
 
