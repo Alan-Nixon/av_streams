@@ -1,15 +1,16 @@
-// public/serviceWorker.ts
+
 self.addEventListener('install', event => {
   console.log('Service Worker installing.');
 });
 
-self.addEventListener('fetch', (event: any) => {
+self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
       .then(response => {
         if (response) {
           return response;
         }
+        console.log(event.request)
         return fetch(event.request);
       })
   );

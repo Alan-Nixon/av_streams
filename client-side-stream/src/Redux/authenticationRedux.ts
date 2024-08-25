@@ -9,12 +9,8 @@ const counterSlice = createSlice({
     name: 'authentication',
     initialState,
     reducers: {
-        setUserAuthenticated(state,action) {
-            state.userAuthenticated = action.payload;
-        },
-        setAdminAuthenticated(state,action) {
-            state.adminAuthenticated = action.payload;
-        } 
+        setUserAuthenticated(state,action) { state.userAuthenticated = action.payload; },
+        setAdminAuthenticated(state,action) { state.adminAuthenticated = action.payload; } 
     },
 });
 

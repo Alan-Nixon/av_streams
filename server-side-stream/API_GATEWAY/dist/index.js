@@ -87,8 +87,10 @@ io.on('connection', (socket) => {
         console.error('Socket error:', err);
     });
     socket.on("message", (message) => {
-        console.log(message);
         socket.broadcast.emit("message", message);
+    });
+    socket.on("calling", (message) => {
+        socket.broadcast.emit("calling", message);
     });
 });
 app.use('*', (req, res) => res.status(404).json({ status: false, message: "Service not specified" }));

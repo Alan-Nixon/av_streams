@@ -107,10 +107,12 @@ io.on('connection', (socket: Socket) => {
     });
 
     socket.on("message", (message) => {
-        console.log(message);
-        
         socket.broadcast.emit("message", message)
     })
+
+    socket.on("calling", (message) => {
+        socket.broadcast.emit("calling", message);
+    });
 
 });
 

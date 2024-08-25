@@ -1,5 +1,4 @@
-
-
+// serviceWorkerRegister.ts
 
 export function register(config: any) {
     if ('serviceWorker' in navigator) {
