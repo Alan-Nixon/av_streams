@@ -11,9 +11,9 @@ import { channelInterface, chatInterfaceProps, messageArray } from '../../../../
 import io from 'socket.io-client'
 import { toastFunction } from '../../../messageShowers/ToastFunction';
 
-// import { ZIM } from "zego-zim-web";
+import { ZIM } from "zego-zim-web";
 import { v4 as uuidv4 } from 'uuid';
-// import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
+import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import { useSelector } from 'react-redux';
 
 
@@ -67,26 +67,26 @@ function NavBar() {
             const messageSocket = io(process.env.REACT_APP_API_GATEWAY + "")
             setMessageSocket(messageSocket);
             messageSocket.emit('join', user._id);
+            const userID = user._id;
+            const userName = user.channelName;
+            const appID = Number(process.env.REACT_APP_ZEGO_APP_ID);
+            const serverSecret = process.env.REACT_APP_ZEGO_SERVER_ID ?? "";
+            const roomId = uuidv4()
+            const TOKEN = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomId, userID, userName);
+            const zp = ZegoUIKitPrebuilt.create(TOKEN);
+            zp.addPlugins({ ZIM });
+            zp.setCallInvitationConfig({
+                ringtoneConfig: {
+                    incomingCallUrl: 'https://res.cloudinary.com/dyh7c1wtm/video/upload/v1717999547/rrr_uixgh2.mp3',
+                    outgoingCallUrl: 'https://res.cloudinary.com/dyh7c1wtm/video/upload/v1718002692/beggin_edited_kgcew8.mp3'
+                }
+            })
+    
+            setZP(zp)
         }
 
-        //         const userID = user._id;
-        //         const userName = user.channelName;
-        //         const appID = Number(process.env.REACT_APP_ZEGO_APP_ID);
-        //         const serverSecret = process.env.REACT_APP_ZEGO_SERVER_ID ?? "";
-        //         const roomId = uuidv4()
-        //         const TOKEN = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomId, userID, userName);
-        //         const zp = ZegoUIKitPrebuilt.create(TOKEN);
-        //         zp.addPlugins({ ZIM });
-        //         zp.setCallInvitationConfig({
-        //             ringtoneConfig: {
-        //                 incomingCallUrl: 'https://res.cloudinary.com/dyh7c1wtm/video/upload/v1717999547/rrr_uixgh2.mp3',
-        //                 outgoingCallUrl: 'https://res.cloudinary.com/dyh7c1wtm/video/upload/v1718002692/beggin_edited_kgcew8.mp3'
-        //             }
-        //         })
 
-        //         setZP(zp)
 
-        //     }
     }, [])
 
     function searchNow() {
