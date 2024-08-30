@@ -157,13 +157,13 @@ function MyVideos() {
                 {error && <p className="error">{error}</p>}
                 {selectedVideo && <p className='success'>{"selected video : " + selectedVideo}</p>}
                 <div className="flex mt-3 items-center justify-center w-full">
-                    <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                    <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer hover:bg-bray-800 bg-gray-700 border-gray-600 hover:border-gray-500 hover:bg-gray-600">
                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                            <svg className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                            <svg className="w-8 h-8 mb-4 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                             </svg>
-                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span></p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">{selectedVideo ? selectedVideo : "VIDEO MP4 OR ANY OTHER FORMAT (MAX SIZE. 1GB)"}</p>
+                            <p className="mb-2 text-sm text-gray-400"><span className="font-semibold">Click to upload</span></p>
+                            <p className="text-xs text-gray-400">{selectedVideo ? selectedVideo : "VIDEO MP4 OR ANY OTHER FORMAT (MAX SIZE. 1GB)"}</p>
                         </div>
                         <input id="dropzone-file" type="file" onChange={saveVideo} accept="video/*" className="hidden" />
                     </label>
@@ -172,12 +172,12 @@ function MyVideos() {
                 <div className="mt-4">
                     <form className="max-w-full mt-3 mb-4">
                         <div className="mb-5">
-                            <label htmlFor="Title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-                            <input type="Title" name='Title' onChange={saveText} id="Title" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter a title for your video" required />
+                            <label htmlFor="Title" className="block mb-2 text-sm font-medium text-white">Title</label>
+                            <input type="Title" name='Title' onChange={saveText} id="Title" className="border text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" placeholder="Enter a title for your video" required />
                         </div>
                         <div className="mb-5">
-                            <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                            <textarea id="message" name='Description' onChange={(e) => setVideoDetails((prev) => ({ ...prev, Description: e.target.value }))} rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your descriptiom here..."></textarea>
+                            <label htmlFor="message" className="block mb-2 text-sm font-medium text-white">Description</label>
+                            <textarea id="message" name='Description' onChange={(e) => setVideoDetails((prev) => ({ ...prev, Description: e.target.value }))} rows={4} className="block p-2.5 w-full text-sm rounded-lg border bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" placeholder="Write your descriptiom here..."></textarea>
                         </div>
                         <div className="mb-5 flex">
                             {cate.length > 0 && cate.map((item) => (
@@ -194,13 +194,13 @@ function MyVideos() {
                             ))}
                         </div>
                         <div className="mb-5">
-                            <label htmlFor="Thumbnail" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Thumbnail</label>
-                            <input type="file" onChange={saveThumbnail} id="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                            <label htmlFor="Thumbnail" className="block mb-2 text-sm font-medium text-white">Thumbnail</label>
+                            <input type="file" onChange={saveThumbnail} id="password" className="border text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" required />
                         </div>
                         <div className="mb-5 flex">
                             <div className="ml-auto">
-                                <button type="button" onClick={() => uploadVideoValidation(true)} className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Upload As Shorts</button>
-                                <button type="button" onClick={() => uploadVideoValidation(false)} className="ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Upload As Video</button>
+                                <button type="button" onClick={() => uploadVideoValidation(true)} className="text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center bg-red-600 hover:bg-red-700 focus:ring-red-800">Upload As Shorts</button>
+                                <button type="button" onClick={() => uploadVideoValidation(false)} className="ml-2 text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800">Upload As Video</button>
                             </div>
                         </div>
                     </form>
@@ -216,11 +216,11 @@ function MyVideos() {
                         {videos && videos.length !== 0 ? (
                             videos.map((details, index) => (
                                 (index < pagination && index >= pagination - 6) && <>
-                                    <p key={index} onClick={() => Navigate("/FullVideo?videoId=" + details._id)} style={{ width: "100%" }} className="flex flex-col mt-3 bg-white border border-gray-200 rounded-lg shadow md:flex-row   hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                    <p key={index} onClick={() => Navigate("/FullVideo?videoId=" + details._id)} style={{ width: "100%" }} className="flex flex-col mt-3 border rounded-lg shadow md:flex-row border-gray-700 bg-gray-800 hover:bg-gray-700">
                                         <img style={{ width: "150px" }} className="object-cover w-full rounded-t-lg md:rounded-none md:rounded-s-lg" src={details.Thumbnail} alt={details.Title} />
                                         <div className="flex flex-col m-4 leading-normal">
-                                            <h5 className=" text-lg font-bold tracking-tight text-gray-900 dark:text-white">{details.Title}</h5>
-                                            <p className="font-normal text-gray-700 dark:text-gray-400">{details.Description}</p>
+                                            <h5 className=" text-lg font-bold tracking-tight text-white">{details.Title}</h5>
+                                            <p className="font-normal text-gray-400">{details.Description}</p>
                                             <p>{details.channelName} <span className='ml-auto'>{"details.Views"} views</span></p>
                                             <button type="button" onClick={(e) => {
                                                 e.stopPropagation()
@@ -228,7 +228,7 @@ function MyVideos() {
                                                     setEditVideo(details)
                                                     scrollDown()
                                                 }, 100)
-                                            }} className="text-gray-900 mt-2 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Edit</button>
+                                            }} className="mt-2 border focus:outline-none focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 bg-gray-800 text-white border-gray-600 hover:bg-gray-700 hover:border-gray-600 focus:ring-gray-700">Edit</button>
                                         </div>
                                     </p>
                                 </>
@@ -254,9 +254,9 @@ function MyVideos() {
                                         </p>
                                         <div className="p-3">
                                             <p>
-                                                <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{short.Title}</h5>
+                                                <h5 className="mb-2 text-xl font-bold tracking-tight text-white">{short.Title}</h5>
                                             </p>
-                                            <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{short.Description}</p>
+                                            <p className="mb-3 font-normal text-gray-400">{short.Description}</p>
                                         </div>
                                         <div className="flex">
                                             <button type="button" onClick={(e) => {
@@ -265,7 +265,7 @@ function MyVideos() {
                                                     setEditVideo(short)
                                                     scrollDown()
                                                 }, 100)
-                                            }} className="text-gray-900 mx-auto bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                                            }} className="mx-auto border focus:outline-none focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 bg-gray-800 text-white border-gray-600 hover:bg-gray-700 hover:border-gray-600 focus:ring-gray-700">
                                                 Edit
                                             </button>
                                         </div>
@@ -356,31 +356,31 @@ function UpdateImage({ videoDetails, setEditVideo, setVideos, videos, setShorts,
                     <div className="flex">
                         <img src={thumbnailUrl} className="rounded-lg mt-3 w-[300px] h-auto" alt="Thumbnail" />
                         <div className="flex mt-3 ml-5 items-center justify-center w-full" >
-                            <label htmlFor="dropzone-file1" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                            <label htmlFor="dropzone-file1" className="flex flex-col items-center justify-center w-full h-64 border-2border-dashed rounded-lg cursor-pointer hover:bg-bray-800 bg-gray-700 border-gray-600 hover:border-gray-500 hover:bg-gray-600">
                                 <div className="flex flex-col items-center justify-center pt-5 pb-6" >
-                                    <svg className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                    <svg className="w-8 h-8 mb-4 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                                     </svg>
-                                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                    <p className="mb-2 text-sm text-gray-400">
                                         <span className="font-semibold">Click to change Thumbnail</span>
                                     </p>
-                                    <p className="text-xs text-gray-500 dark:text-gray-400">IMAGE JPEG,PNG OR ANY OTHER FORMAT (MAX SIZE. 1GB)</p>
+                                    <p className="text-xs text-gray-400">IMAGE JPEG,PNG OR ANY OTHER FORMAT (MAX SIZE. 1GB)</p>
                                 </div>
                                 <input id="dropzone-file1" onChange={saveThumbnail} type="file" accept="image/*" className="hidden" />
                             </label>
                         </div>
                     </div>
                     <div className="mb-5 mt-2">
-                        <label htmlFor="text" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your title</label>
+                        <label htmlFor="text" className="block mb-2 text-sm font-medium text-white">Your title</label>
                         <input type="text" onChange={(e) => {
                             videoDetails.Title = e.target.value
-                        }} defaultValue={videoDetails.Title} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" placeholder="name@flowbite.com" required />
+                        }} defaultValue={videoDetails.Title} className="shadow-sm border text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500 shadow-sm-light" placeholder="" required />
                     </div>
                     <div className="mb-5">
-                        <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your description</label>
+                        <label htmlFor="description" className="block mb-2 text-sm font-medium text-white">Your description</label>
                         <input type="description" onChange={(e) => {
                             videoDetails.Description = e.target.value
-                        }} defaultValue={videoDetails.Description} id="description" className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required />
+                        }} defaultValue={videoDetails.Description} id="description" className="shadow-sm border  text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500 shadow-sm-light" required />
                     </div>
                     <div className="flex">
                         {cate.length > 0 && cate.map((item) => (
@@ -396,7 +396,7 @@ function UpdateImage({ videoDetails, setEditVideo, setVideos, videos, setShorts,
                             </div>
                         ))}
                     </div>
-                    <button type="button" onClick={editVideo} className="text-white mt-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit Now</button>
+                    <button type="button" onClick={editVideo} className="text-white mt-2 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800">Edit Now</button>
                 </form>
 
             </div>
