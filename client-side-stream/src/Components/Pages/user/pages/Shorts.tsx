@@ -195,10 +195,10 @@ const Shorts = () => {
                                     <img className="w-9 h-9 rounded-full" src={comm?.profileImage} alt="Profile" />
                                   </div>
                                   <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-semibold text-gray-900 truncate dark:text-white">
+                                    <p className="text-sm font-semibold truncate text-white">
                                       {comm.userName}
                                     </p>
-                                    <p className="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    <p className="text-sm truncate text-gray-400">
                                       {comm.Comment}
                                     </p>
                                   </div>
@@ -211,7 +211,7 @@ const Shorts = () => {
                       </>}
                     </div>
                     <div className="flex">
-                      <input type="text" value={textComment} onChange={(e) => setTextComment(e.target.value)} placeholder="Your comments here...." name="Email" id="floating_email" className="ml-3 w-[95%] bottom-0 block py-1 px-0 text-sm text-white-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-graye dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
+                      <input type="text" value={textComment} onChange={(e) => setTextComment(e.target.value)} placeholder="Your comments here...." name="Email" id="floating_email" className="ml-3 w-[95%] bottom-0 block py-1 px-0 text-sm text-white-900 bg-transparent border-0 border-b-2 appearance-none text-graye border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 peer" />
                       <button type="button" onClick={() => {
                         if (commentsRef.current) {
                           commentsRef.current.scrollTop = commentsRef.current.scrollHeight;
@@ -240,7 +240,7 @@ const Shorts = () => {
                           return updatedComments;
                         });
                       }
-                      } className="inline-flex ml-4 justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                      } className="inline-flex ml-4 justify-center p-2 rounded-full cursor-pointer text-blue-500 hover:bg-gray-600">
                         <svg className="w-5 h-5 rotate-90 rtl:-rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
                           <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z" />
                         </svg>

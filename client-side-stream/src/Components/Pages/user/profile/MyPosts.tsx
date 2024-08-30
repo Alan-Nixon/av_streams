@@ -125,12 +125,12 @@ function MyPosts() {
                 {error && <p className="error">{error}</p>}
                 <form className="max-w-full mt-3 mb-4">
                     <div className="mb-5">
-                        <label htmlFor="Title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title</label>
-                        <input name='Title' onChange={saveText} type="Title" id="Title" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter a title for your post" required />
+                        <label htmlFor="Title" className="block mb-2 text-sm font-medium text-white">Title</label>
+                        <input name='Title' onChange={saveText} type="Title" id="Title" className="border text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" placeholder="Enter a title for your post" required />
                     </div>
                     <div className="mb-5">
-                        <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                        <textarea name='Description' onChange={saveText} id="message" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your descriptiom here..."></textarea>
+                        <label htmlFor="message" className="block mb-2 text-sm font-medium text-white">Description</label>
+                        <textarea name='Description' onChange={saveText} id="message" rows={4} className="block p-2.5 w-full text-sm rounded-lg border bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" placeholder="Write your descriptiom here..."></textarea>
                     </div>
                 </form>
             </div>
@@ -138,13 +138,13 @@ function MyPosts() {
 
             {imageName && <div className=""><p>Selected Image : {imageName}</p></div>}
             <div className="flex mb-5 mt-3 items-center justify-center w-full">
-                <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer hover:bg-bray-800 bg-gray-700 border-gray-600 hover:border-gray-500 hover:bg-gray-600">
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                        <svg className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                        <svg className="w-8 h-8 mb-4 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                         </svg>
-                        <p className="mb-2 text-sm text-gray-500 dark:text-gray-400"><span className="font-semibold">Click to upload</span></p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                        <p className="mb-2 text-sm text-gray-400"><span className="font-semibold">Click to upload</span></p>
+                        <p className="text-xs text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                     </div>
                     <input id="dropzone-file" type="file" onChange={savePost} accept="image/*" className="hidden" />
                 </label>
@@ -153,7 +153,7 @@ function MyPosts() {
 
             <div className="mb-5 flex">
                 <div className="ml-auto">
-                    <button type="button" onClick={uploadPostValidation} className="ml-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Upload</button>
+                    <button type="button" onClick={uploadPostValidation} className="ml-2 text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800">Upload</button>
                 </div>
             </div>
             {loading ? <>
@@ -164,14 +164,14 @@ function MyPosts() {
                 {myPost && myPost.map((data, index) => (
                     <div className='mt-1 ease-out' key={index}>
                         <div className="flex">
-                            <ul role="list" className="max-w-sm divide-y divide-gray-200 dark:divide-gray-700">
+                            <ul role="list" className="max-w-sm divide-y divide-gray-700">
                                 <li className="sm:py-1">
                                     <div className="flex items-center space-x-3 rtl:space-x-reverse">
                                         <div className="flex-shrink-0">
                                             <img className="w-8 h-8 rounded-full" src={data.profileLink} alt="Neil image" />
                                         </div>
                                         <div className="flex-1 min-w-0">
-                                            <p className="text-md font-semibold text-gray-900 truncate dark:text-white">
+                                            <p className="text-md font-semibold truncate text-white">
                                                 {data.channelName}
                                             </p>
                                         </div>
@@ -179,8 +179,8 @@ function MyPosts() {
                                 </li>
                             </ul>
                             <div className="ml-auto mt-1 mr-3">
-                                <button onClick={() => deletePost(index, data.postLink, data._id)} className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800">
-                                    <span className="relative px-5 py-2 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                <button onClick={() => deletePost(index, data.postLink, data._id)} className="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white text-white focus:ring-4 focus:outline-none focus:ring-purple-800">
+                                    <span className="relative px-5 py-2 transition-all ease-in duration-75 bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                         Delete Post
                                     </span>
                                 </button>

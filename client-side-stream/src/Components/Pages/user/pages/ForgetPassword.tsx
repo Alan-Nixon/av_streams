@@ -51,11 +51,11 @@ function ForgetPassword() {
                             {error && <p className='error'>{error}</p>}
                             {success && <p className='success'>{success}</p>}
                             <div className="mb-4">
-                                <div className="flex items-center border-b border-b-2 border-blue-500 py-2">
+                                <div className="flex items-center border-b-2 border-blue-500 py-2">
                                     <span className="mr-3"><i className="fa fa-envelope color-blue"></i></span>
                                     <input onChange={onchangeFunc} id="Password" name="Password" placeholder="Enter the new password" className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="Password" />
                                 </div>
-                                <div className="flex mt-8 items-center border-b border-b-2 border-blue-500 py-2">
+                                <div className="flex mt-8 items-center border-b-2 border-blue-500 py-2">
                                     <span className="mr-3"><i className="fa fa-envelope color-blue"></i></span>
                                     <input onChange={onchangeFunc} id="confirmPassword" name="confirmPassword" placeholder="Repeat new password" className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="Password" />
                                 </div>
