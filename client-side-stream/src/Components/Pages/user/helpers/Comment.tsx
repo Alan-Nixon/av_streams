@@ -117,14 +117,14 @@ function Comment({ CommentsArray, Section, LinkId, incComm, indexKey }: CommentP
             <div style={{ width: "97%" }} className='ml-2'>
                 <label htmlFor="chat" className="sr-only">Your message</label>
                 <div className="flex items-center px-3 py-2 rounded-lg"  >
-                    <button type="button" onClick={() => setSelectEmoji(!selectEmoji)} className="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                    <button type="button" onClick={() => setSelectEmoji(!selectEmoji)} className="p-2 rounded-lg cursor-pointer text-gray-400 hover:text-white hover:bg-gray-600">
                         <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.408 7.5h.01m-6.876 0h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM4.6 11a5.5 5.5 0 0 0 10.81 0H4.6Z" />
                         </svg>
                     </button>
-                    <input type="text" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Your comments here...." name="Email" id="floating_email" className="ml-3 block py-1 px-0 w-full text-sm text-white-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-graye dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
+                    <input type="text" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Your comments here...." name="Email" id="floating_email" className="ml-3 block py-1 px-0 w-full text-sm text-white-900 bg-transparent border-0 border-b-2 appearance-none text-graye border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
 
-                    <button type="button" onClick={() => uploadComment()} className="inline-flex ml-4 justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                    <button type="button" onClick={() => uploadComment()} className="inline-flex ml-4 justify-center p-2 rounded-full cursor-pointer text-blue-500 hover:bg-gray-600">
                         <svg className="w-5 h-5 rotate-90 rtl:-rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
                             <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z" />
                         </svg>
@@ -136,7 +136,7 @@ function Comment({ CommentsArray, Section, LinkId, incComm, indexKey }: CommentP
             </div>
 
 
-            <ul role="list" style={{ width: "85%" }} className="ml-16 divide-gray-200 dark:divide-gray-700">
+            <ul role="list" style={{ width: "85%" }} className="ml-16 divide-gray-700">
                 {Comments?.length !== 0 ? Comments?.map((comm, index) => {
                     return (
                         <li className="py-2" key={index}>
@@ -145,13 +145,13 @@ function Comment({ CommentsArray, Section, LinkId, incComm, indexKey }: CommentP
                                     <img className="w-9 h-9 rounded-full" src={comm?.profileImage} alt="Neil image" />
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-semibold text-gray-900 truncate dark:text-white">
+                                    <p className="text-sm font-semibold truncate text-white">
                                         {comm.userName}
                                     </p>
-                                    <p className="text-sm text-gray-500 truncate dark:text-gray-400">
+                                    <p className="text-sm truncate text-gray-400">
                                         {comm.Comment}
                                     </p>
-                                    <p onClick={() => toggleReply(index)} className="cursor-pointer text-sm text-gray-500 truncate dark:text-gray-400"><span className="">{(comm?.Replies?.length || "0") + " Replies"}</span></p>
+                                    <p onClick={() => toggleReply(index)} className="cursor-pointer text-sm truncate text-gray-400"><span className="">{(comm?.Replies?.length || "0") + " Replies"}</span></p>
                                 </div>
 
                                 <div className="">
@@ -172,15 +172,15 @@ function Comment({ CommentsArray, Section, LinkId, incComm, indexKey }: CommentP
                                     <form className='w-full'>
                                         <label htmlFor="chat" className="sr-only">Your message</label>
                                         <div className="flex items-center px-3 py-2 rounded-lg"  >
-                                            <button type="button" className="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                                            <button type="button" className="p-2 rounded-lg cursor-pointer text-gray-400 hover:text-white hover:bg-gray-600">
                                                 <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.408 7.5h.01m-6.876 0h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM4.6 11a5.5 5.5 0 0 0 10.81 0H4.6Z" />
                                                 </svg>
                                                 <span className="sr-only">Add emoji</span>
                                             </button>
-                                            <input type="text" onChange={(e) => setReply(e.target.value)} placeholder="Your comments here...." name="Email" id="floating_email" className="ml-3 block py-1 px-0 w-full text-sm text-white-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-graye dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
+                                            <input type="text" onChange={(e) => setReply(e.target.value)} placeholder="Your comments here...." name="Email" id="floating_email" className="ml-3 block py-1 px-0 w-full text-sm text-white-900 bg-transparent border-0 border-b-2 appearance-none text-graye border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
 
-                                            <button type="button" onClick={() => uploadReply(comm._id)} className="inline-flex ml-4 justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                                            <button type="button" onClick={() => uploadReply(comm._id)} className="inline-flex ml-4 justify-center p-2 rounded-full cursor-pointer text-blue-500 hover:bg-gray-600">
                                                 <svg className="w-5 h-5 rotate-90 rtl:-rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
                                                     <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z" />
                                                 </svg>
@@ -195,10 +195,10 @@ function Comment({ CommentsArray, Section, LinkId, incComm, indexKey }: CommentP
                                                     <img className="w-9 h-9 rounded-full" src={user?.profileImage} alt="Neil image" />
                                                 </div>
                                                 <div className="flex-1 min-w-0">
-                                                    <p className="text-sm font-semibold text-gray-900 truncate dark:text-white">
+                                                    <p className="text-sm font-semibold truncate text-white">
                                                         {item.userName}
                                                     </p>
-                                                    <p className="text-sm text-gray-500 truncate dark:text-gray-400">
+                                                    <p className="text-sm truncate text-gray-400">
                                                         {item.Reply}
                                                     </p>
                                                 </div>

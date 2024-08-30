@@ -91,7 +91,7 @@ function CategoryManagement() {
                 <div className="m-2">
                     <div className="flex">
                         <h2 className="text-xl mt-5">Category Management</h2>
-                        <button onClick={() => showAddCate()} type="button" className="text-gray-900 ml-auto mt-3 mr-5 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600">Add Category</button>
+                        <button onClick={() => showAddCate()} type="button" className="ml-auto mt-3 mr-5 border focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 bg-gray-800 text-white border-gray-600 hover:bg-gray-700 hover:border-gray-600">Add Category</button>
                     </div>
                     <div className="w-[95%] m-5">
                         <DataTable columnsData={columnData} rowsData={category} />

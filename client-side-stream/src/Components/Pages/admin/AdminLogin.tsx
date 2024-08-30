@@ -38,11 +38,11 @@ export default function AdminLogin() {
 
     }
     return (
-        <section className=" bg-neutral-200 dark:bg-neutral-700">
+        <section className="bg-neutral-700">
             <div className="container h-full p-10">
-                <div className=" ml-8 flex  flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200" style={{ marginLeft: "7%" }}>
+                <div className=" ml-8 flex  flex-wrap items-center justify-center text-neutral-200" style={{ marginLeft: "7%" }}>
                     <div className="w-full" >
-                        <div className="block rounded-lg bg-white shadow-lg dark:bg-neutral-800" >
+                        <div className="block rounded-lg shadow-lg bg-neutral-800" >
                             <div className="g-0 lg:flex lg:flex-wrap">
                                 {/* <!-- Left column container--> */}
                                 <div className="px-4 md:px-0 lg:w-6/12" style={{ margin: "auto" }}>
@@ -63,13 +63,13 @@ export default function AdminLogin() {
 
                                             <div className="mb-5">
                                                 {error.emailErr && <p className="error">{error.emailErr}</p>}
-                                                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                                                <input name="Email" autoComplete="email" onChange={creadentialsEnter} type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@gmail.com" required />
+                                                <label htmlFor="email" className="block mb-2 text-sm font-medium text-white">Your email</label>
+                                                <input name="Email" autoComplete="email" onChange={creadentialsEnter} type="email" id="email" className="border text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" placeholder="name@gmail.com" required />
                                             </div>
                                             <div className="mb-5">
                                                 {error.passwordErr && <p className="error">{error.passwordErr}</p>}
-                                                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
-                                                <input name="Password" onChange={creadentialsEnter} type="password" id="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="your password here" required autoComplete="current-password" />
+                                                <label htmlFor="password" className="block mb-2 text-sm font-medium text-white">Your password</label>
+                                                <input name="Password" onChange={creadentialsEnter} type="password" id="password" className="text-sm block w-full p-2.5 border rounded-lg bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" placeholder="your password here" required autoComplete="current-password" />
                                             </div>
 
                                             {/* <!--Submit button--> */}

@@ -103,7 +103,7 @@ function Channel() {
             <div className="m-2">
                 <h1 className='text-xl font-bold'>Welcome to {channelDetails.channelName}</h1>
                 {!user && <ChakraMessage message={"you need to login to follow and message"} />}
-                <Card className="cursor-default ml-8 mt-2 mr-5 dark:bg-gray-800" style={{ backgroundColor: "rgb(31 41 55 / var(--tw-bg-opacity))", borderRadius: "8%", minWidth: "370px" }} >
+                <Card className="cursor-default ml-8 mt-2 mr-5 bg-gray-800" style={{ backgroundColor: "rgb(31 41 55 / var(--tw-bg-opacity))", borderRadius: "8%", minWidth: "370px" }} >
                     <CardActionArea>
                         <CardContent>
                             <div className="flex ml-5">
@@ -194,16 +194,16 @@ function Channel() {
                             <button type="button" className="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide 5" data-carousel-slide-to="4"></button>
                         </div>
                         <button type="button" onClick={() => switchCarousel(false)} className="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
-                            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                                <svg className="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-800/30 group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white group-focus:ring-gray-800/70 group-focus:outline-none">
+                                <svg className="w-4 h-4 text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 1 1 5l4 4" />
                                 </svg>
                                 <span className="sr-only">Previous</span>
                             </span>
                         </button>
                         <button type="button" onClick={() => switchCarousel(true)} className="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
-                            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                                <svg className="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-800/30 group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white group-focus:ring-gray-800/70 group-focus:outline-none">
+                                <svg className="w-4 h-4 text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
                                 </svg>
                                 <span className="sr-only">Next</span>
@@ -220,7 +220,7 @@ function Channel() {
                                     <img className="rounded-t-lg w-full" src={item.Thumbnail} alt="" />
                                 </p>
                                 <div className="p-5">
-                                    <p> <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{item.Title}</h5></p>
+                                    <p> <h5 className="mb-2 text-xl font-bold tracking-tight text-white">{item.Title}</h5></p>
                                     <p className="text-yellow-700 font-bold">Premium</p>
                                 </div>
                             </div>
@@ -251,17 +251,17 @@ function Channel() {
                                     <img className="rounded-t-lg w-full" src={details.Thumbnail} alt="" />
                                 </p>
                                 <div className="p-5">
-                                    <p> <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{details.Title}</h5></p>
+                                    <p> <h5 className="mb-2 text-xl font-bold tracking-tight text-white">{details.Title}</h5></p>
                                     <p className="text-yellow-700 font-bold">Premium</p>
                                 </div>
                             </div>
                         </> : <>
 
-                            <p key={index} onClick={() => Navigate("/FullVideo?videoId=" + details._id)} style={{ width: "100%" }} className="flex  mt-3 bg-white border border-gray-200 rounded-lg shadow md:flex-row   hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                            <p key={index} onClick={() => Navigate("/FullVideo?videoId=" + details._id)} style={{ width: "100%" }} className="flex  mt-3 border rounded-lg shadow md:flex-row border-gray-700 bg-gray-800 hover:bg-gray-700">
                                 <img style={{ width: "150px" }} className="object-cover w-full rounded-t-lg md:rounded-none md:rounded-s-lg" src={details.Thumbnail} alt={details.Title} />
                                 <div className="flex flex-col m-4 leading-normal">
-                                    <h5 className=" text-lg font-bold tracking-tight text-gray-900 dark:text-white">{details.Title}</h5>
-                                    <p className="font-normal text-gray-700 dark:text-gray-400">{details.Description}</p>
+                                    <h5 className=" text-lg font-bold tracking-tight text-white">{details.Title}</h5>
+                                    <p className="font-normal text-gray-400">{details.Description}</p>
                                     <p>{details.channelName}</p>
                                 </div>
                             </p>

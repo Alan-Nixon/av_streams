@@ -342,7 +342,7 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
                         <div className="flex">
                             <CloseIcon onClick={() => stopRecording()} />
                             <div className="mx-auto">{time.toString()} Recording...</div>
-                            <button type="button" onClick={() => sendAudioMessage()} className="inline-flex ml-4 justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                            <button type="button" onClick={() => sendAudioMessage()} className="inline-flex ml-4 justify-center p-2 rounded-full cursor-pointer text-blue-500 hover:bg-gray-600">
                                 <svg className="w-5 h-5 rotate-90 rtl:-rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
                                     <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z" />
                                 </svg>
@@ -351,7 +351,7 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
                     </> : <>
 
                         <div className="flex">
-                            <button type="button" onClick={() => setSelectEmoji(!selectEmoji)} className="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600">
+                            <button type="button" onClick={() => setSelectEmoji(!selectEmoji)} className="p-2 rounded-lg cursor-pointer text-gray-400 hover:text-white hover:bg-gray-600">
                                 <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.408 7.5h.01m-6.876 0h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM4.6 11a5.5 5.5 0 0 0 10.81 0H4.6Z" />
                                 </svg>
@@ -359,9 +359,9 @@ const SingleChat = ({ setChatHome, personDetails, messages, messageSocket, setMe
                             <input onChange={onChangeFunc} value={message} className="flex items-center h-10 w-full rounded px-3 text-sm" type="text" placeholder="Type your message…" />
                             <div className="flex p-1">
                                 <input type="file" ref={selectFile} className="hidden" />
-                                <AttachFileIcon onClick={() => selectFile.current.click()} className='inline-flex mt-1 h-10 justify-center text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600' />
-                                <KeyboardVoiceIcon onClick={() => startRecording()} className='inline-flex mt-1 h-10 justify-center text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600' />
-                                <button type="button" onClick={() => sendMessage()} className="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                                <AttachFileIcon onClick={() => selectFile.current.click()} className='inline-flex mt-1 h-10 justify-center rounded-full cursor-pointer text-blue-500 hover:bg-gray-600' />
+                                <KeyboardVoiceIcon onClick={() => startRecording()} className='inline-flex mt-1 h-10 justify-center rounded-full cursor-pointer text-blue-500 hover:bg-gray-600' />
+                                <button type="button" onClick={() => sendMessage()} className="inline-flex justify-center p-2 rounded-full cursor-pointer text-blue-500 hover:bg-gray-600">
                                     <svg className="w-5 h-5 rotate-90 rtl:-rotate-90" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
                                         <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z" />
                                     </svg>

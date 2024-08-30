@@ -101,7 +101,7 @@ function NavBar() {
         <nav style={{ zIndex: "999" }} className="fixed top-0 left-0 right-0 bg-gray-900   border-white border-b-[1px] z-10">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
                 <div className="flex  space-x-3 ml-10">
-                    <button data-collapse-toggle="navbar-default" onClick={() => setShowHideSideBar(!showHideSideBar)} type="button" className="hamburgerButtonDiv ml-auto flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">
+                    <button data-collapse-toggle="navbar-default" onClick={() => setShowHideSideBar(!showHideSideBar)} type="button" className="hamburgerButtonDiv ml-auto flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden focus:outline-none focus:ring-2 text-gray-400 hover:bg-gray-700 focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">
                         <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
                             <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15" />
                         </svg>
@@ -149,12 +149,12 @@ function NavBar() {
                         ) : (
                             <>
                                 <div className="flex space-x-2">
-                                    <button onClick={() => window.location.href = '/Login'} className="relative inline-flex mt-1 items-center justify-center p-0.5 mb-1 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+                                    <button onClick={() => window.location.href = '/Login'} className="relative inline-flex mt-1 items-center justify-center p-0.5 mb-1 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white text-white focus:ring-4 focus:outline-none focus:ring-blue-800">
                                         <span className="relative px-5 py-1 transition-all ease-in duration-75 text-white bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                             Login
                                         </span>
                                     </button>
-                                    <button onClick={() => window.location.href = "/Signup"} className="relative inline-flex mt-1 items-center justify-center p-0.5 mb-1 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+                                    <button onClick={() => window.location.href = "/Signup"} className="relative inline-flex mt-1 items-center justify-center p-0.5 mb-1 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white text-white focus:ring-4 focus:outline-none focus:ring-green-800">
                                         <span className="relative px-5 py-1 transition-all ease-in duration-75 text-white bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                             Register
                                         </span>
@@ -178,7 +178,7 @@ function NavBar() {
             {user && !chatWindow && (
                 <div onClick={() => {
                     setChatwindow(!chatWindow)
-                }} className="fixed bottom-0 right-0 mb-4 mr-4 w-[40px] h-[40px] rounded-full dark:bg-gray-900 flex items-center z-50 justify-center">
+                }} className="fixed bottom-0 right-0 mb-4 mr-4 w-[40px] h-[40px] rounded-full bg-gray-900 flex items-center z-50 justify-center">
                     <button className="bg-transparent w-full h-full rounded-full text-xl text-white flex items-center justify-center">
                         <i className="fa fa-comments"></i>
                     </button>

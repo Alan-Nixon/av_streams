@@ -105,7 +105,7 @@ function BannerManagement() {
                             <input className='hidden' onChange={addImage} accept='image/*' type="file" ref={addBannerRef} />
                             {currentimage && <p>{currentimage?.name}</p>}
                             <button onClick={() => { addBannerRef.current?.click() }} type="button" className="ml-auto text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl  font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Add Banners</button>
-                            {currentimage && <button onClick={() => saveBannerImage("videos")} type="button" className="mr-12 text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 ">Save</button>}
+                            {currentimage && <button onClick={() => saveBannerImage("videos")} type="button" className="mr-12 text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br shadow-lg shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 ">Save</button>}
                         </div>
                         <h2 className="text-xl">Video Banner</h2>
                         <div className='flex mt-3 flex-wrap'>
@@ -118,7 +118,7 @@ function BannerManagement() {
                                                 setUpdateBannerId(item._id)
                                                 updateBannerRef.current?.click()
                                             }} className="text-white bg-gradient-to-br from-red-500 to-orange-400 hover:bg-gradient-to-bl font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Update Banner</button>
-                                            {gtThanTwo && <button onClick={() => deleteBanner(item._id)} type="button" className="text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 dark:focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Remove</button>}
+                                            {gtThanTwo && <button onClick={() => deleteBanner(item._id)} type="button" className="text-gray-900 bg-gradient-to-r from-teal-200 to-lime-200 hover:bg-gradient-to-l hover:from-teal-200 hover:to-lime-200 focus:ring-teal-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Remove</button>}
                                         </div>
                                     </div>
                                 )

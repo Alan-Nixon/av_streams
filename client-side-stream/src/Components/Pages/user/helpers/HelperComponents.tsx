@@ -14,17 +14,17 @@ export const Pagination = ({ pagination, paginationFunc, Data, maxCount }: pagin
             <div className="dark-bg-blue-300" style={{ width: "60%" }} ></div>
             <div style={{ width: "40%" }}>
                 <div className="flex flex-col">
-                    <span className="text-sm text-gray-700 dark:text-gray-400">
-                        Showing <span className="font-semibold text-gray-900 dark:text-white">{pagination - maxCount}</span> to <span className="font-semibold text-gray-900 dark:text-white">{Math.min(pagination, Data.length)}</span> of <span className="font-semibold text-gray-900 dark:text-white">{Data?.length}</span> Transactions
+                    <span className="text-sm text-gray-400">
+                        Showing <span className="font-semibold text-white">{pagination - maxCount}</span> to <span className="font-semibold text-white">{Math.min(pagination, Data.length)}</span> of <span className="font-semibold text-white">{Data?.length}</span> Transactions
                     </span>
                     <div className="inline-flex mt-2 xs:mt-0">
-                        <button onClick={() => paginationFunc(false)} style={{ cursor: pagination <= maxCount ? "not-allowed" : "pointer" }} className="flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                        <button onClick={() => paginationFunc(false)} style={{ cursor: pagination <= maxCount ? "not-allowed" : "pointer" }} className="flex items-center justify-center px-4 h-10 text-base font-medium rounded-s bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700 hover:text-white">
                             <svg className="w-3.5 h-3.5 me-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4" />
                             </svg>
                             Prev
                         </button>
-                        <button onClick={() => paginationFunc(true)} style={{ cursor: pagination > Data?.length ? "not-allowed" : "pointer" }} className="flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                        <button onClick={() => paginationFunc(true)} style={{ cursor: pagination > Data?.length ? "not-allowed" : "pointer" }} className="flex items-center justify-center px-4 h-10 text-base font-medium border-0 border-s rounded-e bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700 hover:text-white">
                             Next
                             <svg className="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
@@ -73,7 +73,7 @@ export const ShowPosts = ({ Data }: any) => {
     return (<>
         {posts.map((data, index) => (
             <div className='mt-1' key={index}>
-                <ul role="list" onClick={() => Navigate('/channel?userId=' + data.userId)} className="max-w-sm cursor-pointer divide-y divide-gray-200 dark:divide-gray-700">
+                <ul role="list" onClick={() => Navigate('/channel?userId=' + data.userId)} className="max-w-sm cursor-pointer divide-y divide-gray-700">
                     <li className="sm:py-1">
                         <div className="flex items-center space-x-3 rtl:space-x-reverse">
                             <div className="flex-shrink-0">
@@ -121,13 +121,13 @@ export function ModalPremium({ visible, setVisible }: ModalInterfaceStateSetStat
             <div id="default-modal" tabIndex={-1} aria-hidden="true" style={{ marginLeft: "25%", marginTop: "7%", position: "fixed" }} className={`${!visible && "hidden"} fixed overflow-y-auto overflow-x-hidden  z-50  w-full md:inset-0 h-[calc(100%-1rem)] max-h-full`}>
                 <div className=" p-4 w-full max-w-2xl max-h-full">
 
-                    <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <div className="relative rounded-lg shadow bg-gray-700">
 
-                        <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                            <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                        <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
+                            <h3 className="text-xl font-semibold text-white">
                                 Terms of Subscription
                             </h3>
-                            <button type="button" onClick={() => setVisible(false)} className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
+                            <button type="button" onClick={() => setVisible(false)} className="text-gray-400 bg-transparent rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center hover:bg-gray-600 hover:text-white" data-modal-hide="default-modal">
                                 <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                                 </svg>
@@ -136,18 +136,18 @@ export function ModalPremium({ visible, setVisible }: ModalInterfaceStateSetStat
                         </div>
 
                         <div className="p-4 md:p-5 space-y-4">
-                            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                            <p className="text-base leading-relaxed text-gray-400">
                                 At av streams, we offer three types of subscriptions tailored to meet your streaming needs: weekly, monthly, and yearly. With each subscription, you gain access to a premium streaming experience, free from interruptions by advertisements.
                             </p>
-                            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                            <p className="text-base leading-relaxed text-gray-400">
                                 For your convenience, all subscriptions come with auto-renewal enabled. Once activated, your subscription will automatically renew at the end of its duration using the funds available in your wallet. This ensures uninterrupted access to premium content without the hassle of manual renewal. This can be disable in your profile
                             </p>
                         </div>
 
-                        <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                        <div className="flex items-center p-4 md:p-5 border-t rounded-b border-gray-600">
                             <div className="" style={{ float: "right" }}>
-                                <button data-modal-hide="default-modal" type="button" onClick={() => Navigate('/subscription')} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
-                                <button data-modal-hide="default-modal" type="button" onClick={() => setVisible(false)} className="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Decline</button>
+                                <button data-modal-hide="default-modal" type="button" onClick={() => Navigate('/subscription')} className="text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800">I accept</button>
+                                <button data-modal-hide="default-modal" type="button" onClick={() => setVisible(false)} className="py-2.5 px-5 ms-3 text-sm font-medium focus:outline-none rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700">Decline</button>
                             </div>
                         </div>
                     </div>
