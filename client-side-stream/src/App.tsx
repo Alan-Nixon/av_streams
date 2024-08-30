@@ -1,5 +1,5 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { isUserAuthenticated } from './Functions/userFunctions/userManagement';
 import { isAdminAuthenticated } from './Functions/userFunctions/adminManagement';
 import { ContentProps } from './Functions/interfaces';
@@ -8,7 +8,7 @@ import { setAdminAuthenticated, setUserAuthenticated } from './Redux/authenticat
 import StartLive from './Components/Pages/user/pages/StartLive';
 import Subscription from './Components/Pages/user/pages/Subscription';
 import ReportManagement from './Components/Pages/admin/ReportManagement';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Components/css/Game.css'
 import { useSocket } from './Functions/realtime/socketContext';

@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { ContentProps } from "./Functions/interfaces";
 import { useUser } from "./UserContext";
 import { ZegoExpressEngine } from 'zego-express-engine-webrtc';
-import { v4 as uuidv4 } from 'uuid';
 
 const LiveContext = createContext<any>({
     zg: null,

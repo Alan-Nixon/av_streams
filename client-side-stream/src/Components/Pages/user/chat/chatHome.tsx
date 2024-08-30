@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { channelInterface, chatHomeIterface, chatHomeUsers, } from '../../../../Functions/interfaces'
+import { chatHomeIterface, chatHomeUsers, } from '../../../../Functions/interfaces'
 import { useUser } from '../../../../UserContext'
 import { getChatOfUser } from '../../../../Functions/chatFunctions/chatManagement'
 import { useNavigate } from 'react-router-dom'

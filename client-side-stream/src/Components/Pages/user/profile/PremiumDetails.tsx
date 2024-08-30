@@ -3,17 +3,15 @@ import { useUser } from '../../../../UserContext'
 import { getSubscriptionDetails, isPremiumUser } from '../../../../Functions/userFunctions/userManagement'
 import Subscription from '../pages/Subscription'
 import { SubscriptionInterfaceDataSuccess } from '../../../../Functions/interfaces'
-import { FlowMessageShower, toastFunction } from '../../../messageShowers/ToastFunction'
+import { FlowMessageShower } from '../../../messageShowers/ToastFunction'
 import { toast } from 'react-hot-toast'
 import { cancelSubscription } from '../../../../Functions/userFunctions/adminManagement'
-import { useNavigate } from 'react-router-dom'
 
 function PremiumDetails() {
     const [isPrem, setIsprem] = useState(false)
     const [loading, setLoading] = useState(true)
     const [subscription, setSubscription] = useState<SubscriptionInterfaceDataSuccess>()
-    const { user } = useUser();
-    const navigate = useNavigate()
+    const { user } = useUser(); 
 
     useEffect(() => {
         if (user && user?._id) {

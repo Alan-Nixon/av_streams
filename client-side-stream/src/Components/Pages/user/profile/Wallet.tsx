@@ -130,26 +130,26 @@ export default function WalletSection() {
     </> : <>
         <div className={width < 900 ? "ml-14 block" : "ml-8 mt-6 flex"}>
 
-            <div className={`w-${width >= 900 ? "3/4" : "full"} max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700`} style={{ maxHeight: "284px", marginTop: "5%" }}>
+            <div className={`w-${width >= 900 ? "3/4" : "full"} max-w-sm border rounded-lg shadow bg-gray-800 border-gray-700`} style={{ maxHeight: "284px", marginTop: "5%" }}>
                 <div className="flex flex-col items-center pb-10 mt-5">
                     <img className="w-24 h-24 mb-3 rounded-full shadow-lg" src={user?.profileImage} alt="Bonnie image" />
-                    <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">{user?.FullName}</h5>
-                    <span className="text-sm text-gray-500 dark:text-gray-400">Wallet balance : {walletDetails?.Balance}</span>
+                    <h5 className="mb-1 text-xl font-medium text-white">{user?.FullName}</h5>
+                    <span className="text-sm text-gray-400">Wallet balance : {walletDetails?.Balance}</span>
                     <div className="sm:flex-wrap md:flex mt-4 md:mt-6">
-                        <p onClick={() => setShowAddWithdraw("Add Money")} className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add Money</p>
-                        <p onClick={() => setShowAddWithdraw("Withdraw")} className="py-2 px-4 sm:mt-2 md:mt-0 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 tracking-wide">Withdraw</p>
+                        <p onClick={() => setShowAddWithdraw("Add Money")} className="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none bg-blue-600 hover:bg-blue-700 focus:ring-blue-800">Add Money</p>
+                        <p onClick={() => setShowAddWithdraw("Withdraw")} className="py-2 px-4 sm:mt-2 md:mt-0 ms-2 text-sm font-medium focus:outline-none rounded-lg border  focus:z-10 focus:ring-4focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700 tracking-wide">Withdraw</p>
                     </div>
                 </div>
 
-                {showAddWithdraw !== "" && <div className=" max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" style={{ marginTop: "5%" }}>
+                {showAddWithdraw !== "" && <div className=" max-w-sm border rounded-lg shadow bg-gray-800 border-gray-700" style={{ marginTop: "5%" }}>
                     <div className="flex flex-col items-center pb-10 mt-5">
                         {showAddWithdraw}
-                        <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">{user?.FullName}</h5>
-                        <span className="text-sm text-gray-500 dark:text-gray-400">Wallet balance : {walletDetails?.Balance}</span>
+                        <h5 className="mb-1 text-xl font-medium text-white">{user?.FullName}</h5>
+                        <span className="text-sm text-gray-400">Wallet balance : {walletDetails?.Balance}</span>
                         <div className="mt-4 md:mt-6">
                             <div className='mb-2'>
-                                <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{error === "" ? "Enter the amount" : <p className='error'>{error}</p>}</label>
-                                <input onChange={onChangeFunc} type="text" id="amount" placeholder="ex:1000" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                <label htmlFor="first_name" className="block mb-2 text-sm font-medium text-white">{error === "" ? "Enter the amount" : <p className='error'>{error}</p>}</label>
+                                <input onChange={onChangeFunc} type="text" id="amount" placeholder="ex:1000" className="border text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" required />
                             </div>
                             {Amount !== 0 && validAmount && <>
                                 <Paypal Data={{ Amount, successPayment, errorPayment }} />

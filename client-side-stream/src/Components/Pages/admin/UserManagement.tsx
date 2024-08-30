@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Checkbox from '@mui/material/Checkbox';
 import { adminCreateUser, blockUserId, getAllUsers } from '../../../Functions/userFunctions/adminManagement'
 import { Data, changeEvent } from '../../../Functions/interfaces';

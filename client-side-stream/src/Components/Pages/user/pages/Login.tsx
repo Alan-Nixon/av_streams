@@ -95,22 +95,22 @@ export default function Login() {
                             <form className="max-w-md mx-auto mt-16">
                                 {error?.emailErr && <><p className='error'>{error.emailErr}</p><br /></>}
                                 <div className="relative z-0 w-full mb-5 group">
-                                    <input type="email" onChange={onchangeFunc} name="Email" id="floating_email" className="block py-2.5 px-0 w-full text-sm text-white-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-graye dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                                    <label htmlFor="floating_email" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email address</label>
+                                    <input type="email" onChange={onchangeFunc} name="Email" id="floating_email" className="block py-2.5 px-0 w-full text-sm text-white-900 bg-transparent border-0 border-b-2 appearance-none text-graye border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                                    <label htmlFor="floating_email" className="peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email address</label>
                                 </div>
                                 {error?.passwordErr && <><p className='error'>{error?.passwordErr}</p><br /></>}
 
                                 <div className="relative z-0 w-full mb-5 group">
-                                    <input type="password" onChange={onchangeFunc} name="Password" id="floating_password" className="block py-2.5 px-0 w-full text-sm text-white-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-graye dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                                    <label htmlFor="floating_password" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password</label>
+                                    <input type="password" onChange={onchangeFunc} name="Password" id="floating_password" className="block py-2.5 px-0 w-full text-sm text-white-900 bg-transparent border-0 border-b-2  appearance-none text-graye border-gray-600 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                                    <label htmlFor="floating_password" className="peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password</label>
                                 </div>
-                                <button type="button" onClick={LoginValidation} className="float-right text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">Login</button>
+                                <button type="button" onClick={LoginValidation} className="float-right border focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 border-blue-500 text-blue-500 hover:text-white hover:bg-blue-500 focus:ring-blue-800">Login</button>
                                 <p onClick={() => { setShowModal("") }} style={{ cursor: "pointer", color: "blue", width: "auto" }}>forgot password ?</p>
                                 <p className='mt-5 mx-5' style={{ textAlign: "center" }}>OR</p>
 
 
 
-                                <button id="dropdownDefaultButton" onClick={() => setHideIcons(!hideIcons)} data-dropdown-toggle="dropdown" className="googleButtonLogin mt-5 text-white bg-blue-700 hover:bg-blue-800  font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                                <button id="dropdownDefaultButton" onClick={() => setHideIcons(!hideIcons)} data-dropdown-toggle="dropdown" className="googleButtonLogin mt-5 text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center bg-blue-600 hover:bg-blue-700 focus:ring-blue-800" type="button">
                                     Login With Social Media
                                     {hideIcons ?
                                         <svg className="w-2.5 h-2.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -122,12 +122,11 @@ export default function Login() {
                                     }
                                 </button>
 
-                                <div id="dropdown" className={`googleButtonLogin ${hideIcons ? "hidden" : ""} z-10 mt-2  bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700`}>
-                                    <ul className=" text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                                <div id="dropdown" className={`googleButtonLogin ${hideIcons ? "hidden" : ""} z-10 mt-2 bg-gray-700 divide-y divide-gray-600 rounded-lg shadow w-44`}>
+                                    <ul className="text-sm text-gray-200" aria-labelledby="dropdownDefaultButton">
                                         <li className='flex mt-1'>
                                             <div className="mx-auto">
                                                 <Google onSuccess={googleLogin} responseErrorGoogle={responseErrorGoogle} />
-
                                             </div>
                                         </li>
                                         <li className='mt-2'>
@@ -135,6 +134,7 @@ export default function Login() {
                                         </li>
                                     </ul>
                                 </div>
+
                                 <div className="flex">
                                     <Link to='/Signup' style={{ color: "blue", textAlign: "center", float: "right", margin: "auto", marginTop: "3%" }}>Dont have an account ? Register</Link>
                                 </div>
@@ -174,12 +174,12 @@ function ForgetPassword({ setShowModal }: any) {
                 {error && <p className='error mt-5'>{error}</p>}
                 {<p className='text-green-500'> {success}</p>}
                 <div className="relative z-0 w-full mb-5 mt-7 group">
-                    <input type="email" onChange={(e) => { setEmail(e.target.value); setError("") }} name="email" id="floating_email" className="block py-2.5 px-0 w-full text-sm text-white-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-graye dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="" required />
-                    <label htmlFor="floating_email" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Enter the Email</label>
+                    <input type="email" onChange={(e) => { setEmail(e.target.value); setError("") }} name="email" id="floating_email" className="block py-2.5 px-0 w-full text-sm text-white-900 bg-transparent border-0 border-b-2 appearance-none text-gray border-gray-600 focus:border-blue-500 focus:outline-none focus:ring-0 peer" placeholder="" required />
+                    <label htmlFor="floating_email" className="peer-focus:font-medium absolute text-sm text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Enter the Email</label>
                 </div>
                 <div className="flex">
                     <a href='/Login' style={{ color: "blue" }}>Go back to login ?</a>
-                    <button onClick={handleSubmit} type="button" className="float-right ml-auto text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">Submit</button>
+                    <button onClick={handleSubmit} type="button" className="float-right ml-auto border focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 border-blue-500 text-blue-500 hover:text-white hover:bg-blue-500 focus:ring-blue-800">Submit</button>
                 </div>
             </form>
         </div>

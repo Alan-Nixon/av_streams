@@ -105,6 +105,7 @@ function MyVideos() {
                             return true
                         } else {
                             setError("please select a thumbnail")
+                            return false
                         }
                     } else {
                         setError("Please select a video")

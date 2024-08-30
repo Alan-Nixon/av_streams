@@ -11,8 +11,8 @@ import { channelInterface, chatInterfaceProps, messageArray } from '../../../../
 import io from 'socket.io-client'
 import { toastFunction } from '../../../messageShowers/ToastFunction';
 
-import { ZIM } from "zego-zim-web";
 import { v4 as uuidv4 } from 'uuid';
+import { ZIM } from "zego-zim-web";
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import { useSelector } from 'react-redux';
 
@@ -67,6 +67,7 @@ function NavBar() {
             const messageSocket = io(process.env.REACT_APP_API_GATEWAY + "")
             setMessageSocket(messageSocket);
             messageSocket.emit('join', user._id);
+
             const userID = user._id;
             const userName = user.channelName;
             const appID = Number(process.env.REACT_APP_ZEGO_APP_ID);
